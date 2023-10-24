@@ -16,6 +16,18 @@ public interface TaiKhoanDAO extends JpaRepository<TaiKhoan, String> {
     @Query("SELECT p FROM TaiKhoan p WHERE p.lopThi = null")
     List<TaiKhoan> getTaiKhoanNotHaveClass();
 
-    @Query("SELECT tk FROM TaiKhoan tk WHERE tk.vaiTro.maVaiTro = 1")
+    // @Query("SELECT tk FROM TaiKhoan tk WHERE tk.vaiTro.maVaiTro = 1")
+    // List<TaiKhoan> findByHocSinh();
+
+    public TaiKhoan findByTenDangNhap(String tenDangNhap);
+
+    public boolean existsByTenDangNhap(String tenDangNhap);
+
+    @Query("SELECT tk FROM TaiKhoan tk WHERE tk.vaiTro.maVaiTro = 1  ORDER BY ngayTaoTaiKhoan DESC")
     List<TaiKhoan> findByHocSinh();
+
+    @Query("SELECT tk FROM TaiKhoan tk WHERE tk.vaiTro.maVaiTro = 2  ORDER BY ngayTaoTaiKhoan DESC")
+    List<TaiKhoan> findByGiaoVien();
+
+
 }

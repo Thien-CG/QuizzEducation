@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,6 +42,10 @@ public class TaiKhoanRestController {
     public ResponseEntity<List<TaiKhoan>> findByHocSinh() {
         return ResponseEntity.ok(taiKhoanDAO.findByHocSinh());
     }
+     @GetMapping("taikhoan/giaovien")
+    public ResponseEntity<List<TaiKhoan>> findByGiaoVien() {
+        return ResponseEntity.ok(taiKhoanDAO.findByGiaoVien());
+    }
 
     // Get 1 đối tượng thông qua id
     @GetMapping("taikhoan/{id}")
@@ -60,6 +65,7 @@ public class TaiKhoanRestController {
             // 400 Bad Request: Địa chỉ tồi
         }
         TaiKhoan taikhoan2 = taiKhoanDAO.save(taikhoan);
+
         return ResponseEntity.ok(taikhoan2);
     }
 

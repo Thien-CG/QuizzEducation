@@ -16,8 +16,9 @@ export class ExamClassComponent {
   constructor(private messageService: MessageService, private httpService: HttpSvService, private confirmationService: ConfirmationService,
     private formBuilder: FormBuilder,) { }
   //Khai báo các biến ở đây
+  // listLopHoc!: examClass[];
   listLopHoc!: examClass[];
-  
+
   //Sửa lại chổ tìm kiếm trong thư viện
   public getValueSearch() {
     return this.formFilter.get('search')?.value;
@@ -50,7 +51,6 @@ export class ExamClassComponent {
       this.tenLopThi = this.listLopHocId.tenLop;
       this.soLuongHocSinh = this.listLopHocId.soLuongToiDa;
       this.idLopThi = id;
-      
     })
   }
 
@@ -132,8 +132,8 @@ export class ExamClassComponent {
       }
     );
   }
-  
-  
+
+
   // Xuất excel
   exportExcel() {
     import('xlsx').then((xlsx) => {

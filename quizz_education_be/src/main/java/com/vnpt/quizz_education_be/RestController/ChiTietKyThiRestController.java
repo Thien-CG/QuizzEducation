@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vnpt.quizz_education_be.DAO.ChiTietKiThiDAO;
 import com.vnpt.quizz_education_be.DAO.KiThiDAO;
 import com.vnpt.quizz_education_be.Entity.ChiTietKyThi;
-import com.vnpt.quizz_education_be.Entity.LopThi;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -36,7 +34,7 @@ public class ChiTietKyThiRestController {
         return ResponseEntity.ok(chiTietKyThiDAO.findAll());
     }
 
-    // Get 1 đối tượng thông qua id
+    // Get 1 đối tượng thông qua id 
     @GetMapping("chitietkythi/{id}")
     public ResponseEntity<ChiTietKyThi> findById(@PathVariable("id") Integer maChiTietKyThi) {
         Optional<ChiTietKyThi> optional = chiTietKyThiDAO.findById(maChiTietKyThi);
@@ -87,8 +85,7 @@ public class ChiTietKyThiRestController {
     }
 
     @PutMapping("chitietkythi/{id}")
-    public ResponseEntity<ChiTietKyThi> put(@PathVariable("id") Integer maChiTietKyThi,
-            @RequestBody ChiTietKyThi chitietkythi) {
+    public ResponseEntity<ChiTietKyThi> put(@PathVariable("id") Integer maChiTietKyThi,@RequestBody ChiTietKyThi chitietkythi) {
         if (!chiTietKyThiDAO.existsById(maChiTietKyThi)) {
             return ResponseEntity.notFound().build();
         }
@@ -107,10 +104,14 @@ public class ChiTietKyThiRestController {
         return ResponseEntity.ok().build();
     }
 
+    // @GetMapping("monthi")
+    // public ResponseEntity<List<MonThi>> findMonThiByKiThiId(@RequestParam("kithi") Integer kiThiId) {
+    //     return ResponseEntity.ok(chiTietKyThiDAO.getMonThiInKiThi(kiThiId));
+    // }
 
-    @GetMapping("lopthi")
-    public ResponseEntity<List<LopThi>> getLopThiByKyThiAndMonThi(@RequestParam("kithi") Integer kithiId,
-            @RequestParam("monthi") Integer monThiId) {
-        return ResponseEntity.ok(chiTietKyThiDAO.getLopThiByKiThiAndMonThi(kithiId, monThiId));
-    }
+    // @GetMapping("lopthi")
+    // public ResponseEntity<List<LopThi>> getLopThiByKyThiAndMonThi(@RequestParam("kithi") Integer kithiId,
+    //         @RequestParam("monthi") Integer monThiId) {
+    //     return ResponseEntity.ok(chiTietKyThiDAO.getLopThiByKiThiAndMonThi(kithiId, monThiId));
+    // }
 }

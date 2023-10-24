@@ -1,5 +1,6 @@
 package com.vnpt.quizz_education_be.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +30,10 @@ public class LopThiRestController {
     @Autowired
     ChiTietKiThiDAO chiTietKiThiDAO;
 
-    // @GetMapping("lopthi")
-    // public ResponseEntity<List<LopThi>> findAll() {
-    // return ResponseEntity.ok(lopThiDAO.findAll());
-    // }
+    @GetMapping("lopthi")
+    public ResponseEntity<List<LopThi>> findAll() {
+    return ResponseEntity.ok(lopThiDAO.findAll());
+    }
 
     // Get 1 đối tượng thông qua id
     @GetMapping("lopthi/{id}")

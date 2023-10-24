@@ -1,5 +1,5 @@
 .tab-content {
-    padding: 0 15px 0 15px;
+    // padding: 0 15px 0 15px;
 }
 
 table {
@@ -62,3 +62,9 @@ table {
 //     background: var(--gray-25, #FCFCFD);
 //     box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 // }
+.tabs{
+    background-color: white;
+    border-radius: 10px;
+    height: 100%;
+    padding: 10px 15px 0 15px;
+}

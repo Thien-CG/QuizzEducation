@@ -1,6 +1,7 @@
 *{
     font-family: "Nunito", sans-serif;
 }
+
 nav{
     background-color: #f8f9fa !important;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
@@ -50,57 +51,90 @@ nav{
 /*----------------------------- Profile modal ----------------------------- */
 
 .profile-header {
-    width: 100%;
+    margin: 10px auto;
+    width: 90%;
     height: fit-content;
+    border-radius: 10px;
+    // background-color: #00afef;
+    background: linear-gradient(to right, #0158d2, #00afef);
 }
 
 .profile-header .background_profile {
     width: 100%;
-    height: 150px;
+    height: 120px;
 }
 
 .profile-header .background_profile .background_profile_img {
     width: 100%;
-    height: 100%;
+    height: 95%;
     object-fit: cover;
-    border-top-right-radius: 0.5rem;
-    border-top-left-radius: 0.5rem;
 }
 
 .profile-header .role_avata {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     width: 90%;
+    height: 110px;
     margin: 0 auto;
     align-items: center;
-    margin-top: -50px;
+    // padding-top: -50px;
+}
+.profile-header .role_avata .title-card{
+    position: absolute; 
+    top: 100px; 
+    margin-left: 15%;
+    color: #ce0043;
+}
+.profile-header .role_avata .footer-card{
+    position: absolute; 
+    top: 240px;
+    font-size: 10px; 
+    margin-left: 15%;
+    color:white;
+}
+.profile-header .role_avata .khung-qr{
+    width: 40px;
+    height: 40px;
+    margin-left: 150px;
+    margin-bottom: 10px;
 }
 
+.profile-header .role_avata .QR{
+    width: 100%;
+} 
+
+
+
+/*Khung ảnh*/
 .profile-header .avata_profile {
-    width: 150px;
-    height: 150px;
+    width: 90px;
+    height: 130px;
     /* position: relative;
     top: -50px;
     left: 40px; */
-    padding: 6px; 
-    border-radius: 50%;
+    // padding: 6px; 
+    margin: 0px 0px 50px 0px;
+    // border-radius: 50%;
     background-color: #F2F4F7;
+    
 }
 
+/*Tấm ảnh chính*/
 .profile-header .avata_profile .avata_profile_img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 50%;
+    // border-radius: 50%;
+}
+
+.profile-header .role_profile label {
+    color: red;
+    padding-right: 10px;
+    font-size: 12px;
 }
 
 .profile-header .role_profile {
-    margin-top: 40px;
-}
-
-.profile-header .role_profile .badge-purple {
-    padding: 3px 10px;
-    border-radius: 10px;
+   padding-left: 10px;
     font-family: "Inter";
 
 }
@@ -137,3 +171,44 @@ nav{
 }
 
 
+// danh sách của setting
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    position: relative;
+    // margin: 5px 0;
+}
+
+li ul {
+    display: none;
+    position: absolute;
+    left: 40%; /* Hiển thị bên phải của mục cha */
+    top: 0;
+    background-color: #f1f1f1;
+    padding: 5px;
+}
+
+li:hover ul {
+    display: block;
+}
+li ul li:hover{
+    background-color: rgb(188, 247, 255);
+    display: block;
+}
+li ul li{
+    width: 160px;
+    font-size: 16px;
+}
+li ul li a{
+    text-decoration: none;
+}
+.disabled-input {
+    pointer-events: none; /* Ngăn chặn sự tương tác của người dùng */
+    background-color: #e9ecef;
+    color: black;
+    opacity: 1;
+  }
+  

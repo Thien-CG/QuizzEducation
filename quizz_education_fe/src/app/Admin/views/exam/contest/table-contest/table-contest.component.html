@@ -1,156 +1,159 @@
-<nav>
-  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-    <button class="nav-link active text-dark" id="nav-danh-sach-tab" data-bs-toggle="tab"
-      data-bs-target="#nav-danh-sach" type="button" role="tab" aria-controls="nav-danh-sach" aria-selected="true">Danh
-      Sách</button>
-    <button class="nav-link text-dark" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
-      type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Tạo Kỳ Thi</button>
-    <button class="nav-link text-dark" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact"
-      type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Chi tiết kì thi</button>
-  </div>
-</nav>
-<div class="tab-content" id="nav-tabContent">
-  <div class="tab-pane fade show active mt-4" id="nav-danh-sach" role="tabpanel" aria-labelledby="nav-danh-sach-tab">
-
-    <!-- <table datatable [dtOptions]="dtOptions" class="row-border hover"></table> -->
-
-    <!-- test -->
-    <div class="group-header-table ">
-      <div class="inport">
-        <button type="button" pButton pRipple (click)="exportExcel()"
-        class="btn btn-success mr-2 text-light" pTooltip="XLS" tooltipPosition="bottom">Xuất file Excel</button>
+<div class="tabs">
+  <nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <button class="nav-link active text-dark" id="nav-danh-sach-tab" data-bs-toggle="tab"
+        data-bs-target="#nav-danh-sach" type="button" role="tab" aria-controls="nav-danh-sach" aria-selected="true">Danh
+        Sách</button>
+      <button class="nav-link text-dark" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+        type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Tạo Kỳ Thi</button>
+      <button class="nav-link text-dark" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact"
+        type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Chi tiết kì thi</button>
     </div>
-      <div class="form-search">
-        <form class="w-100" [formGroup]="formFilter">
-          <div class="input-group mb-3">
-            <button (click)="dt1.filterGlobal(getValueSearch(), 'contains')"
-              class="btn btn-outline-secondary box-shadow-none" type="button" id="button-search"><svg
-                xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path
-                  d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z"
-                  stroke="#667085" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
-              </svg></button>
-            <input pInputText type="text" (change)="dt1.filterGlobal(getValueSearch(), 'contains')"
-              formControlName="search" class="form-control box-shadow-none" placeholder="Tìm kiếm"
-              aria-label="Example text with button addon" aria-describedby="button-search">
-          </div>
-        </form>
+  </nav>
+  <div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active mt-4" id="nav-danh-sach" role="tabpanel" aria-labelledby="nav-danh-sach-tab">
+
+      <!-- <table datatable [dtOptions]="dtOptions" class="row-border hover"></table> -->
+
+      <!-- test -->
+      <div class="group-header-table ">
+        <div class="inport">
+          <button type="button" pButton pRipple (click)="exportExcel()" class="btn btn-success mr-2 text-light"
+            pTooltip="XLS" tooltipPosition="bottom">Xuất file Excel</button>
+        </div>
+        <div class="form-search">
+          <form class="w-100" [formGroup]="formFilter">
+            <div class="input-group mb-3">
+              <button (click)="dt1.filterGlobal(getValueSearch(), 'contains')"
+                class="btn btn-outline-secondary box-shadow-none" type="button" id="button-search"><svg
+                  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path
+                    d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z"
+                    stroke="#667085" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+                </svg></button>
+              <input pInputText type="text" (change)="dt1.filterGlobal(getValueSearch(), 'contains')"
+                formControlName="search" class="form-control box-shadow-none" placeholder="Tìm kiếm"
+                aria-label="Example text with button addon" aria-describedby="button-search">
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
 
-    <div class="list-body">
-      <p-table [value]="listContest" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" #dt1 dataKey="maKyThi"
-        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [globalFilterFields]="['maKyThi', 'tenKyThi']">
+      <div class="list-body">
+        <p-table [value]="listContest" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" #dt1
+          dataKey="maKyThi" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]"
+          [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [globalFilterFields]="['maKyThi', 'tenKyThi']">
 
-        <ng-template pTemplate="header" class="theader">
-          <tr>
-            <th pSortableColumn="maKyThi" style="width:15%">Mã kỳ thi <p-sortIcon field="maKyThi"></p-sortIcon> </th>
-            <th pSortableColumn="tenKyThi" style="width:30% ">Tên kỳ thi <p-sortIcon field="tenKyThi"></p-sortIcon></th>
-            <th style="width:15%; text-align: center;">Trạng thái
-            </th>
-            <th pSortableColumn="thoiGianBatDau" style="width:15%;  text-align: center;">Thời gian bắt đầu <p-sortIcon
-                field="thoiGianBatDau"></p-sortIcon></th>
-            <th pSortableColumn="thoiGianKetThuc" style="width:17%;text-align: center;">Thời gian kết thúc <p-sortIcon
-                field="thoiGianKetThuc"></p-sortIcon>
-            </th>
-            <th style="width:8%">Thao tác</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" class="tbody" let-listContest let-rowIndex="rowIndex">
-          <tr>
-            <td>
-              {{listContest.maKyThi}}
-            </td>
-            <td>{{listContest.tenKyThi}}</td>
-            <td class="text-center" [ngClass]="{
+          <ng-template pTemplate="header" class="theader">
+            <tr>
+              <th pSortableColumn="maKyThi" style="width:14%">Mã kỳ thi <p-sortIcon field="maKyThi"></p-sortIcon> </th>
+              <th pSortableColumn="tenKyThi" style="width:30% ">Tên kỳ thi <p-sortIcon field="tenKyThi"></p-sortIcon>
+              </th>
+              <th style="width:15%; text-align: center;">Trạng thái
+              </th>
+              <th pSortableColumn="thoiGianBatDau" style="width:15%;  text-align: center;">Thời gian bắt đầu <p-sortIcon
+                  field="thoiGianBatDau"></p-sortIcon></th>
+              <th pSortableColumn="thoiGianKetThuc" style="width:17%;text-align: center;">Thời gian kết thúc <p-sortIcon
+                  field="thoiGianKetThuc"></p-sortIcon>
+              </th>
+              <th style="width:8%">Thao tác</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" class="tbody" let-listContest let-rowIndex="rowIndex">
+            <tr>
+              <td>
+                {{listContest.maKyThi}}
+              </td>
+              <td>{{listContest.tenKyThi}}</td>
+              <td class="text-center" [ngClass]="{
               'contest-status-chua-thi': getContestStatus(listContest.thoiGianBatDau, listContest.thoiGianKetThuc) === 'Chưa thi',
               'contest-status-dang-thi': getContestStatus(listContest.thoiGianBatDau, listContest.thoiGianKetThuc) === 'Đang thi',
               'contest-status-da-thi': getContestStatus(listContest.thoiGianBatDau, listContest.thoiGianKetThuc) === 'Đã thi'
             }">
-              {{ getContestStatus(listContest.thoiGianBatDau, listContest.thoiGianKetThuc) }}
-            </td>
+                {{ getContestStatus(listContest.thoiGianBatDau, listContest.thoiGianKetThuc) }}
+              </td>
 
 
-            <td class="d-none d-lg-table-cell moPhai text-center">
-              {{listContest.thoiGianBatDau | date: 'dd/MM/yyyy'}}</td>
+              <td class="d-none d-lg-table-cell moPhai text-center">
+                {{listContest.thoiGianBatDau | date: 'dd/MM/yyyy'}}</td>
 
-            <td class="d-none d-lg-table-cell moPhai text-center">
-              {{listContest.thoiGianKetThuc | date: 'dd/MM/yyyy'}}</td>
-            <td class="text-center"><button class="btn btn-info text-light" data-bs-toggle="modal"
-                data-bs-target="#exampleModal" (click)="getEditKyThi(listContest.maKyThi)">Sửa</button></td>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="paginatorleft">
-          <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-        </ng-template>
-        <ng-template pTemplate="paginatorright">
-          <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-        </ng-template>
-      </p-table>
+              <td class="d-none d-lg-table-cell moPhai text-center">
+                {{listContest.thoiGianKetThuc | date: 'dd/MM/yyyy'}}</td>
+              <td class="text-center"><button class="btn btn-info text-light" data-bs-toggle="modal"
+                  data-bs-target="#exampleModal" (click)="getEditKyThi(listContest.maKyThi)">Sửa</button></td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+          </ng-template>
+          <ng-template pTemplate="paginatorright">
+            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+          </ng-template>
+        </p-table>
+
+      </div>
+
+
 
     </div>
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 
+      <app-contest-create></app-contest-create>
 
-
+    </div>
+    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+      <!-- <app-contest-detail></app-contest-detail> -->
+    </div>
   </div>
-  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-
-    <app-contest-create></app-contest-create>
-
-  </div>
-  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-    <app-contest-detail></app-contest-detail>
-  </div>
-</div>
 
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa kỳ thi</h5>
-      </div>
-      <form>
-        <div class="modal-body">
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa kỳ thi</h5>
+        </div>
+        <form>
+          <div class="modal-body">
 
-          <div class="row">
-            <div class="col-md-12">
-              <div class="mb-3">
-                <label for="input1" class="form-label">Tên kỳ thi</label>
-                <input type="text" class="form-control" id="tenKyThi" name="tenKyThi" [(ngModel)]="name">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label for="input1" class="form-label">Tên kỳ thi</label>
+                  <input type="text" class="form-control" id="tenKyThi" name="tenKyThi" [(ngModel)]="name">
+                </div>
               </div>
-            </div>
 
-            <div class="col-md-6">
-              <div class="mb-3">
-                <label for="input2" class="form-label">Thời gian bất đầu</label>
-                <input type="datetime-local" class="form-control" id="formattedStartTime" name="formattedStartTime"
-                  [(ngModel)]="formattedStartTime">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="input2" class="form-label">Thời gian bất đầu</label>
+                  <input type="datetime-local" class="form-control" id="formattedStartTime" name="formattedStartTime"
+                    [(ngModel)]="formattedStartTime">
 
+                </div>
+                <span class="text-danger" *ngIf="messageEdit">{{messageEdit}}</span>
               </div>
-              <span class="text-danger" *ngIf="messageEdit">{{messageEdit}}</span>
-            </div>
-            <div class="col-md-6">
-              <div class="mb-3">
-                <label for="input2" class="form-label">Thời gian kết thúc</label>
-                <input type="datetime-local" class="form-control" id="formattedEndTime" name="formattedEndTime"
-                  [(ngModel)]="formattedEndTime">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="input2" class="form-label">Thời gian kết thúc</label>
+                  <input type="datetime-local" class="form-control" id="formattedEndTime" name="formattedEndTime"
+                    [(ngModel)]="formattedEndTime">
+                </div>
               </div>
-            </div>
 
+            </div>
           </div>
-        </div>
 
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <form (ngSubmit)="onSubmit()">
-            <button class="btn btn-primary">Save changes</button>
-          </form>
-        </div>
-      </form>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <form (ngSubmit)="onSubmit()">
+              <button class="btn btn-primary">Save changes</button>
+            </form>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

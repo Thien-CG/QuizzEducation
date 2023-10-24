@@ -1,0 +1,103 @@
+<div class="list-body">
+
+    <p-table [value]="listAllot" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" #dt1 dataKey="maKyThi"
+        [rows]="5" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5, 15, 25]" [paginator]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [globalFilterFields]="['tenDangNhap', 'taiKhoan.hoVaTen', 'ngaySinh','gioiTinh', 'diaChi','lopThi.maLop']">
+
+        <ng-template pTemplate="caption">
+            <div class="group-header-table">
+                <div class="inport">
+                    <!-- <button type="buttưon" pButton pRipple class="btn btn-success mr-2 text-light"
+                        pTooltip="XLS" tooltipPosition="bottom">Xuất file
+                        Excel</button> -->
+
+                    <p-columnFilter class="columnFilterHovatee" field="taiKhoan.tenDangNhap" matchMode="equals"
+                        [showMenu]="false">
+                        <ng-template pTemplate="filter" let-label let-filter="filterCallback">
+                            <p-dropdown [ngModel]="label" [options]="hovaten" (onChange)="filter($event.value)"
+                                placeholder="Tên giáo viên" [showClear]="true">
+                                <ng-template let-option pTemplate="item">
+                                    <span class="ml-1 mt-1">{{ option.label }}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </ng-template>
+                    </p-columnFilter>
+
+                    <p-columnFilter class="columnFilterTenKyThi" field="kyThi.maKyThi" matchMode="equals"
+                        [showMenu]="false">
+                        <ng-template pTemplate="filter" let-label let-filter="filterCallback">
+                            <p-dropdown [ngModel]="label" [options]="tenkythi" (onChange)="filter($event.value)"
+                                placeholder="Tên kỳ thi" [showClear]="true">
+                                <ng-template let-option pTemplate="item">
+                                    <span class="ml-1 mt-1">{{ option.label }}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </ng-template>
+                    </p-columnFilter>
+
+                     <p-columnFilter class="columnFilterTrangThai" field="monThi.maMon" matchMode="equals"
+                        [showMenu]="false">
+                        <ng-template pTemplate="filter" let-label let-filter="filterCallback">
+                            <p-dropdown [ngModel]="label" [options]="tenMonthi"
+                                (onChange)="filter($event.value)" placeholder="Môn thi" [showClear]="true">
+                                <ng-template let-option pTemplate="item">
+                                    <span class="ml-1 mt-1">{{ option.label }}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </ng-template>
+                    </p-columnFilter>
+
+                </div>
+                <div class="form-search">
+                    <form class="w-100" [formGroup]="formFilter">
+                        <div class="input-group mb-3">
+                            <button (click)="dt1.filterGlobal(getValueSearch(), 'contains')"
+                                class="btn btn-outline-secondary box-shadow-none" type="button"
+                                id="button-search-allot">
+
+                                <i class="pi pi-search" style="font-size: 1.2rem; margin-top: 5px;"></i></button>
+                            <input pInputText type="text" (change)="dt1.filterGlobal(getValueSearch(), 'contains')"
+                                formControlName="search" class="form-control box-shadow-none" placeholder="Tìm kiếm"
+                                aria-label="Example text with button addon" aria-describedby="button-search-allot">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header" class="theader">
+            <th style="min-width:150px; text-align: center;" pSortableColumn="taiKhoan.tenDangNhap"> Tên giáo viên
+                <p-sortIcon field="taiKhoan.tenDangNhap"></p-sortIcon>
+            </th>
+            <th style="min-width:250px; text-align: center" pSortableColumn="kyThi.maKyThi">Tên kỳ thi
+                <p-sortIcon field="kyThi.maKyThi"></p-sortIcon>
+            </th>
+            <th style="min-width:130px; text-align: center" pSortableColumn="monThi.maMon">Môn thi
+                <p-sortIcon field="monThi.maMon"></p-sortIcon>
+            </th>
+            <th style="min-width:120px; text-align: center" pSortableColumn="hoVaTen">Trạng thái
+                <p-sortIcon field="hoVaTen"></p-sortIcon>
+            </th>
+            <th style="min-width:130px; text-align: center" pSortableColumn="lopThi">Thời hạn tạo đề
+                <p-sortIcon field="lopThi"></p-sortIcon>
+            </th>
+
+            <th style="min-width:170px; text-align: center">Thao tác</th>
+        </ng-template>
+        <ng-template pTemplate="body" class="tbody" let-teacherAllot let-rowIndex="rowIndex">
+            <tr>
+                <td class="text-center">{{teacherAllot.taiKhoan.hoVaTen}}</td>
+                <td class="text-left">{{teacherAllot.kyThi.tenKyThi}}</td>
+                <td class="text-center">{{teacherAllot.monThi.tenMon}}</td>
+                <td class="text-center">{{teacherAllot.daTaoDe ? 'Đã tạo đề' : 'Chưa tạo đề'}} </td>
+                <td class="text-center">{{teacherAllot.thoiHan | date: 'dd/MM/yy'}}</td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-changeClass">
+                        Sửa
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

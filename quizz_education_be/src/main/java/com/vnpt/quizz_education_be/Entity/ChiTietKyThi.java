@@ -1,16 +1,21 @@
 package com.vnpt.quizz_education_be.Entity;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
+import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.vnpt.quizz_education_be.DTO.Time;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -18,7 +23,7 @@ import lombok.Data;
 @Entity
 @Table(name = "Chitietkythi")
 public class ChiTietKyThi implements Serializable {
-    
+
     @Id
     @Column(name = "ma_chi_tiet_ky_thi")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,5 +49,52 @@ public class ChiTietKyThi implements Serializable {
     @JoinColumn(name = "ma_lop")
     LopThi lopThi;
 
-    
+    @JsonIgnore
+    @OneToMany(mappedBy = "chiTietKyThi")
+    List<DeThi> list_DeThi;
+
+    // Tính thời gian làm bài
+    public Time getTime() {
+        if (this.getThoiGianBatDau() == null || this.getThoiGianBatDau() == null) {
+            return null;
+        }
+        long differenceInMillis = Math.abs(this.getThoiGianKetThuc().getTime() - this.getThoiGianBatDau().getTime());
+        return new Time(differenceInMillis);
+    }
+
+    public String getTrangThai() {
+        Date now = new Date();
+        if (this.getThoiGianBatDau() == null || this.getThoiGianBatDau() == null) {
+            return "Chưa có thông tin cụ thể";
+        }
+        if (now.before(this.getThoiGianBatDau())) {
+            return "Chưa diễn ra";
+        } else if (now.after(this.getThoiGianBatDau()) && now.before(this.getThoiGianKetThuc())) {
+            return "Đang diễn ra";
+        } else {
+            return "Đã kết thúc";
+        }
+    }
+
+    public int getIdTrangThai() {
+        Date now = new Date();
+        if (this.getThoiGianBatDau() == null || this.getThoiGianBatDau() == null) {
+            return 3;// Chưa có thông tin cụ thể
+        }
+        if (now.before(this.getThoiGianBatDau())) {
+            return 1;// Chưa diễn ra
+        } else if (now.after(this.getThoiGianBatDau()) && now.before(this.getThoiGianKetThuc())) {
+            return 0;// Đang diễn ra
+        } else {
+            return 2;// Đã kết thúc
+        }
+    }
+
+    public DeThi getDeThi() {
+        try {
+            return this.getList_DeThi().get(0);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

@@ -1,0 +1,45 @@
+<h3>Phân công tạo đề giáo viên</h3>
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="tenDangNhap" class="form-label">Tên kỳ thi</label><br>
+                    <p-treeSelect class="selectClass" [options]="tenkythi" formControlName="tenkythi"
+                        placeholder="Chọn kỳ thi"
+                        [ngClass]="{'error-input-select': myForm.get('tenkythi').invalid && myForm.get('tenkythi').touched}"></p-treeSelect>
+                    <!-- <small
+                        *ngIf="myForm.get('selectedLopThi').hasError('required') && myForm.get('selectedLopThi').touched"
+                        class="error-message">Vui lòng chọn để tên kỳ thi !</small> -->
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="tenDangNhap" class="form-label">Tên môn thi</label><br>
+                    <p-treeSelect class="selectClass" [options]="tenMonthi" formControlName="tenmonthi"
+                        placeholder="Chọn môn thi"></p-treeSelect>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="tenDangNhap" class="form-label">Tên giáo viên</label><br>
+                    <p-treeSelect class="selectClass" [options]="hovaten" formControlName="tengiaovien"
+                        placeholder="Chọn giáo viên"></p-treeSelect>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="tenDangNhap" class="form-label">Thời hạn</label><br>
+                    <p-calendar [touchUI]="true" [readonlyInput]="true" [showIcon]="true" dateFormat="dd/mm/yy"
+                        formControlName="thoihan" placeholder="Nhập thời hạn tạo đề"></p-calendar>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-toast></p-toast>
+    <div class="modal-footer">
+        <button class="btn btn-secondary m-lg-2" type="button" (click)="resetForm()">Làm mới</button>
+        <button type="submit" class="btn btn-primary" pButton pRipple (click)="createPhanCong()">Tạo phân công</button>
+    </div>
+
+</form>

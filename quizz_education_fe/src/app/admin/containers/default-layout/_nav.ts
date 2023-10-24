@@ -44,29 +44,30 @@ export const navItems: INavData[] = [
         url: '/admin/account/user'
       },
     ]
-  }, {
-    title: true,
-    name: 'Đề thi'
-  },
-  {
-    name: 'Quản lý đề thi',
-    url: '/admin/exam-papers-main',
-    iconComponent: { name: 'cil-star' },
-    children: [
-      {
-        name: 'Quản lý đề thi',
-        url: '/admin/exam-papers-main/exam-papers'
-      },
-      {
-        name: 'Quản lý câu hỏi',
-        url: '/admin/exam-papers-main/exam-request'
-      },
-      {
-        name: 'Quản lý câu trả lời',
-        url: '/admin/exam-papers-main/exam-answer'
-      },
-    ]
-  },
+  }, 
+  // {
+  //   title: true,
+  //   name: 'Đề thi'
+  // },
+  // {
+  //   name: 'Quản lý đề thi',
+  //   url: '/admin/exam-papers-main',
+  //   iconComponent: { name: 'cil-star' },
+  //   children: [
+  //     {
+  //       name: 'Quản lý đề thi',
+  //       url: '/admin/exam-papers-main/exam-papers'
+  //     },
+  //     {
+  //       name: 'Quản lý câu hỏi',
+  //       url: '/admin/exam-papers-main/exam-request'
+  //     },
+  //     {
+  //       name: 'Quản lý câu trả lời',
+  //       url: '/admin/exam-papers-main/exam-answer'
+  //     },
+  //   ]
+  // },
   {
     title: true,
     name: 'Thống kê'

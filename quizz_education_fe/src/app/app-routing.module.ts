@@ -1,33 +1,36 @@
+import { InterceptorUrlGuard } from './config/interceptor-url.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DefaultLayoutComponent } from './Admin/containers';
-import { LoginComponent } from './Admin/views/pages/login/login.component';
 import { Page404Component } from './Admin/views/pages/page404/page404.component';
 import { Page500Component } from './Admin/views/pages/page500/page500.component';
-import { RegisterComponent } from './Admin/views/pages/register/register.component';
+import { ChangePasswordComponent } from './Admin/views/pages/change-password/change-password.component';
 import { DefaultLayoutTeacherComponent } from './Teacher/containers-teacher/index-teacher';
+import { LoginComponent } from './Admin/views/pages/login/login.component';
 import { MainUserComponent } from './User/main-user/main-user.component';
-import { AboutComponent } from './User/pages/about/about.component';
 import { HistoryComponent } from './User/pages/history/history.component';
+// import { AboutComponent } from './User/pages/about/about.component';
 import { HomeComponent } from './User/pages/home/home.component';
 import { ScoreComponent } from './User/pages/score/score.component';
 import { ManageClassComponent } from './Teacher/views/manage-class/manage-class.component';
+import { ForgotPasswordComponent } from './Admin/views/pages/forgot-password/forgot-password.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/user/home',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
   {
     path: 'user',
     component: MainUserComponent,
     children: [
-      { path: 'exam', component: AboutComponent },
+      // { path: 'exam', component: AboutComponent },
       { path: 'home', component: HomeComponent },
       { path: 'score', component: ScoreComponent },
       { path: 'history', component: HistoryComponent }
-    ]
+    ],
+    canActivate: [InterceptorUrlGuard],
   }
   ,
   {
@@ -64,7 +67,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./Admin/views/pages/pages.module').then((m) => m.PagesModule),
       },
-    ],
+    ]
   },
   {
     path: 'teacher',
@@ -124,12 +127,19 @@ const routes: Routes = [
   },
   {
     path: 'changepassword',
-    component: RegisterComponent,
+    component: ChangePasswordComponent,
     data: {
-      title: 'Register Page',
-    },
+      title: 'ChangePassword Page'
+    }
   },
-  // { path: '**', redirectTo: '404' }
+  {
+    path: 'forgotpassword',
+    component: ForgotPasswordComponent,
+    data: {
+      title: 'ForgotPassword Page'
+    }
+  },
+ { path: '**', redirectTo: '404' }
 ];
 
 @NgModule({

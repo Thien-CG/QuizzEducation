@@ -26,7 +26,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { ContestComponent } from './contest/contest.component';
 import { ContestCreateComponent } from './contest/table-contest/contest-create/contest-create.component';
-import { ContestDetailComponent } from './contest/table-contest/contest-detail/contest-detail.component';
 
 import { PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
@@ -44,7 +43,6 @@ import { ExamClassCreateComponent } from './exam-class/exam-class-create/exam-cl
     ExamSubjectsComponent,
     ContestComponent,
     ContestCreateComponent,
-    ContestDetailComponent,
     ExamClassComponent,
     ExamSubjectCreateComponent,
     ExamClassCreateComponent,

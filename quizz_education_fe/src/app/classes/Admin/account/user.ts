@@ -13,5 +13,6 @@ export interface accountStudent {
     soDienThoai?: string;
     ngayTaoTaiKhoan?: string;
     anhDaiDien: string;
+    token: string;
     lopThi: examClass; // Sử dụng lớp LopThi trong interface này
 }
