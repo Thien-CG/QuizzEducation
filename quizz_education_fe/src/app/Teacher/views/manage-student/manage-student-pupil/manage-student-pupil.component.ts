@@ -29,7 +29,7 @@ export class ManageStudentPupilComponent implements OnInit {
       this.currentClass = id3
 
     });
-    this.httpClient.get<[]>(`http://localhost:8080/quizzeducation/api/taikhoan/lopthi?maLopThi=${this.currentClass}`)
+    this.httpClient.get<[]>(`http://localhost:8080/quizzeducation/api/taikhoan/lopThi?maLopThi=${this.currentClass}`)
       .subscribe(data => {
         this.studentList = data
       })
