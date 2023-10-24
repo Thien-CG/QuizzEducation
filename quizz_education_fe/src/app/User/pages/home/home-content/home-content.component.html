@@ -7,199 +7,62 @@
             <h1 class="mb-4">Các môn thi</h1>
         </div>
         <div class="row" id="test">
-            <div class="col-lg-4 mb-5">
+            <div class="col-lg-4 mb-5" *ngFor="let chiTietKyThi of ListLichThi">
                 <div class="card border-0 bg-light shadow-sm pb-2">
-                 
+                    <!-- {{chiTietKyThi.kyThi.tenKyThi}} -->
                     <div class="card-body text-center">
-                        <h4 class="card-title">Kiểm tra toán cuối HK1 lớp 11 </h4>
+                        <h4 class="card-title">{{chiTietKyThi.kyThi.tenKyThi}}</h4>
                         <p class="card-text">
-                            Ngày thi: 20/09/2023 - 26/09/2023
+                            Ngày thi: {{chiTietKyThi.kyThi.thoiGianBatDau | date:'dd/MM/yyyy'}} - {{chiTietKyThi.kyThi.thoiGianKetThuc | date:'dd/MM/yyyy'}}
                         </p>
+                        <!-- <p class="card-text">
+                         Trạng thái:  <span
+                           [ngClass]="{'badge badge-green': true, 'badge-red': chiTietKyThi?.trangThai == 'Đã kết thúc', 'badge-green': chiTietKyThi?.trangThai  === 'Đang diễn ra', 'badge-blue': chiTietKyThi?.trangThai  === 'Chưa diễn ra'}">
+                           {{chiTietKyThi?.trangThai }}
+                         </span>
+                        </p> -->
                         <p class="card-text">
-                            
-                           Trạng thái: <span class="badge badge-success" style="background-color: green;">Đang diễn ra</span>
+                             Trạng thái: <span [ngClass]="getBadgeClass(chiTietKyThi.trangThai)" class="badge">{{ chiTietKyThi.trangThai }}</span>
                         </p>
+                       
                     </div>
                     <div class="card-footer bg-transparent py-4 px-5">
                         <div class="row border-bottom">
                             <div class="col-6 py-1 text-right border-right">
                                 <strong>Lớp</strong>
                             </div>
-                            <div class="col-6 py-1">11A1</div>
+                            <div class="col-6 py-1">{{chiTietKyThi.lopThi.tenLop}}</div>
                         </div>
                         <div class="row border-bottom">
                             <div class="col-6 py-1 text-right border-right">
                                 <strong>Môn</strong>
                             </div>
-                            <div class="col-6 py-1">Toán</div>
+                            <div class="col-6 py-1">{{chiTietKyThi.monThi.tenMon}}</div>
                         </div>
                         <div class="row border-bottom">
                             <div class="col-6 py-1 text-right border-right">
                                 <strong>Ngày thi</strong>
                             </div>
-                            <div class="col-6 py-1">24/10/2023</div>
+                            <div class="col-6 py-1">{{chiTietKyThi.thoiGianBatDau | date:'dd/MM/yyyy'}}</div>
                         </div>
                         <div class="row border-bottom">
                             <div class="col-6 py-1 text-right border-right">
                                 <strong>Thời gian làm bài</strong>
                             </div>
-                            <div class="col-6 py-1">90 phút</div>
+                            <div class="col-6 py-1">{{chiTietKyThi.monThi.thoiGianLamBai}} phút</div>
                         </div>
                         <div class="row">
                             <div class="col-6 py-1 text-right border-right">
                                 <strong>Thời gian thi</strong>
                             </div>
-                            <div class="col-6 py-1">08:00 - 09:30</div>
+                            <div class="col-6 py-1">{{ convertToTime(chiTietKyThi.thoiGianBatDau) }} - {{ convertToTime(chiTietKyThi.thoiGianKetThuc) }}</div>
                         </div>
                     </div>
                     <a href="#/user/exam" class="btn btn-primary px-4 mx-auto mb-4">Vào Thi</a>
                 </div>
             </div>
-            <div class="col-lg-4 mb-5">
-                <div class="card border-0 bg-light shadow-sm pb-2">
-                 
-                    <div class="card-body text-center">
-                        <h4 class="card-title">Kiểm tra 15 phút hóa Lớp 11</h4>
-                        <p class="card-text">
-                            Ngày thi: 25/09/2023 - 25/09/2023
-                        </p>
-                        <p class="card-text">
-                            
-                           Trạng thái: <span class="badge badge-success" style="background-color: red;">Kết thúc</span>
-                        </p>
-                    </div>
-                    <div class="card-footer bg-transparent py-4 px-5">
-                        <div class="row border-bottom">
-                            <div class="col-6 py-1 text-right border-right">
-                                <strong>Lớp</strong>
-                            </div>
-                            <div class="col-6 py-1">11A1</div>
-                        </div>
-                        <div class="row border-bottom">
-                            <div class="col-6 py-1 text-right border-right">
-                                <strong>Môn</strong>
-                            </div>
-                            <div class="col-6 py-1">Hóa</div>
-                        </div>
-                        <div class="row border-bottom">
-                            <div class="col-6 py-1 text-right border-right">
-                                <strong>Ngày thi</strong>
-                            </div>
-                            <div class="col-6 py-1">20/10/2023</div>
-                        </div>
-                        <div class="row border-bottom">
-                            <div class="col-6 py-1 text-right border-right">
-                                <strong>Thời gian làm bài</strong>
-                            </div>
-                            <div class="col-6 py-1">15 phút</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 py-1 text-right border-right">
-                                <strong>Thời gian thi</strong>
-                            </div>
-                            <div class="col-6 py-1">09:00 - 09:15</div>
-                        </div>
-                    </div>
-                    <a href="#/user/exam" class="btn btn-primary px-4 mx-auto mb-4">Vào Thi</a>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-5">
-                <div class="card border-0 bg-light shadow-sm pb-2">
-                 
-                    <div class="card-body text-center">
-                        <h4 class="card-title">Kiểm tra 1 tiết tin học lớp 11</h4>
-                        <p class="card-text">
-                            Ngày thi: 20/09/2023 - 20/09/2023
-                        </p>
-                        <p class="card-text">
-                            
-                           Trạng thái: <span class="badge badge-success" style="background-color: orange;">Chưa diễn ra</span>
-                        </p>
-                    </div>
-                    <div class="card-footer bg-transparent py-4 px-5">
-                        <div class="row border-bottom">
-                            <div class="col-6 py-1 text-right border-right">
-                                <strong>Lớp</strong>
-                            </div>
-                            <div class="col-6 py-1">11A1</div>
-                        </div>
-                        <div class="row border-bottom">
-                            <div class="col-6 py-1 text-right border-right">
-                                <strong>Môn</strong>
-                            </div>
-                            <div class="col-6 py-1">Tin học</div>
-                        </div>
-                        <div class="row border-bottom">
-                            <div class="col-6 py-1 text-right border-right">
-                                <strong>Ngày thi</strong>
-                            </div>
-                            <div class="col-6 py-1">20/10/2023</div>
-                        </div>
-                        <div class="row border-bottom">
-                            <div class="col-6 py-1 text-right border-right">
-                                <strong>Thời gian làm bài</strong>
-                            </div>
-                            <div class="col-6 py-1">45 phút</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 py-1 text-right border-right">
-                                <strong>Thời gian thi</strong>
-                            </div>
-                            <div class="col-6 py-1">08:00 - 08:45</div>
-                        </div>
-                    </div>
-                    <a href="#/user/exam" class="btn btn-primary px-4 mx-auto mb-4">Vào Thi</a>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-5">
-                <div class="card border-0 bg-light shadow-sm pb-2">
-                 
-                    <div class="card-body text-center">
-                        <h4 class="card-title">Kiểm tra 1 tiết tin học lớp 11</h4>
-                        <p class="card-text">
-                            Ngày thi: 20/09/2023 - 20/09/2023
-                        </p>
-                        <p class="card-text">
-                            
-                           Trạng thái: <span class="badge badge-success" style="background-color: orange;">Chưa diễn ra</span>
-                        </p>
-                    </div>
-                    <div class="card-footer bg-transparent py-4 px-5">
-                        <div class="row border-bottom">
-                            <div class="col-6 py-1 text-right border-right">
-                                <strong>Lớp</strong>
-                            </div>
-                            <div class="col-6 py-1">11A1</div>
-                        </div>
-                        <div class="row border-bottom">
-                            <div class="col-6 py-1 text-right border-right">
-                                <strong>Môn</strong>
-                            </div>
-                            <div class="col-6 py-1">Tin học</div>
-                        </div>
-                        <div class="row border-bottom">
-                            <div class="col-6 py-1 text-right border-right">
-                                <strong>Ngày thi</strong>
-                            </div>
-                            <div class="col-6 py-1">20/10/2023</div>
-                        </div>
-                        <div class="row border-bottom">
-                            <div class="col-6 py-1 text-right border-right">
-                                <strong>Thời gian làm bài</strong>
-                            </div>
-                            <div class="col-6 py-1">45 phút</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 py-1 text-right border-right">
-                                <strong>Thời gian thi</strong>
-                            </div>
-                            <div class="col-6 py-1">08:00 - 08:45</div>
-                        </div>
-                    </div>
-                    <a href="#/user/exam" class="btn btn-primary px-4 mx-auto mb-4">Vào Thi</a>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-5">
+
+            <!-- <div class="col-lg-4 mb-5">
                 <div class="card border-0 bg-light shadow-sm pb-2">
                  
                     <div class="card-body text-center">
@@ -247,17 +110,18 @@
                     <a href="#/user/exam" class="btn btn-primary px-4 mx-auto mb-4">Vào Thi</a>
                 </div>
             </div>
+
             <div class="col-lg-4 mb-5">
                 <div class="card border-0 bg-light shadow-sm pb-2">
                  
                     <div class="card-body text-center">
-                        <h4 class="card-title">Kiểm tra toán cuối HK1 lớp 11 </h4>
+                        <h4 class="card-title">Kiểm tra 1 tiết tin học lớp 11</h4>
                         <p class="card-text">
-                            Ngày thi: 20/09/2023 - 26/09/2023
+                            Ngày thi: 20/09/2023 - 20/09/2023
                         </p>
                         <p class="card-text">
                             
-                           Trạng thái: <span class="badge badge-success" style="background-color: green;">Đang diễn ra</span>
+                           Trạng thái: <span class="badge badge-success" style="background-color: orange;">Chưa diễn ra</span>
                         </p>
                     </div>
                     <div class="card-footer bg-transparent py-4 px-5">
@@ -271,30 +135,30 @@
                             <div class="col-6 py-1 text-right border-right">
                                 <strong>Môn</strong>
                             </div>
-                            <div class="col-6 py-1">Toán</div>
+                            <div class="col-6 py-1">Tin học</div>
                         </div>
                         <div class="row border-bottom">
                             <div class="col-6 py-1 text-right border-right">
                                 <strong>Ngày thi</strong>
                             </div>
-                            <div class="col-6 py-1">24/10/2023</div>
+                            <div class="col-6 py-1">20/10/2023</div>
                         </div>
                         <div class="row border-bottom">
                             <div class="col-6 py-1 text-right border-right">
                                 <strong>Thời gian làm bài</strong>
                             </div>
-                            <div class="col-6 py-1">90 phút</div>
+                            <div class="col-6 py-1">45 phút</div>
                         </div>
                         <div class="row">
                             <div class="col-6 py-1 text-right border-right">
                                 <strong>Thời gian thi</strong>
                             </div>
-                            <div class="col-6 py-1">08:00 - 09:30</div>
+                            <div class="col-6 py-1">08:00 - 08:45</div>
                         </div>
                     </div>
                     <a href="#/user/exam" class="btn btn-primary px-4 mx-auto mb-4">Vào Thi</a>
                 </div>
-            </div>
+            </div> -->
             
 
         </div>

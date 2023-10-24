@@ -21,6 +21,8 @@ public interface TaiKhoanDAO extends JpaRepository<TaiKhoan, String> {
 
     public TaiKhoan findByTenDangNhap(String tenDangNhap);
 
+    public TaiKhoan findByEmail(String email);
+    
     public boolean existsByTenDangNhap(String tenDangNhap);
 
     @Query("SELECT tk FROM TaiKhoan tk WHERE tk.vaiTro.maVaiTro = 1  ORDER BY ngayTaoTaiKhoan DESC")

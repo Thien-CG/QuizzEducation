@@ -18,7 +18,7 @@ export class ForgotPasswordComponent {
 
   public formChangePass = this.formBuilder.group({
     
-    email: new FormControl('', [Validators.required]),
+    tenDangNhap: new FormControl('', [Validators.required]),
     matKhauMoi: new FormControl('', [Validators.required]),
   });
 
@@ -27,8 +27,8 @@ export class ForgotPasswordComponent {
     return this.formChangePass.get('matKhauMoi');
   }
 
-  public get getEmail() {
-    return this.formChangePass.get('email');
+  public get getTenDangNhap() {
+    return this.formChangePass.get('tenDangNhap');
   }
 
   

@@ -1,6 +1,11 @@
 h1{
     font-family: "Handlee", cursive;
 }
+
+.bg-light{
+    background-color: #eff0f0;
+}
+
 .section-title {
     position: relative;
     display: inline-block;
@@ -31,3 +36,14 @@ h1{
     overflow-y:auto;
 }
 
+.badge-orange{
+    background-color: orange
+}
+
+.badge-red{
+    background-color: red;
+}
+
+.badge-green{
+    background-color: green;
+}

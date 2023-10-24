@@ -13,11 +13,12 @@ import * as FileSaver from 'file-saver';
   providers: [MessageService, ConfirmationService]
 })
 export class ExamSubjectsComponent {
-  constructor(private messageService: MessageService, private httpService: HttpSvService, private confirmationService: ConfirmationService,
+  constructor(private messageService: MessageService,
+     private httpService: HttpSvService, private confirmationService: ConfirmationService,
     private formBuilder: FormBuilder,) { }
   //Khai báo các biến ở đây
   ListexamClass!: examSubject[];
-  //Sửa lại chổ tìm kiếm trong thư viện
+  //Sửa lại chổ tìm kiếm trong thư v iện
   public getValueSearch() {
     return this.formFilter.get('search')?.value;
   }
