@@ -9,9 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.vnpt.quizz_education_be.Entity.ChiTietKyThi;
-
-import java.util.List;
-import java.util.Optional;
 import com.vnpt.quizz_education_be.Entity.LopThi;
 import com.vnpt.quizz_education_be.Entity.MonThi;
 

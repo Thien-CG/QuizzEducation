@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpSvService } from 'src/app/service/API.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-navbar',
@@ -15,6 +16,7 @@ export class NavbarComponent {
     private router: Router,
     private httpSvService: HttpSvService,
     private fireStorage: AngularFireStorage,
+    private httpClient: HttpClient
   ) { }
 
   public user: any;
@@ -30,18 +32,21 @@ export class NavbarComponent {
       try {
         const decodedToken = helper.decodeToken(token);
         // Trích xuất dữ liệu từ trường 'sub'
-       
-      if (decodedToken.sub) {
-        
-        // Lấy dữ liệu từ Local Storage và gán cho biến user
-        this.user = JSON.parse(decodedToken.sub);
-         
-        //Đi tìm trong DB lấy ra đối tượng
-        this.httpSvService.getItem('taikhoan',this.user.tenDangNhap).subscribe((userData) => {
-          this.user = userData;
-         });
-      }
-      
+
+        if (decodedToken.sub) {
+
+          // Lấy dữ liệu từ Local Storage và gán cho biến user
+          this.user = JSON.parse(decodedToken.sub);
+
+          //Đi tìm trong DB lấy ra đối tượng
+          this.httpSvService.getItem('taikhoan', this.user.tenDangNhap).subscribe((userData) => {
+            this.user = userData;
+            if (this.user.anhDaiDien == null) {
+              this.user.anhDaiDien = this.defaultImage;
+            }
+          });
+        }
+
         return decodedToken; // Trả về đối tượng JSON
       } catch (error) {
         console.error('Lỗi giải mã token:', error);
@@ -83,12 +88,12 @@ export class NavbarComponent {
     }
   }
 
-//Đổi ảnh
-selectedImage: File | undefined;
-openFileInput() {
-  // Mở cửa sổ chọn tệp bằng cách kích hoạt input[type="file"]
-  document.getElementById('fileInput')?.click();
-}
+  //Đổi ảnh
+  selectedImage: File | undefined;
+  openFileInput() {
+    // Mở cửa sổ chọn tệp bằng cách kích hoạt input[type="file"]
+    document.getElementById('fileInput')?.click();
+  }
 
   showSettings = false;
 
@@ -107,7 +112,18 @@ openFileInput() {
       const path = `${randomNumberString}`
       const upload = await this.fireStorage.upload(path, file)
       const url = await upload.ref.getDownloadURL()
-      console.log(url)
+      if (this.user.anhDaiDien) {
+        this.fireStorage.storage.refFromURL(this.user.anhDaiDien).delete()
+      }
+      this.user.anhDaiDien = url
+      this.httpClient.put(`http://localhost:8080/quizzeducation/api/taikhoan/${this.user.tenDangNhap}`, this.user).subscribe(
+        (response) => {
+
+        },
+        (error) => {
+          console.log(error.message)
+        }
+      )
     } else {
       alert("Tour chỉ nhận ảnh từ 5MB trở xuống")
     }

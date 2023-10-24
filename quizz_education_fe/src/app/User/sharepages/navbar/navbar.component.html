@@ -19,12 +19,12 @@
       <div class="nav-account d-flex" data-bs-toggle="modal" data-bs-target="#profile">
         <div class="avarta-footer">
           <img
-            src="https://firebasestorage.googleapis.com/v0/b/vietfurniture-38c34.appspot.com/o/image%2FhoangThao.jpg?alt=media&token=ce883bde-7cca-4b08-af61-08c5f222a142"
+            [src]="user.anhDaiDien"
             alt="" class="avata_profile_img">
         </div>
         <div class="nav-account-info">
-          <h6 class="nav-account-info-name">Lê Hoàng Thảo</h6>
-          <p class="nav-account-info-email">thaolh@gmail.com</p>
+          <h6 class="nav-account-info-name">{{user.hoVaTen}}</h6>
+          <p class="nav-account-info-email">{{user.email}}</p>
 
         </div>
       </div>
@@ -62,9 +62,7 @@
             </div>
             <div class="role_avata">
               <div class="avata_profile">
-                <img (click)="openChangeImage()"
-                  src="https://firebasestorage.googleapis.com/v0/b/vietfurniture-38c34.appspot.com/o/image%2FhoangThao.jpg?alt=media&token=ce883bde-7cca-4b08-af61-08c5f222a142"
-                  alt="" class="avata_profile_img">
+                <img (click)="openChangeImage()" src="{{user.anhDaiDien}}" alt="" class="avata_profile_img">
               </div>
 
               <div class="role_profile">
@@ -86,7 +84,6 @@
                     <img class="QR"
                       src="https://firebasestorage.googleapis.com/v0/b/quizzeducation-eaea3.appspot.com/o/images%2FQR_Chau_Manh_Tan.png?alt=media&token=cf326965-2283-478c-b27e-043eb3c6afb9"
                       alt="">
-
                   </div>
                 </div>
                 <p class="footer-card">www.quizz.edu.vn</p>
@@ -109,8 +106,8 @@
               </div>
               <div class="profile-body-content-header">
                 <div class="profile-body-content-header-text">
-                  <h5 class="profile-body-content-header-text-name">Lê Hoàng Thảo</h5>
-                  <p class="profile-body-content-header-text-email">thaolh@gmail.com</p>
+                  <h5 class="profile-body-content-header-text-name">{{user.hoVaTen}}</h5>
+                  <p class="profile-body-content-header-text-email">{{user.email}}</p>
                 </div>
                 <div class="profile-body-content-header-icon">
                   <i class="bi bi-info-circle"></i>
