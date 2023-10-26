@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/user/home']);
         }
       });
+      console.log(helper.isTokenExpired(token))
     }
   }
 
@@ -56,7 +57,7 @@ export class LoginComponent implements OnInit {
    if (this.formLogin.valid) {
       const API_LOGIN = 'http://localhost:8080/quizzeducation/api/login';
 
-      // console.log(typeof this.formLogin.value.remember);
+      console.log(typeof this.formLogin.value.remember);
       const request = this.httpClient.post<any>(API_LOGIN,this.formLogin.value);
       request.subscribe((response) => {
         // Khi token không phải mã 191003 có nghĩ nó không fail đăng nhập
