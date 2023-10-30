@@ -1,20 +1,21 @@
-import { InterceptorUrlGuard } from './config/interceptor-url.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DashboardComponent } from './admin/views/dashboard/dashboard.component';
+import { InterceptorUrlGuard } from './config/interceptor-url.guard';
 
 import { DefaultLayoutComponent } from './Admin/containers';
+import { ChangePasswordComponent } from './Admin/views/pages/change-password/change-password.component';
+import { LoginComponent } from './Admin/views/pages/login/login.component';
 import { Page404Component } from './Admin/views/pages/page404/page404.component';
 import { Page500Component } from './Admin/views/pages/page500/page500.component';
-import { ChangePasswordComponent } from './Admin/views/pages/change-password/change-password.component';
 import { DefaultLayoutTeacherComponent } from './Teacher/containers-teacher/index-teacher';
-import { LoginComponent } from './Admin/views/pages/login/login.component';
 import { MainUserComponent } from './User/main-user/main-user.component';
 import { HistoryComponent } from './User/pages/history/history.component';
 // import { AboutComponent } from './User/pages/about/about.component';
+import { ForgotPasswordComponent } from './Admin/views/pages/forgot-password/forgot-password.component';
+import { ManageClassComponent } from './Teacher/views/manage-class/manage-class.component';
 import { HomeComponent } from './User/pages/home/home.component';
 import { ScoreComponent } from './User/pages/score/score.component';
-import { ManageClassComponent } from './Teacher/views/manage-class/manage-class.component';
-import { ForgotPasswordComponent } from './Admin/views/pages/forgot-password/forgot-password.component';
 const routes: Routes = [
   {
     path: '',
@@ -40,6 +41,10 @@ const routes: Routes = [
       title: 'Admin'
     },
     children: [
+      {
+        path: 'dashboard',
+        component: DashboardComponent
+      },
       {
         path: 'exam',
         loadChildren: () =>

@@ -19,6 +19,7 @@ export class ManageStudentPupilComponent implements OnInit {
   public currentSubject: number
   public currentClass: number
   public studentList: any[]
+  public resultList: any[]
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       let id = params['id'];
@@ -27,17 +28,39 @@ export class ManageStudentPupilComponent implements OnInit {
       this.currentEvent = id
       this.currentSubject = id2
       this.currentClass = id3
-
     });
+    this.getStudentList();
+    this.getResultList();
+  }
+
+  public getValueSearch() {
+    return this.formFilter.get('search')?.value;
+  }
+
+  public getStudentList() {
     this.httpClient.get<[]>(`http://localhost:8080/quizzeducation/api/taikhoan/lopThi?maLopThi=${this.currentClass}`)
       .subscribe(data => {
         this.studentList = data
       })
   }
 
-  public getValueSearch() {
-    return this.formFilter.get('search')?.value;
+  public getResultList() {
+    this.httpClient.get<[]>(`http://localhost:8080/quizzeducation/api/bocauhoidalam`)
+      .subscribe(data => {
+        this.resultList = data
+      })
   }
+
+  public checkDone(username: string): boolean {
+    for (var i = 0; i < this.resultList.length; i++) {
+      if (this.resultList[i].deThi.chiTietKyThi.kyThi.maKyThi == this.currentEvent && this.resultList[i].deThi.chiTietKyThi.monThi.maMon == this.currentSubject
+        && this.resultList[i].taiKhoan.tenDangNhap === username) {
+        return true
+      }
+    }
+    return false
+  }
+
   public formFilter = this.formBuilder.group({
     setRows: new FormControl(5),
     search: new FormControl('')

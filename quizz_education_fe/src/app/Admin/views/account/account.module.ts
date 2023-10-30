@@ -1,8 +1,6 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PasswordModule } from 'primeng/password';
-import { RadioButtonModule } from 'primeng/radiobutton';
 import {
   ButtonGroupModule,
   ButtonModule,
@@ -13,27 +11,28 @@ import {
   ListGroupModule,
   SharedModule
 } from '@coreui/angular';
+import { PasswordModule } from 'primeng/password';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 import { AccountRoutingModule } from './account-routing.module';
-import { UserComponent } from './user/user.component';
 import { TeacherComponent } from './teacher/teacher.component';
+import { UserComponent } from './user/user.component';
 
 
+import { CalendarModule } from 'primeng/calendar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputTextModule } from 'primeng/inputtext';
 import { PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
-import { CalendarModule } from 'primeng/calendar';
 import { TabViewModule } from 'primeng/tabview';
-import { InputTextModule } from 'primeng/inputtext';
-import { ToastModule } from 'primeng/toast';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { CreateUserComponent } from './user/create-user/create-user.component';
-import { InputMaskModule } from 'primeng/inputmask';
-import { TreeSelectModule } from 'primeng/treeselect';
-import { FilterService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
+import { ToastModule } from 'primeng/toast';
+import { TreeSelectModule } from 'primeng/treeselect';
 import { CreateTeacherComponent } from './teacher/create-teacher/create-teacher.component';
-import { TeacherAllotComponent } from './teacher/teacher-allot/teacher-allot.component';
 import { TeacherAllotCreateComponent } from './teacher/teacher-allot/teacher-allot-create/teacher-allot-create.component';
+import { TeacherAllotComponent } from './teacher/teacher-allot/teacher-allot.component';
+import { CreateUserComponent } from './user/create-user/create-user.component';
 @NgModule({
   declarations: [
     TeacherComponent,

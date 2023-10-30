@@ -26,6 +26,13 @@ export class ManageStudentSubjectComponent implements OnInit {
     this.httpClient.get<[]>(`http://localhost:8080/quizzeducation/api/monthi?kithi=${this.currentEvent}`)
       .subscribe(data => {
         this.listMonThi = data
+        for (let i = 0; i < this.listMonThi.length; i++) {
+          for (let j = i + 1; j < this.listMonThi.length - 1; j++) {
+            if (this.listMonThi[j].tenMon == this.listMonThi[i].tenMon) {
+              this.listMonThi.splice(j, 1);
+            }
+          }
+        }
       });
   }
 

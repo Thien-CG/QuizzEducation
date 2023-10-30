@@ -1,13 +1,12 @@
 <p-toast key="toast1"></p-toast>
 
-<div class="card">
+<div class="card" *ngIf="currentUser">
   <div class="card-body">
-    <h4 class="card-title">Danh sách Tour</h4>
+    <h4 class="card-title">Danh sách Học Sinh Lớp {{currentUser.lopThi.tenLop}}</h4>
     <button pButton class="btn btn-success" (click)="openNoClass()">Thêm Học Sinh</button>
     <p-table #dt1 [value]="studentList" sortField="tenDangNhap" [sortOrder]=-1 dataKey="id" [rows]="10"
-      [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
-      currentPageReportTemplate="Hiện {first} đến {last} trong tổng {totalRecords} bảng"
-      [globalFilterFields]="['tenDangNhap', 'hoVaTen', 'email']" [rowsPerPageOptions]="[10, 25, 50]">
+      [showCurrentPageReport]="true" currentPageReportTemplate="Hiện {first} đến {last} trong tổng {totalRecords} bảng"
+      [globalFilterFields]="['tenDangNhap', 'hoVaTen', 'email']">
       <ng-template pTemplate="caption">
         <div class="flex">
           <form [formGroup]="formFilter">
@@ -108,4 +107,7 @@
       </p-table>
     </ng-template>
   </div>
+</div>
+<div class="text-center" *ngIf="currentUser == null">
+  Hiện Giáo Viên Chưa Được Phân Công Quản Lý Lớp Nào
 </div>

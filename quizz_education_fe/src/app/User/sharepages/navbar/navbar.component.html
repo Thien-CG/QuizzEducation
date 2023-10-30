@@ -14,16 +14,15 @@
         <a routerLink="history" routerLinkActive="active-link" class="nav-item nav-link">Lịch Sử Thi</a>
 
       </div>
-      <!-- <a class="btn" style="background-color: rgb(211, 240, 255);" routerLink="login" routerLinkActive="active-link">Đăng nhập</a> -->
 
       <div class="nav-account d-flex" data-bs-toggle="modal" data-bs-target="#profile">
         <div class="avarta-footer">
-          <img [src]="user.anhDaiDien" alt="" class="avata_profile_img">
+          <img [src]="user.anhDaiDien ? user.anhDaiDien : defaultImage" alt="" class="avata_profile_img">
         </div>
         <div class="nav-account-info">
-          <h6 class="nav-account-info-name">{{user.hoVaTen}}</h6>
-          <p class="nav-account-info-email">{{user.email}}</p>
-
+          <h6 class="nav-account-info-name">{{ user.hoVaTen }}</h6>
+          <p class="nav-account-info-email">{{ user.email }}</p>
+          <p>{{user.vaiTro.TenVaiTro}}</p>
         </div>
       </div>
 
@@ -45,7 +44,7 @@
                     <a href="#/changepassword"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                         fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                      </svg> a Đổi mật khẩu</a>
+                      </svg> Đổi mật khẩu</a>
                   </li>
                   <li>
                     <a (click)="logout()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -54,14 +53,14 @@
                           d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
                         <path fill-rule="evenodd"
                           d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
-                      </svg> a Đăng xuất</a>
+                      </svg> Đăng xuất</a>
                   </li>
                 </ul>
               </li>
             </ul>
           </div>
           <div class="col-md-12 ml-1">
-            <a (click)="logout()">a<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+            <a (click)="logout()"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                 class="bi bi-box-arrow-right ml-3" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
                   d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
@@ -80,14 +79,14 @@
 </nav>
 
 
+
+
 <!-- Modal profile -->
 <div class="modal fade" id="profile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-md">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
-
-
-        <div class="modal-body" style="padding: 0;">
+        <div class="modal-body bg-light">
           <div class="profile-header">
             <div class="background_profile">
               <p class="text-center text-white pt-1">HỆ THỐNG THI TRẮC NGHIỆM <br><b>QUIZZ EDUCATION</b></p>
@@ -98,7 +97,10 @@
             </div>
             <div class="role_avata">
               <div class="avata_profile">
-                <img (click)="openChangeImage()" src="{{user.anhDaiDien}}" alt="" class="avata_profile_img">
+
+                <img [src]="user.anhDaiDien ? user.anhDaiDien : defaultImage" alt="" class="avata_profile_img">
+
+
               </div>
 
               <div class="role_profile">
@@ -120,9 +122,10 @@
                     <img class="QR"
                       src="https://firebasestorage.googleapis.com/v0/b/quizzeducation-eaea3.appspot.com/o/images%2FQR_Chau_Manh_Tan.png?alt=media&token=cf326965-2283-478c-b27e-043eb3c6afb9"
                       alt="">
+
                   </div>
                 </div>
-                <p class="footer-card">www.quizz.edu.vn</p>
+                <!-- <p class="footer-card">www.quizz.edu.vn</p> -->
               </div>
             </div>
           </div>
@@ -141,28 +144,60 @@
                   </svg> Đổi ảnh</button>
               </div>
               <div class="profile-body-content-header">
-                <div class="profile-body-content-header-text">
-                  <h5 class="profile-body-content-header-text-name">{{user.hoVaTen}}</h5>
-                  <p class="profile-body-content-header-text-email">{{user.email}}</p>
-                </div>
-                <div class="profile-body-content-header-icon">
-                  <i class="bi bi-info-circle"></i>
+
+                <div class="row g-3 grid p-fluid">
+
+                  <div class="field col-12">
+                    <label for="hoVanTen" class="form-label">Họ và tên</label>
+                    <input type="text" id="hoVanTen" class="form-control box-shadow-none disabled-input"
+                      [value]="user.hoVaTen">
+                  </div>
+                  <div class="field col-12">
+                    <label for="cccd" class="form-label">Căn cước công dân</label>
+                    <input type="text" id="cccd" class="form-control box-shadow-none disabled-input"
+                      [value]="user.canCuocCongDan">
+                  </div>
+                  <div class="field col-12">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" id="email" class="form-control box-shadow-none disabled-input"
+                      [value]="user.email">
+                  </div>
+                  <div class="field col-12">
+                    <label for="ngaySinh" class="form-label">Ngày sinh</label>
+                    <input type="text" id="ngaySinh" class="form-control box-shadow-none disabled-input"
+                      [value]="user.ngaySinh | date:'dd/MM/yyyy'">
+                  </div>
+                  <div class="field col-12">
+                    <label for="gioiTinh" class="form-label">Giới tính</label>
+                    <input type="text" id="gioiTinh" class="form-control box-shadow-none disabled-input"
+                      [value]="user.gioiTinh? 'Nam':'Nữ' ">
+                  </div>
+                  <div class="field col-12">
+                    <label for="soDienThoai" class="form-label">Số điện thoại</label>
+                    <input type="text" id="soDienThoai" class="form-control box-shadow-none disabled-input"
+                      [value]="user.soDienThoai">
+                  </div>
+                  <div class="field col-12">
+                    <label for="diaChi" class="form-label">Địa chỉ</label>
+                    <input type="text" id="diaChi" class="form-control box-shadow-none disabled-input"
+                      [value]="user.diaChi">
+                  </div>
+                  <div class="field col-12">
+                    <label for="lopThi" class="form-label">Lớp</label>
+                    <input type="text" id="lopThi" class="form-control box-shadow-none disabled-input"
+                      [value]="user.lopThi.tenLop">
+                  </div>
+                  <div class="field col-12">
+                    <label for="trangThai" class="form-label">Trạng thái</label>
+                    <input type="text" id="trangThai" class="form-control box-shadow-none disabled-input"
+                      [value]="user.trangThai? 'DHOC (Đang Học)':'NHOC (Nghĩ Học)'">
+                  </div>
                 </div>
               </div>
-              <div class="profile-body-content-body" style="margin-top: 20px;">
-                <div class="profile-body-content-body-left">
-                  <h5 class="profile-body-content-body-gender">Nam</h5>
-                  <p class="profile-body-content-body-numberphone">0328142887</p>
-                </div>
-                <div class="profile-body-content-body-right">
-                  <h5 class="profile-body-content-body-right-age">20 tuổi</h5>
-                </div>
-
-              </div>
-
             </div>
           </div>
         </div>
-        <input id="changeImage" accept="image/*" type="file" (change)="saveNewProfilePic($event)" hidden>
       </div>
     </div>
+  </div>
+</div>

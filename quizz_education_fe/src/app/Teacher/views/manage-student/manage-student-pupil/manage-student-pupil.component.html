@@ -33,7 +33,7 @@
         <td>{{ studentList.soDienThoai }}</td>
         <td>{{ studentList.email }}</td>
         <td>{{ studentList.diaChi }}</td>
-        <td>
+        <td *ngIf="resultList && checkDone(studentList.tenDangNhap)">
           <button class="btn btn-primary" [routerLink]="['/teacher/manage-student/event/'
             + currentEvent + '/subject/' + currentSubject + '/class/' + currentClass
             + '/student/' + studentList.tenDangNhap + '/result']">Chi tiết

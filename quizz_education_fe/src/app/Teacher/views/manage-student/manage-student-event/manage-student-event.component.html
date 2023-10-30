@@ -1,28 +1,3 @@
-<!-- <table datatable [dtOptions]="dtOptions" class="row-border hover">
-  <thead>
-    <tr>
-      <th>Mã kì thi</th>
-      <th>Tên kì thi</th>
-      <th>Mô tả</th>
-      <th>Thời gian bắt đầu</th>
-      <th>Thời gian kết thúc</th>
-      <th>Trạng thái</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let event of listKyThi">
-      <td>{{ event.maKyThi }}</td>
-      <td>{{ event.tenKyThi }}</td>
-      <td>{{ event.moTa }}</td>
-      <td>{{ event.thoiGianBatDau }}</td>
-      <td>{{ event.thoiGianKetThuc }}</td>
-      <td>{{ event.daDienRa }}</td>
-      <td><button class="btn btn-primary"
-          [routerLink]="['/teacher/manage-student/event/' + event.maKyThi + '/subject']">Chi tiết</button></td>
-    </tr>
-  </tbody>
-</table> -->
 <div class="card">
   <p-table #dt1 [value]="listKyThi" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
     [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"

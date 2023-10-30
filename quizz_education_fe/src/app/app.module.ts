@@ -1,8 +1,8 @@
 import { HashLocationStrategy, LocationStrategy, } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from './../environments/environment';
 import { ManageStudentResultComponent } from './Teacher/views/manage-student/manage-student-result/manage-student-result.component';
 
@@ -42,11 +42,11 @@ import { HomeComponent } from './User/pages/home/home.component';
 import { FooterComponent } from './User/sharepages/footer/footer.component';
 import { NavbarComponent } from './User/sharepages/navbar/navbar.component';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { ManageClassComponent } from './Teacher/views/manage-class/manage-class.component';
 import { ScoreComponent } from './User/pages/score/score.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {
   AvatarModule,
@@ -68,8 +68,8 @@ import {
   UtilitiesModule,
 } from '@coreui/angular';
 
-import { ExamComponent } from './User/pages/exam/exam.component';
 import { ForgotPasswordComponent } from './Admin/views/pages/forgot-password/forgot-password.component';
+import { ExamComponent } from './User/pages/exam/exam.component';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -101,7 +101,8 @@ const APP_CONTAINERS = [
     ReportComponent,
     ManageClassComponent,
     ForgotPasswordComponent,
-    ExamComponent,],
+    ExamComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
