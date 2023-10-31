@@ -10,12 +10,11 @@ import { HttpSvService } from '../../../../service/API.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
   constructor(
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
     private router: Router,
-    private httpSvService: HttpSvService,
+    private httpSvService: HttpSvService
   ) { }
 
   public formLogin = this.formBuilder.group({
@@ -23,7 +22,6 @@ export class LoginComponent implements OnInit {
     matKhau: new FormControl('', [Validators.required]),
     remember: new FormControl(false, [Validators.required]),
   });
-
 
   public get getTenDangNhap() {
     return this.formLogin.get('tenDangNhap');
@@ -38,67 +36,83 @@ export class LoginComponent implements OnInit {
   }
 
   public autoLogin() {
-    
     const token = localStorage.getItem('token');
-
-    const helper = new JwtHelperService();
-    const data = JSON.parse(helper.decodeToken(token).sub);
-    console.log(data)
-    if (token || !helper.isTokenExpired(token)) {
-      let validateToken = this.httpClient.post<string>('http://localhost:8080/quizzeducation/api/validatetoken', { 'token': token });
-      validateToken.subscribe(response => {
-        if (response) {
-          this.router.navigate(['/user/home']);
-        }
-      });
-      console.log(helper.isTokenExpired(token))
-    }else{
-      
-
+    if (token != null) {
+      const helper = new JwtHelperService();
+      const data = JSON.parse(helper.decodeToken(token).sub);
+      console.log(data);
+      console.log(data.vaiTro);
+      if (token || !helper.isTokenExpired(token)) {
+        let validateToken = this.httpClient.post<string>(
+          'http://localhost:8080/quizzeducation/api/validatetoken',
+          { token: token }
+        );
+        validateToken.subscribe((response) => {
+          if (response) {
+            // Chuyển hướng đến trang chính hoặc làm bất kỳ điều gì cần thiết.
+            if (data.vaiTro.tenVaiTro === 'Học sinh') {
+              this.router.navigate(['user/home']);
+            } else if (data.vaiTro.tenVaiTro === 'Giáo viên') {
+              this.router.navigate(['teacher']);
+            } else if (data.vaiTro.tenVaiTro === 'Admin') {
+              this.router.navigate(['admin']);
+            }
+          }
+        });
+        console.log(helper.isTokenExpired(token));
+      }
     }
   }
 
-  public data = "";
+  public data: any[];
   public loginMethod() {
     if (this.formLogin.valid) {
       const API_LOGIN = 'http://localhost:8080/quizzeducation/api/login';
 
       console.log(typeof this.formLogin.value.remember);
-      const request = this.httpClient.post<any>(API_LOGIN,this.formLogin.value);
-      request.subscribe((response) => {
-        // Khi token không phải mã 191003 có nghĩ nó không fail đăng nhập
-        if (response.token != '191003') {
-          const helper = new JwtHelperService();
-          localStorage.setItem('token', response.token);
-          
-          const data = JSON.parse(helper.decodeToken(response.token).sub);
-          data.token = response.token;
-          //Cập nhật lại token trong DB
-          this.httpSvService.putItem('taikhoan', data.tenDangNhap, data).subscribe(
-            (response) => {
-              console.log('Cập nhật token thành công');
-            },
-            (error) => {
-              console.log('Lỗi Cập nhật mật khẩu', error);
-            }
-          );
+      const request = this.httpClient.post<any>(
+        API_LOGIN,
+        this.formLogin.value
+      );
+      request.subscribe(
+        (response) => {
+          // Khi token không phải mã 191003 có nghĩ nó không fail đăng nhập
+          if (response.token != '191003') {
+            const helper = new JwtHelperService();
+            localStorage.setItem('token', response.token);
 
-          // Chuyển hướng đến trang chính hoặc làm bất kỳ điều gì cần thiết.
-          if (data.vaiTro.tenVaiTro === 'Học sinh') {
-            this.router.navigate(['user/home'])
-          } else if (data.vaiTro.tenVaiTro === 'Giáo viên') {
-            this.router.navigate(['teacher'])
-          } else if (data.vaiTro.tenVaiTro === 'Admin') {
-            this.router.navigate(['admin'])
+            const data = JSON.parse(helper.decodeToken(response.token).sub);
+            data.token = response.token;
+            //Cập nhật lại token trong DB
+            this.httpSvService
+              .putItem('taikhoan', data.tenDangNhap, data)
+              .subscribe(
+                (response) => {
+                  console.log('Cập nhật token thành công');
+                },
+                (error) => {
+                  console.log('Lỗi Cập nhật mật khẩu', error);
+                }
+              );
+
+            // Chuyển hướng đến trang chính hoặc làm bất kỳ điều gì cần thiết.
+            if (data.vaiTro.tenVaiTro === 'Học sinh') {
+              this.router.navigate(['user/home']);
+            } else if (data.vaiTro.tenVaiTro === 'Giáo viên') {
+              this.router.navigate(['teacher']);
+            } else if (data.vaiTro.tenVaiTro === 'Admin') {
+              this.router.navigate(['admin']);
+            }
+            alert('Bạn đã đăng nhập thành công!');
+          } else {
+            alert('Uiss bạn ơi, tài khoản hoặc mật khẩu không đúng rùi?');
           }
-          alert("Bạn đã đăng nhập thành công!")
-        }
-        else { alert("Uiss bạn ơi, tài khoản hoặc mật khẩu không đúng rùi?"); }
-      },
+        },
         (error) => {
           console.error(error);
-          alert("Uiss bạn ơi, tài khoản hoặc mật khẩu không đúng rùi?");
-        })
+          alert('Uiss bạn ơi, tài khoản hoặc mật khẩu không đúng rùi?');
+        }
+      );
     }
   }
 }

@@ -7,7 +7,7 @@ import { environment } from './../environments/environment';
 import { ManageStudentResultComponent } from './Teacher/views/manage-student/manage-student-result/manage-student-result.component';
 
 import { NgScrollbarModule } from 'ngx-scrollbar';
-
+import { PasswordModule } from 'primeng/password';
 // Import routing module
 import { AppRoutingModule } from './app-routing.module';
 
@@ -20,7 +20,7 @@ import {
   DefaultHeaderComponent,
   DefaultLayoutComponent,
 } from './Admin/containers';
-
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
@@ -135,7 +135,9 @@ const APP_CONTAINERS = [
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
     ToastModule,
-    NgbModule
+    NgbModule,
+    RadioButtonModule,
+    PasswordModule,
   ],
   providers: [
     {
