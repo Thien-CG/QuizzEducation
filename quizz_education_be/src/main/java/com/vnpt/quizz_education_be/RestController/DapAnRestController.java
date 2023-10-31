@@ -1,4 +1,5 @@
 package com.vnpt.quizz_education_be.RestController;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vnpt.quizz_education_be.DAO.DapAnDAO;
@@ -21,7 +23,7 @@ import com.vnpt.quizz_education_be.Entity.DapAn;
 @CrossOrigin(origins = "*")
 @RequestMapping("/quizzeducation/api")
 public class DapAnRestController {
-      @Autowired
+    @Autowired
     DapAnDAO dapAnDAO;
 
     @GetMapping("dapan")
@@ -29,7 +31,6 @@ public class DapAnRestController {
         return ResponseEntity.ok(dapAnDAO.findAll());
     }
 
-    
     // Get 1 đối tượng thông qua id
     @GetMapping("dapan/{id}")
     public ResponseEntity<DapAn> findById(@PathVariable("id") Integer maDapAn) {
@@ -64,9 +65,12 @@ public class DapAnRestController {
         if (!dapAnDAO.existsById(maDapAn)) {
             return ResponseEntity.notFound().build();
         }
-
         dapAnDAO.deleteById(maDapAn);
-
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("dapanDeThi")
+    public ResponseEntity<List<DapAn>> getDapAnInDeThi(@RequestParam("maDeThi") Integer maDeThi) {
+        return ResponseEntity.ok(dapAnDAO.getDapAnInDeThi(maDeThi));
     }
 }

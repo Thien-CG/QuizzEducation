@@ -62,9 +62,26 @@ table {
 //     background: var(--gray-25, #FCFCFD);
 //     box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 // }
-.tabs{
+.tabs {
     background-color: white;
     border-radius: 10px;
     height: 100%;
     padding: 10px 15px 0 15px;
+}
+
+:host ::ng-deep .columnFilterLopThi {
+    width: 220px;
+    height: 54px;
+    // margin-left: 30px;
+    margin-top: -10px;
+}
+
+.modal-filter {
+    display: flex;
+    margin-top: 10px;
+}
+.btn-info{
+    width: 70px;
+    height: 40px;
+    font-size: 14px;
 }

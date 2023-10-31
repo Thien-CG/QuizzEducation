@@ -1,6 +1,7 @@
 package com.vnpt.quizz_education_be.DAO;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +17,9 @@ import com.vnpt.quizz_education_be.Entity.MonThi;
 
 @Repository
 public interface ChiTietKiThiDAO extends JpaRepository<ChiTietKyThi, Integer> {
+    @Query("SELECT p.monThi FROM ChiTietKyThi p WHERE p.kyThi.maKyThi = ?1")
+    List<MonThi> getMonThiInKiThi(Optional<Integer> maKyThi);
+
     @Query("SELECT ct FROM ChiTietKyThi ct WHERE ct.kyThi.maKyThi = :maKyThi")
     List<ChiTietKyThi> findByMaKyThi(@Param("maKyThi") int maKyThi);
 
@@ -25,6 +29,8 @@ public interface ChiTietKiThiDAO extends JpaRepository<ChiTietKyThi, Integer> {
     @Query("SELECT ct FROM ChiTietKyThi ct WHERE ct.lopThi.maLopThi = :maLopThi")
     List<ChiTietKyThi> findByMaLopThi(@Param("maLopThi") int maLopThi);
 
+    @Query("SELECT ct FROM ChiTietKyThi ct WHERE ct.kyThi.daDienRa = false AND ct.lopThi.maLopThi = :maLop")
+    List<ChiTietKyThi> getAll(int maLop);
     @Query("SELECT p.monThi FROM ChiTietKyThi p WHERE p.kyThi.maKyThi = ?1")
     List<MonThi> getMonThiInKiThi(Integer maKyThi);
 

@@ -18,10 +18,10 @@
       <tr>
         <th pSortableColumn="tenDangNhap" style="width:10%">Username<p-sortIcon field="tenDangNhap"></p-sortIcon></th>
         <th pSortableColumn="hoVaTen" style="width:15%">Tên<p-sortIcon field="hoVaTen"></p-sortIcon></th>
-        <th pSortableColumn="gioiTinh" style="width:10%">GT<p-sortIcon field="gioiTinh"></p-sortIcon></th>
-        <th pSortableColumn="soDienThoai" style="width:15%">SĐT<p-sortIcon field="soDienThoai"></p-sortIcon></th>
-        <th pSortableColumn="email" style="width:10%">Email<p-sortIcon field="email"></p-sortIcon></th>
-        <th pSortableColumn="diaChi" style="width:15%">Địa chỉ<p-sortIcon field="diaChi"></p-sortIcon></th>
+        <th pSortableColumn="gioiTinh" style="width:8%">GT<p-sortIcon field="gioiTinh"></p-sortIcon></th>
+        <th pSortableColumn="soDienThoai" style="width:10%">SĐT<p-sortIcon field="soDienThoai"></p-sortIcon></th>
+        <th pSortableColumn="email" style="width:15%">Email<p-sortIcon field="email"></p-sortIcon></th>
+        <th pSortableColumn="diaChi" style="width:20%">Địa chỉ<p-sortIcon field="diaChi"></p-sortIcon></th>
         <th></th>
       </tr>
     </ng-template>
@@ -29,13 +29,16 @@
       <tr>
         <td>{{ studentList.tenDangNhap }}</td>
         <td>{{ studentList.hoVaTen }}</td>
-        <td>{{ studentList.gioiTinh }}</td>
+        <td>{{ studentList.gioiTinh ? "Nam" : "Nữ" }}</td>
         <td>{{ studentList.soDienThoai }}</td>
         <td>{{ studentList.email }}</td>
         <td>{{ studentList.diaChi }}</td>
-        <td><button class="btn btn-primary"
-            [routerLink]="['/teacher/manage-student/event/' + currentEvent + '/subject/' + currentSubject +'/class/' + currentClass + '/student']">Chi
-            tiết</button></td>
+        <td>
+          <button class="btn btn-primary" [routerLink]="['/teacher/manage-student/event/'
+            + currentEvent + '/subject/' + currentSubject + '/class/' + currentClass
+            + '/student/' + studentList.tenDangNhap + '/result']">Chi tiết
+          </button>
+        </td>
       </tr>
     </ng-template>
   </p-table>

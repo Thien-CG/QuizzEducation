@@ -1,4 +1,5 @@
 package com.vnpt.quizz_education_be.RestController;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,11 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vnpt.quizz_education_be.DAO.CauHoiDAO;
 import com.vnpt.quizz_education_be.Entity.CauHoi;
-
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -30,7 +31,6 @@ public class CauHoiRestController {
         return ResponseEntity.ok(cauHoiDAO.findAll());
     }
 
-    
     // Get 1 đối tượng thông qua id
     @GetMapping("cauhoi/{id}")
     public ResponseEntity<CauHoi> findById(@PathVariable("id") Integer maCauHoi) {
@@ -65,9 +65,12 @@ public class CauHoiRestController {
         if (!cauHoiDAO.existsById(staffId)) {
             return ResponseEntity.notFound().build();
         }
-
         cauHoiDAO.deleteById(staffId);
-
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("listCauHoi")
+    public ResponseEntity<List<CauHoi>> getListCauHoi(@RequestParam("maDeThi") Integer maDeThi) {
+        return ResponseEntity.ok(cauHoiDAO.getCauHoiByDeThi(maDeThi));
     }
 }

@@ -1,4 +1,5 @@
 package com.vnpt.quizz_education_be.RestController;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,11 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vnpt.quizz_education_be.DAO.BoCauHoiDaLamDAO;
 import com.vnpt.quizz_education_be.Entity.BoCauHoiDaLam;
-
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -30,7 +31,6 @@ public class BoCauHoiDaLamRestController {
         return ResponseEntity.ok(boCauHoiDaLamDAO.findAll());
     }
 
-    
     // Get 1 đối tượng thông qua id
     @GetMapping("bocauhoidalam/{id}")
     public ResponseEntity<BoCauHoiDaLam> findById(@PathVariable("id") Integer maBoCauHoiDaLam) {
@@ -52,7 +52,8 @@ public class BoCauHoiDaLamRestController {
     }
 
     @PutMapping("bocauhoidalam/{id}")
-    public ResponseEntity<BoCauHoiDaLam> put(@PathVariable("id") Integer maBoCauHoiDaLam, @RequestBody BoCauHoiDaLam bocauhoidalam) {
+    public ResponseEntity<BoCauHoiDaLam> put(@PathVariable("id") Integer maBoCauHoiDaLam,
+            @RequestBody BoCauHoiDaLam bocauhoidalam) {
         if (!boCauHoiDaLamDAO.existsById(maBoCauHoiDaLam)) {
             return ResponseEntity.notFound().build();
         }
@@ -65,9 +66,15 @@ public class BoCauHoiDaLamRestController {
         if (!boCauHoiDaLamDAO.existsById(maBoCauHoiDaLam)) {
             return ResponseEntity.notFound().build();
         }
-
         boCauHoiDaLamDAO.deleteById(maBoCauHoiDaLam);
-
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("bocauhoi")
+    public ResponseEntity<BoCauHoiDaLam> getBoCauHoiBangUsernameVaKiThi(
+            @RequestParam("tenDangNhap") String username,
+            @RequestParam("maKiThi") Integer maKiThi,
+            @RequestParam("maMon") Integer maMon) {
+        return ResponseEntity.ok(boCauHoiDaLamDAO.getBoCauHoiBangUsernameVaKiThi(username, maKiThi, maMon));
     }
 }

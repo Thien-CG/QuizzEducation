@@ -43,10 +43,15 @@ export const navTeacherItems: INavData[] = [
     ]
   },
   {
-    name: 'Quản lý học sinh',
-    url: 'manage-student',
-    iconComponent: {name: 'cil-list'}
+    name: 'Quản Lý Lớp',
+    url: 'manage-class',
+    iconComponent: { name: 'cil-list'}
   },
+  {
+    name: 'Kết Quả Học Sinh',
+    url: 'manage-student',
+    iconComponent: { name: 'cil-list' }
+  }
   // {
   //   title: true,
   //   name: 'Extras'

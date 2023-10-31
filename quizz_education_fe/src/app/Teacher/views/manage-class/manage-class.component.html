@@ -1,0 +1,112 @@
+<p-toast key="toast1"></p-toast>
+
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">Danh sách Tour</h4>
+    <button pButton class="btn btn-success" (click)="openNoClass()">Thêm Học Sinh</button>
+    <p-table #dt1 [value]="studentList" sortField="tenDangNhap" [sortOrder]=-1 dataKey="id" [rows]="10"
+      [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+      currentPageReportTemplate="Hiện {first} đến {last} trong tổng {totalRecords} bảng"
+      [globalFilterFields]="['tenDangNhap', 'hoVaTen', 'email']" [rowsPerPageOptions]="[10, 25, 50]">
+      <ng-template pTemplate="caption">
+        <div class="flex">
+          <form [formGroup]="formFilter">
+            <span class="p-input-icon-left ml-auto">
+              <input pInputText type="text" (change)="dt1.filterGlobal(getValueSearch(), 'contains')"
+                formControlName="search" class="form-control box-shadow-none" placeholder="Tìm kiếm">
+            </span>
+          </form>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" class="theader">
+        <tr>
+          <th style="width:5%"></th>
+          <th pSortableColumn="tenDangNhap" style="width:10%">Tài khoản<p-sortIcon field="tenDangNhap"></p-sortIcon>
+          </th>
+          <th pSortableColumn="hoVaTen" style="width:15%">Tên<p-sortIcon field="hoVaTen"></p-sortIcon></th>
+          <th pSortableColumn="gioiTinh" style="width:10%">GT<p-sortIcon field="gioiTinh"></p-sortIcon></th>
+          <th pSortableColumn="soDienThoai" style="width:10%">SĐT<p-sortIcon field="soDienThoai"></p-sortIcon></th>
+          <th pSortableColumn="email" style="width:15%">Email<p-sortIcon field="email"></p-sortIcon></th>
+          <th pSortableColumn="diaChi" style="width:25%">Địa chỉ<p-sortIcon field="diaChi"></p-sortIcon></th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" class="tbody" let-studentList>
+        <tr>
+          <td><img [src]="studentList.anhDaiDien" alt="" width="30px"></td>
+          <td>{{ studentList.tenDangNhap }}</td>
+          <td>{{ studentList.hoVaTen }}</td>
+          <td>{{ studentList.gioiTinh ? "Nam" : "Nữ" }}</td>
+          <td>{{ studentList.soDienThoai }}</td>
+          <td>{{ studentList.email }}</td>
+          <td>{{ studentList.diaChi }}</td>
+          <td><button pButton label="Xóa" (click)="confirmDelete(studentList)"
+              class="btn btn-danger"></button></td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <ng-template #confirmModal let-modal>
+      <div class="modal-header">
+        <b>Vui lòng xác nhận</b>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc muốn xóa? Một khi đã xóa sẽ không thể khôi phục lại
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)="modal.close()">Hủy bỏ</button>
+        <button id="confirmDelete" class="btn btn-danger" (click)="modal.close()">Xác nhận</button>
+      </div>
+    </ng-template>
+
+    <ng-template #noClassModal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Thêm Học Sinh</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()"></button>
+      </div>
+      <p-table #dt1 [value]="noClassStudentList" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+        currentPageReportTemplate="Hiện {first} đến {last} trong tổng {totalRecords} bảng"
+        [globalFilterFields]="['tenDangNhap', 'hoVaTen', 'email']" [rowsPerPageOptions]="[10, 25, 50]">
+        <ng-template pTemplate="caption">
+          <div class="flex">
+            <form [formGroup]="formFilter">
+              <span class="p-input-icon-left ml-auto">
+                <input pInputText type="text" (change)="dt1.filterGlobal(getValueSearch(), 'contains')"
+                  formControlName="search" class="form-control box-shadow-none" placeholder="Tìm kiếm"
+                  aria-label="Example text with button addon" aria-describedby="button-search">
+              </span>
+            </form>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" class="theader">
+          <tr>
+            <th style="width:5%"></th>
+            <th pSortableColumn="tenDangNhap" style="width:10%">Tài khoản<p-sortIcon field="tenDangNhap"></p-sortIcon>
+            </th>
+            <th pSortableColumn="hoVaTen" style="width:15%">Tên<p-sortIcon field="hoVaTen"></p-sortIcon></th>
+            <th pSortableColumn="gioiTinh" style="width:10%">GT<p-sortIcon field="gioiTinh"></p-sortIcon></th>
+            <th pSortableColumn="soDienThoai" style="width:10%">SĐT<p-sortIcon field="soDienThoai"></p-sortIcon></th>
+            <th pSortableColumn="email" style="width:15%">Email<p-sortIcon field="email"></p-sortIcon></th>
+            <th pSortableColumn="diaChi" style="width:25%">Địa chỉ<p-sortIcon field="diaChi"></p-sortIcon></th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" class="tbody" let-studentList>
+          <tr>
+            <td><img [src]="studentList.anhDaiDien" alt="" width="30px"></td>
+            <td>{{ studentList.tenDangNhap }}</td>
+            <td>{{ studentList.hoVaTen }}</td>
+            <td>{{ studentList.gioiTinh ? "Nam" : "Nữ" }}</td>
+            <td>{{ studentList.soDienThoai }}</td>
+            <td>{{ studentList.email }}</td>
+            <td>{{ studentList.diaChi }}</td>
+            <td><button pButton label="Thêm" (click)="addStudent(studentList)"
+                class="btn btn-success"></button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </ng-template>
+  </div>
+</div>

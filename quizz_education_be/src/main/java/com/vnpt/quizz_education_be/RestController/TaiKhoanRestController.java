@@ -89,8 +89,13 @@ public class TaiKhoanRestController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("taikhoan/lopthi")
+    @GetMapping("taikhoan/lopThi")
     public ResponseEntity<List<TaiKhoan>> getTaiKhoanInClass(@RequestParam("maLopThi") Integer maLopThi) {
         return ResponseEntity.ok(taiKhoanDAO.getTaiKhoanInClass(maLopThi));
+    }
+
+    @GetMapping("taikhoan/noClass")
+    public ResponseEntity<List<TaiKhoan>> getTaiKhoanNotHaveClass() {
+        return ResponseEntity.ok(taiKhoanDAO.getTaiKhoanNotHaveClass());
     }
 }

@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vnpt.quizz_education_be.DAO.KiThiDAO;
+import com.vnpt.quizz_education_be.DAO.PhanCongDAO;
 import com.vnpt.quizz_education_be.Entity.KyThi;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:4200") // Cho phép yêu cầu từ origin http://localhost:4200
 @RequestMapping("/quizzeducation/api")
@@ -24,10 +27,14 @@ public class KyThiRestController {
 
     @Autowired
     KiThiDAO kyThiDAO;
+    @Autowired
+    PhanCongDAO phanCongDAO;
 
-    
     @GetMapping("kythi")
-    public ResponseEntity<List<KyThi>> findAll() {
+    public ResponseEntity<List<KyThi>> findAll(@RequestParam("tenDangNhap") Optional<String> tenDangNhap) {
+        if (tenDangNhap.isPresent()) {
+            return ResponseEntity.ok(phanCongDAO.getKiThiPhanCongTaiKhoan(tenDangNhap));
+        }
         return ResponseEntity.ok(kyThiDAO.findAll());
     }
 
@@ -65,9 +72,7 @@ public class KyThiRestController {
         if (!kyThiDAO.existsById(maKyThi)) {
             return ResponseEntity.notFound().build();
         }
-
         kyThiDAO.deleteById(maKyThi);
-
         return ResponseEntity.ok().build();
     }
 }

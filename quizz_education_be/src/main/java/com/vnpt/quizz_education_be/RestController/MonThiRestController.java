@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vnpt.quizz_education_be.DAO.ChiTietKiThiDAO;
 import com.vnpt.quizz_education_be.DAO.MonThiDAO;
-import com.vnpt.quizz_education_be.Entity.LopThi;
+import com.vnpt.quizz_education_be.DAO.PhanCongDAO;
 import com.vnpt.quizz_education_be.Entity.MonThi;
 
 @RestController
@@ -26,9 +28,19 @@ public class MonThiRestController {
 
     @Autowired
     MonThiDAO monThiDAO;
+    @Autowired
+    PhanCongDAO phanCongDAO;
+    @Autowired
+    ChiTietKiThiDAO chiTietKiThiDAO;
 
     @GetMapping("monthi")
-    public ResponseEntity<List<MonThi>> findAll() {
+    public ResponseEntity<List<MonThi>> findAll(@RequestParam("tenDangNhap") Optional<String> tenDangNhap,
+            @RequestParam("kithi") Optional<Integer> kiThiId) {
+        if (tenDangNhap.isPresent()) {
+            return ResponseEntity.ok(phanCongDAO.getMonThiPhanCongTaiKhoan(tenDangNhap));
+        } else if (kiThiId.isPresent()) {
+            return ResponseEntity.ok(chiTietKiThiDAO.getMonThiInKiThi(kiThiId));
+        }
         return ResponseEntity.ok(monThiDAO.findAll());
     }
 

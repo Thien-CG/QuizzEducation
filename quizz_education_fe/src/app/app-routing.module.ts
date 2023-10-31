@@ -1,39 +1,38 @@
+import { InterceptorUrlGuard } from './config/interceptor-url.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DefaultLayoutComponent } from './Admin/containers';
-import { LoginComponent } from './Admin/views/pages/login/login.component';
 import { Page404Component } from './Admin/views/pages/page404/page404.component';
 import { Page500Component } from './Admin/views/pages/page500/page500.component';
-import { RegisterComponent } from './Admin/views/pages/register/register.component';
+import { ChangePasswordComponent } from './Admin/views/pages/change-password/change-password.component';
 import { DefaultLayoutTeacherComponent } from './Teacher/containers-teacher/index-teacher';
+import { LoginComponent } from './Admin/views/pages/login/login.component';
 import { MainUserComponent } from './User/main-user/main-user.component';
-import { AboutComponent } from './User/pages/about/about.component';
-import { ContactComponent } from './User/pages/contact/contact.component';
 import { HistoryComponent } from './User/pages/history/history.component';
+// import { AboutComponent } from './User/pages/about/about.component';
 import { HomeComponent } from './User/pages/home/home.component';
+import { ScoreComponent } from './User/pages/score/score.component';
+import { ManageClassComponent } from './Teacher/views/manage-class/manage-class.component';
+import { ForgotPasswordComponent } from './Admin/views/pages/forgot-password/forgot-password.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/user/home',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
   {
     path: 'user',
     component: MainUserComponent,
     children: [
-      { path: 'about', component: AboutComponent },
-      { path: '', component: HomeComponent },
-      { path: 'contact', component: ContactComponent },
-      { path: 'history', component: HistoryComponent },
-      { path: 'login', component: ContactComponent },
+      // { path: 'exam', component: AboutComponent },
+      { path: 'home', component: HomeComponent },
+      { path: 'score', component: ScoreComponent },
+      { path: 'history', component: HistoryComponent }
     ],
-  },
-  {
-    path: '',
-    redirectTo: 'user',
-    pathMatch: 'full',
-  },
+    canActivate: [InterceptorUrlGuard],
+  }
+  ,
   {
     path: 'admin',
     component: DefaultLayoutComponent,
@@ -41,6 +40,11 @@ const routes: Routes = [
       title: 'Admin'
     },
     children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'exam'
+      },
       {
         path: 'exam',
         loadChildren: () =>
@@ -68,7 +72,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./Admin/views/pages/pages.module').then((m) => m.PagesModule),
       },
-    ],
+    ]
   },
   {
     path: 'teacher',
@@ -99,6 +103,10 @@ const routes: Routes = [
             (m) => m.ManageStudentModule
           ),
       },
+      {
+        path: 'manage-class',
+        component: ManageClassComponent
+      }
     ],
   },
   {
@@ -124,12 +132,19 @@ const routes: Routes = [
   },
   {
     path: 'changepassword',
-    component: RegisterComponent,
+    component: ChangePasswordComponent,
     data: {
-      title: 'Register Page',
-    },
+      title: 'ChangePassword Page'
+    }
   },
-  // { path: '**', redirectTo: '404' }
+  {
+    path: 'forgotpassword',
+    component: ForgotPasswordComponent,
+    data: {
+      title: 'ForgotPassword Page'
+    }
+  },
+  { path: '**', redirectTo: '404' }
 ];
 
 @NgModule({
@@ -143,4 +158,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

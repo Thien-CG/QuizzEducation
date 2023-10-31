@@ -37,6 +37,7 @@ export class TeacherAllotCreateComponent implements OnInit {
       }
       return;
     }
+    this.createPhanCong();
   }
 
   // data tài khoản giáo viên
@@ -109,38 +110,58 @@ export class TeacherAllotCreateComponent implements OnInit {
   }
 
   // tạo phân công
+  minDate = new Date();
+  errorMesssage: string = '';
+
   createPhanCong() {
-    const thoihan = this.myForm.get('thoihan').value;
-    const currentTime = new Date().getTime(); // Lấy thời gian hiện tại ở định dạng timestamp
+    // Lấy thông tin kỳ thi
+    this.httpService.getList('phancong').subscribe((danhSachPhanCong) => {
+      const tenMonThiCanKiemTra = this.myForm.get('tenmonthi').value.value;
+      const tenKyThiCanKiemTra = this.myForm.get('tenkythi').value.value;
 
-    if (thoihan < currentTime) {
-      console.log("Lỗi: Thời hạn đã chọn nhỏ hơn thời gian hiện tại.");
-      return;
-    }
-    const dataPhanCong = {
-      daTaoDe: 0,
-      thoiHan: this.myForm.get('thoihan').value,
-      kyThi: {
-        maKyThi: this.myForm.get('tenkythi').value.value,
-      },
-      monThi: {
-        maMon: this.myForm.get('tenmonthi').value.value
-      },
-      taiKhoan: {
-        tenDangNhap: this.myForm.get('tengiaovien').value.value
+      // Kiểm tra xem môn thi và kì thi có tồn tại trong danh sách phân công không
+      const monThiDaDuocPhanCong = danhSachPhanCong.some((phanCong) => {
+        return phanCong.monThi.maMon === tenMonThiCanKiemTra && phanCong.kyThi.maKyThi === tenKyThiCanKiemTra;
+      });
+
+      if (monThiDaDuocPhanCong) {
+        this.errorMesssage = "Môn thi đã được phân công trong kỳ thi.";
+      } else {
+
+        // Môn thi chưa tồn tại trong kỳ thi, bạn có thể tạo phân công
+        const dataPhanCong = {
+          daTaoDe: 0,
+          thoiHan: this.myForm.get('thoihan').value,
+          kyThi: {
+            maKyThi: this.myForm.get('tenkythi').value.value,
+          },
+          monThi: {
+            maMon: this.myForm.get('tenmonthi').value.value,
+          },
+          taiKhoan: {
+            tenDangNhap: this.myForm.get('tengiaovien').value.value,
+          },
+        };
+
+        this.httpService.postItem('phancong', dataPhanCong).subscribe(
+          (data) => {
+            this.showSussceCreate();
+            setTimeout(() => {
+              location.reload();
+            }, 2000);
+          },
+          (err) => {
+            this.showError();
+          }
+        );
       }
-    }
-
-
-    this.httpService.postItem('phancong', dataPhanCong).subscribe(data => {
-      this.showSussceCreate()
-      setTimeout(() => {
-        location.reload();
-      }, 2000);
-    }, err => {
-      this.showError();
     });
+
+
+
   }
+
+
 
   // reset form
   resetForm() {

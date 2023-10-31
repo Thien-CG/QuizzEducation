@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vnpt.quizz_education_be.DAO.PhanCongDAO;
+import com.vnpt.quizz_education_be.Entity.ChiTietKyThi;
 import com.vnpt.quizz_education_be.Entity.PhanCong;
-
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/quizzeducation/api")
 public class PhanCongRestController {
-    
+
     @Autowired
     PhanCongDAO phanCongDAO;
 
@@ -40,6 +40,16 @@ public class PhanCongRestController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(optional.get());
+    }
+
+    // tìm kiếm phân công theo username
+    @GetMapping("phancong/taikhoan/{id}")
+    public ResponseEntity<List<PhanCong>> getByUsername(@PathVariable("id") String username) {
+        List<PhanCong> resultList = phanCongDAO.getByUsername(username);
+        if (resultList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(resultList);
     }
 
     @PostMapping("phancong")
@@ -66,9 +76,7 @@ public class PhanCongRestController {
         if (!phanCongDAO.existsById(maPhanCong)) {
             return ResponseEntity.notFound().build();
         }
-
         phanCongDAO.deleteById(maPhanCong);
-
         return ResponseEntity.ok().build();
     }
 }

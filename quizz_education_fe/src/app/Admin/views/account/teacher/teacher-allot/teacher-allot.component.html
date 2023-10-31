@@ -36,11 +36,11 @@
                         </ng-template>
                     </p-columnFilter>
 
-                     <p-columnFilter class="columnFilterTrangThai" field="monThi.maMon" matchMode="equals"
+                    <p-columnFilter class="columnFilterTrangThai" field="monThi.maMon" matchMode="equals"
                         [showMenu]="false">
                         <ng-template pTemplate="filter" let-label let-filter="filterCallback">
-                            <p-dropdown [ngModel]="label" [options]="tenMonthi"
-                                (onChange)="filter($event.value)" placeholder="Môn thi" [showClear]="true">
+                            <p-dropdown [ngModel]="label" [options]="tenMonthi" (onChange)="filter($event.value)"
+                                placeholder="Môn thi" [showClear]="true">
                                 <ng-template let-option pTemplate="item">
                                     <span class="ml-1 mt-1">{{ option.label }}</span>
                                 </ng-template>
@@ -85,6 +85,7 @@
 
             <th style="min-width:170px; text-align: center">Thao tác</th>
         </ng-template>
+
         <ng-template pTemplate="body" class="tbody" let-teacherAllot let-rowIndex="rowIndex">
             <tr>
                 <td class="text-center">{{teacherAllot.taiKhoan.hoVaTen}}</td>
@@ -93,11 +94,128 @@
                 <td class="text-center">{{teacherAllot.daTaoDe ? 'Đã tạo đề' : 'Chưa tạo đề'}} </td>
                 <td class="text-center">{{teacherAllot.thoiHan | date: 'dd/MM/yy'}}</td>
                 <td class="text-center">
-                    <button type="button" class="btn btn-changeClass">
+                    <button data-bs-toggle="modal" data-bs-target="#editPhanCong" type="button"
+                        class="btn btn-changeClass" (click)="editTeacher(teacherAllot.maPhanCong)"
+                        [disabled]="minDate > teacherAllot.thoiHan ">
                         Sửa
                     </button>
+                    <button pButton pRipple class="btn btn-delelteClass" (click)="confirm1(teacherAllot.maPhanCong)">
+                        Xóa
+                    </button>
                 </td>
+
+                <p-toast></p-toast>
+
+                <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
             </tr>
         </ng-template>
     </p-table>
+</div>
+
+
+<!-- modal  -->
+<div class="modal fade" id="editPhanCong" tabindex="-1" aria-labelledby="editPhanCong" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Chỉnh sửa phân công giáo viên</h3>
+            </div>
+
+            <form [formGroup]="myForm">
+                <div class="modal-body">
+                    <h5 class="mb-3 mt-3">Thông tin phân công giáo viên</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3 inputEdit">
+                                <label for="tenDangNhap" class="form-label">Tên kỳ thi</label><br>
+                                <input class="selectClass form-control" formControlName="tenkythi" [readonly]="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3 inputEdit">
+                                <label for="tenDangNhap" class="form-label">Tên môn thi</label><br>
+                                <input class="selectClass form-control" formControlName="tenmonthi" [readonly]="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3 inputEdit">
+                                <label for="tenDangNhap" class="form-label">Tên giáo viên</label><br>
+                                <input class="selectClass form-control" formControlName="tengiaovien" [readonly]="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3 inputEdit">
+                                <label for="tenDangNhap" class="form-label">Thời hạn</label><br>
+                                <input type="date" class="selectClass form-control" formControlName="thoihan" [readonly]="true">
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="mb-3 inputEdit">
+                                <label for="tenDangNhap" class="form-label">Trạng thái</label><br>
+                                <div class="form-checkbox">
+                                    <div class="flex align-items-center">
+                                        <p-radioButton name="trangthai" [value]="true"
+                                            formControlName="trangthai"></p-radioButton>
+                                        <label for="ingredient1">Đã tạo đề</label>
+                                    </div>
+                                    <div class="flex align-items-center checkbox">
+                                        <p-radioButton name="trangthai" [value]="false"
+                                            formControlName="trangthai"></p-radioButton>
+                                        <label for="ingredient2">Chưa tạo đề</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <h5 class="mb-4">Chỉnh sửa phân công</h5>
+                        <div class="col-md-6">
+                            <div class="mb-3 inputEdit">
+                                <label for="tenDangNhap" class="form-label">Tên kỳ thi</label><br>
+                                <p-treeSelect class="selectClass" [options]="tenkythi" formControlName="gettenkythi"
+                                    placeholder="Chọn kỳ thi"></p-treeSelect>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3 inputEdit">
+                                <label for="tenDangNhap" class="form-label">Tên môn thi</label><br>
+                                <p-treeSelect class="selectClass" [options]="tenMonthi" formControlName="gettenmonthi"
+                                    placeholder="Chọn môn thi"></p-treeSelect>
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3 inputEdit">
+                                <label for="tenDangNhap" class="form-label">Tên giáo viên</label><br>
+                                <p-treeSelect class="selectClass" [options]="hovaten" formControlName="gettengiaovien"
+                                    placeholder="Chọn giáo viên"></p-treeSelect>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3 inputEdit">
+                                <label for="tenDangNhap" class="form-label">Thời hạn</label><br>
+                                <p-calendar [minDate]="minDate" [showIcon]="true" dateFormat="dd/mm/yy"
+                                    formControlName="getthoihan" placeholder="Nhập thời hạn tạo đề"></p-calendar>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button class="btn btn-primary" pButton pRipple (click)="updatePhanCong()">Cập nhật</button>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
 </div>

@@ -35,7 +35,7 @@ public class LopThiRestController {
     return ResponseEntity.ok(lopThiDAO.findAll());
     }
 
-      // Get 1 đối tượng thông qua id
+    // Get 1 đối tượng thông qua id
     @GetMapping("lopthi/{id}")
     public ResponseEntity<LopThi> findById(@PathVariable("id") Integer maLopThi) {
         Optional<LopThi> optional = lopThiDAO.findById(maLopThi);

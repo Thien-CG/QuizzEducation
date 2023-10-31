@@ -9,11 +9,9 @@ import { KyThi } from 'src/app/models/KyThi.entity';
   templateUrl: './manage-student-event.component.html',
   styleUrls: ['./manage-student-event.component.scss'],
 })
-export class ManageStudentHomeComponent implements OnInit, OnInit {
+export class ManageStudentHomeComponent implements OnInit {
   public listKyThi: KyThi[];
-  dtTrigger: Subject<any> = new Subject<any>();
   constructor(private httpClient: HttpClient, private formBuilder: FormBuilder,) { }
-
 
   ngOnInit(): void {
     this.httpClient.get<KyThi[]>(`http://localhost:8080/quizzeducation/api/kythi`)
@@ -22,16 +20,12 @@ export class ManageStudentHomeComponent implements OnInit, OnInit {
       });
   }
 
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
-  }
-
   public getValueSearch() {
     return this.formFilter.get('search')?.value;
   }
+
   public formFilter = this.formBuilder.group({
     setRows: new FormControl(5),
     search: new FormControl('')
   })
-
 }

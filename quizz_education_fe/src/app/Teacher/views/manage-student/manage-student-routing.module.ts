@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ManageStudentClassComponent } from './manage-student-class/manage-student-class.component';
 import { ManageStudentHomeComponent } from './manage-student-event/manage-student-event.component';
 import { ManageStudentSubjectComponent } from './manage-student-subject/manage-student-subject.component';
+import { ManageStudentResultComponent } from './manage-student-result/manage-student-result.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,10 @@ const routes: Routes = [
       {
         path: 'event/:id/subject/:id2/class/:id3/student',
         component: ManageStudentPupilComponent
+      },
+      {
+        path: 'event/:id/subject/:id2/class/:id3/student/:id4/result',
+        component: ManageStudentResultComponent
       }
     ],
   },

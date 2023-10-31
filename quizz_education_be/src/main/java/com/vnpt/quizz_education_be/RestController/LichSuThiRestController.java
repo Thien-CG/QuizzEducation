@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vnpt.quizz_education_be.DAO.LichSuThiDAO;
@@ -64,9 +65,12 @@ public class LichSuThiRestController {
         if (!lichSuThiDAO.existsById(maLichSuThi)) {
             return ResponseEntity.notFound().build();
         }
-
         lichSuThiDAO.deleteById(maLichSuThi);
-
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("dapAnDaChon")
+    public List<LichSuThi> selectedAnswer(@RequestParam("maBoCauHoiDaLam") Integer maBoCauHoiDaLam) {
+        return lichSuThiDAO.getLichSuThiByBoCauHoiDaLam(maBoCauHoiDaLam);
     }
 }

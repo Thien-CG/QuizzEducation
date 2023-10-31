@@ -1,0 +1,149 @@
+<section style="background-color: #eee;">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img [src]="studentResult.taiKhoan.anhDaiDien" alt="avatar" class="rounded-circle img-fluid"
+              style="width: 150px;">
+            <h5 class="my-3">{{studentResult.taiKhoan.tenDangNhap}}</h5>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush rounded-3">
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i>Kì Thi:</i>
+                <p class="mb-0">{{studentResult.deThi.chiTietKyThi.kyThi.tenKyThi}}</p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i>Lớp:</i>
+                <p class="mb-0">{{studentResult.taiKhoan.lopThi.tenLop}}</p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i>Môn Học:</i>
+                <p class="mb-0">{{studentResult.deThi.monThi.tenMon}}</p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i>Mã Đề Thi:</i>
+                <p class="mb-0">{{studentResult.deThi.tenDeThi}}</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="card mb-4 mb-lg-0">
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush rounded-3">
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i>Tổng Số Câu Hỏi: {{questionList.length}}</i>
+                <p class="mb-0"></p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i>Điểm tối đa: {{maximumMark}}</i>
+                <p class="mb-0"></p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i>Điểm đạt được: {{studentResult.diemSo}}</i>
+                <p class="mb-0"></p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Tên:</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{studentResult.taiKhoan.hoVaTen}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Giới Tính:</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{studentResult.taiKhoan.gioiTinh ? 'Nam' : 'Nữ'}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">CCCD:</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{studentResult.taiKhoan.canCuocCongDan}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Sinh Nhật:</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{studentResult.taiKhoan.ngaySinh | date:"dd-MM-yyyy"}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email:</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{studentResult.taiKhoan.email}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">SĐT:</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">(+84) {{studentResult.taiKhoan.soDienThoai}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Địa Chỉ:</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{studentResult.taiKhoan.diaChi}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="container">
+      <div *ngFor="let question of questionList; let index = index">
+        <div class="py-2 h5 p-3 mt-3">
+          <b>Câu {{index+1}}: {{question.noiDungCauHoi}} [{{question.diemCauHoi}}đ]</b>
+        </div>
+        <div class="row mx-auto mb-4" id="options">
+          <div class="col-6" *ngFor="let answer of answerInQuestion(question.maCauHoi)">
+            <label class="options" [ngClass]="{'text-success': answer.dapAnDung == true
+            ,'text-danger': this.checkSelectedAnswer(answer.maDapAn) == true && answer.dapAnDung == false}">
+              {{answer.noiDungDapAn}}
+              <input type="checkbox" name="radio" disabled
+                [checked]="answer.dapAnDung || this.checkSelectedAnswer(answer.maDapAn)">
+              <span
+                [ngClass]="{'checkmark-wrong': this.checkSelectedAnswer(answer.maDapAn) == true && answer.dapAnDung == false}"
+                class="checkmark"></span>
+              <i *ngIf="answer.dapAnDung == true && this.checkSelectedAnswer(answer.maDapAn) == true"
+                class="text-success pi pi-check-circle"></i>
+              <i *ngIf="answer.dapAnDung == false && this.checkSelectedAnswer(answer.maDapAn) == true"
+                class="text-danger pi pi-times-circle"></i>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
