@@ -15,6 +15,7 @@ import { ScoreComponent } from './User/pages/score/score.component';
 import { ManageClassComponent } from './Teacher/views/manage-class/manage-class.component';
 import { ForgotPasswordComponent } from './Admin/views/pages/forgot-password/forgot-password.component';
 import { ExamComponent } from './User/pages/exam/exam.component';
+import { DashboardComponent } from './Admin/views/dashboard/dashboard.component';
 const routes: Routes = [
   {
     path: '',
@@ -44,6 +45,10 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         redirectTo: 'exam'
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent
       },
       {
         path: 'exam',
