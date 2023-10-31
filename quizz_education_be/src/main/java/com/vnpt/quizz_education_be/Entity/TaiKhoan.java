@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -66,4 +67,8 @@ public class TaiKhoan implements Serializable {
     @ManyToOne
     @JoinColumn(name = "ma_vai_tro")
     VaiTro vaiTro;
+
+    @Transient
+    private boolean remember = false;
+
 }
