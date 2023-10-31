@@ -45,8 +45,8 @@
                       </svg>  Đổi mật khẩu</a>
                   </li>
                   <li>
-                    <a (click)="logout()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                        fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                    <a  (click)="logout()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
                           d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
                         <path fill-rule="evenodd"
@@ -75,14 +75,14 @@
 </nav>
 
 
-
-
 <!-- Modal profile -->
 <div class="modal fade" id="profile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-md">
       <div class="modal-content">
-        <div class="modal-body bg-light">
+
+
+        <div class="modal-body" style="padding: 0;">
           <div class="profile-header">
             <div class="background_profile">
               <p class="text-center text-white pt-1">HỆ THỐNG THI TRẮC NGHIỆM <br><b>QUIZZ EDUCATION</b></p>
@@ -194,12 +194,10 @@
               </div>
 
 
-                </div>
-              </div>
             </div>
           </div>
         </div>
+        <input id="changeImage" accept="image/*" type="file" (change)="saveNewProfilePic($event)" hidden>
       </div>
     </div>
     
-  </div>

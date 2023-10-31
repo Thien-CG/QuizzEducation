@@ -14,6 +14,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+
 @Component
 public class JwtTokenProvider {
 
@@ -21,10 +22,10 @@ public class JwtTokenProvider {
   // private static final long EXPIRATION_TIME = 60 * 60 * 1000; // 60 minutes
 
   // Phương thức create token với thời gian được set tùy ý
-  public String createToken(TaiKhoan account_Confim, int i) throws JsonProcessingException {
+  public String createToken(TaiKhoan account_Confim,int i) throws JsonProcessingException {
     // Create a token with the username and expiration time
     Date expirationDate = new Date(System.currentTimeMillis() + i);
-
+  
     // Convert the object to JSON
 
     ObjectMapper mapper = new ObjectMapper();

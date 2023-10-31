@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     private httpClient: HttpClient,
     private router: Router,
     private httpSvService: HttpSvService
-  ) { }
+  ) {}
 
   public formLogin = this.formBuilder.group({
     tenDangNhap: new FormControl('', [Validators.required]),
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  public data: any[];
+  public data:any[];
   public loginMethod() {
     if (this.formLogin.valid) {
       const API_LOGIN = 'http://localhost:8080/quizzeducation/api/login';
