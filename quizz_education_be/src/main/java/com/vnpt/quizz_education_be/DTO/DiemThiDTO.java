@@ -12,6 +12,7 @@ public class DiemThiDTO {
     private Float diemSo;
     private String trangThai;
     private Integer maKyThi;
+    private String lopThi;
     private String tenDangNhap;
 
     public DiemThiDTO(BoCauHoiDaLam boCauHoiDaLam) {
@@ -22,7 +23,7 @@ public class DiemThiDTO {
         }
 
         try {
-            this.tenKyThi = boCauHoiDaLam.getDeThi().getMonThi().getTenMon();
+            this.tenMon = boCauHoiDaLam.getDeThi().getMonThi().getTenMon();
         } catch (Exception e) {
         }
 
@@ -32,7 +33,10 @@ public class DiemThiDTO {
         } else {
             this.trangThai = "Chưa đạt";
         }
-
+        try {
+            this.lopThi = boCauHoiDaLam.getDeThi().getChiTietKyThi().getLopThi().getTenLop();
+        } catch (Exception e) {
+        }
     }
 
 }

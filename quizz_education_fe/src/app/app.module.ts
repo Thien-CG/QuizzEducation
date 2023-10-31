@@ -41,13 +41,11 @@ import { HomeHeaderComponent } from './User/pages/home/home-header/home-header.c
 import { HomeComponent } from './User/pages/home/home.component';
 import { FooterComponent } from './User/sharepages/footer/footer.component';
 import { NavbarComponent } from './User/sharepages/navbar/navbar.component';
-
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { ManageClassComponent } from './Teacher/views/manage-class/manage-class.component';
 import { ScoreComponent } from './User/pages/score/score.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 import {
   AvatarModule,
   BadgeModule,
@@ -91,7 +89,6 @@ const APP_CONTAINERS = [
     NavbarComponent,
     FooterComponent,
     HomeComponent,
-    // AboutComponent,
     ScoreComponent,
     TeacherHeaderComponent,
     TeacherFooterComponent,
@@ -101,7 +98,8 @@ const APP_CONTAINERS = [
     ReportComponent,
     ManageClassComponent,
     ForgotPasswordComponent,
-    ExamComponent,],
+    ExamComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

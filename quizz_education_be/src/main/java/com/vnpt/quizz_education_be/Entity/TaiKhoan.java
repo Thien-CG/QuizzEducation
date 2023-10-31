@@ -5,14 +5,12 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import lombok.AllArgsConstructor;
+import javax.persistence.Transient;
+
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -69,4 +67,8 @@ public class TaiKhoan implements Serializable {
     @ManyToOne
     @JoinColumn(name = "ma_vai_tro")
     VaiTro vaiTro;
+
+    @Transient
+    private boolean remember = false;
+
 }

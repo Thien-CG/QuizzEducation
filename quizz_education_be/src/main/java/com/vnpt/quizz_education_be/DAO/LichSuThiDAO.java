@@ -10,4 +10,5 @@ import com.vnpt.quizz_education_be.Entity.LichSuThi;
 public interface LichSuThiDAO extends JpaRepository<LichSuThi, Integer> {
     @Query("SELECT p FROM LichSuThi p WHERE p.boCauHoiDaLam.maBoCauHoiDaLam = ?1")
     List<LichSuThi> getLichSuThiByBoCauHoiDaLam(Integer maBoCauHoiDaLam);
+    
 }

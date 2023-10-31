@@ -13,10 +13,13 @@ import { MessageService } from 'primeng/api'
 })
 export class UserComponent {
   myForm: FormGroup; // Khai báo FormGroup
+// Nếu chưa có ảnh thì set ảnh default
+defaultImage: string = 'https://firebasestorage.googleapis.com/v0/b/quizzeducation-eaea3.appspot.com/o/images%2Fdefault-user.png?alt=media&token=9242ab38-66aa-4764-a726-bceb152ff1e4';
 
   constructor(private renderer: Renderer2, private httpService: HttpSvService, private http: HttpClient,
     private formBuilder: FormBuilder, private fb: FormBuilder, private messageService: MessageService) {
 
+      
     // Sửa tài khoản thông tin học sinh
 
     function birthDateValidator(control: AbstractControl): { [key: string]: boolean } | null {
@@ -42,6 +45,7 @@ export class UserComponent {
       ngaySinh: ['', [Validators.required, birthDateValidator]],
       email: ['', [Validators.required, Validators.pattern(/^\S+@\S+\.\S+$/)]],
       trangThai: [''],
+      anhDaiDien: [''],
     });
 
   }
@@ -86,6 +90,7 @@ export class UserComponent {
       this.myForm.get('diaChi').setValue(this.listItemStudent.diaChi);
       this.myForm.get('ngaySinh').setValue(ngaySinhDate);
       this.myForm.get('soDienThoai').setValue(this.listItemStudent.soDienThoai);
+      this.myForm.get('anhDaiDien').setValue(this.listItemStudent.anhDaiDien);
     })
   }
 
@@ -102,6 +107,7 @@ export class UserComponent {
       ngaySinh: this.myForm.get('ngaySinh').value,
       email: this.myForm.get('email').value,
       trangThai: this.myForm.get('trangThai').value,
+      anhDaiDien:this.myForm.get('anhDaiDien').value,
       ngayTaoTaiKhoan: this.listItemStudent.ngayTaoTaiKhoan,
       vaiTro: {
         maVaiTro: '1'
@@ -138,7 +144,7 @@ export class UserComponent {
     { label: 'Còn hoạt động', value: 'true' },
     { label: 'Ngừng hoạt động', value: 'false' }
   ];
-
+ 
   lopThi: any[] = [];
   listLopThi: any;
 

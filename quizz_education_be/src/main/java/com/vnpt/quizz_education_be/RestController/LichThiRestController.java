@@ -19,7 +19,7 @@ import com.vnpt.quizz_education_be.Entity.TaiKhoan;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/quizzeducation/api/lichThi")
+@RequestMapping("/quizzeducation/api/lichthi")
 public class LichThiRestController {
 
     @Autowired

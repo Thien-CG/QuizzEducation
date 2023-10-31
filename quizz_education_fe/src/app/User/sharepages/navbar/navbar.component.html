@@ -12,30 +12,61 @@
         <a routerLink="exam" routerLinkActive="active-link" class="nav-item nav-link">Thi Ngay</a>
         <a routerLink="score" routerLinkActive="active-link" class="nav-item nav-link">Điểm Thi</a>
         <a routerLink="history" routerLinkActive="active-link" class="nav-item nav-link">Lịch Sử Thi</a>
-
       </div>
-      <!-- <a class="btn" style="background-color: rgb(211, 240, 255);" routerLink="login" routerLinkActive="active-link">Đăng nhập</a> -->
-
+      
       <div class="nav-account d-flex" data-bs-toggle="modal" data-bs-target="#profile">
         <div class="avarta-footer">
-          <img
-            src="https://firebasestorage.googleapis.com/v0/b/vietfurniture-38c34.appspot.com/o/image%2FhoangThao.jpg?alt=media&token=ce883bde-7cca-4b08-af61-08c5f222a142"
-            alt="" class="avata_profile_img">
+          <img [src]="user.anhDaiDien ? user.anhDaiDien : defaultImage" alt="" class="avata_profile_img">
         </div>
         <div class="nav-account-info">
-          <h6 class="nav-account-info-name">Lê Hoàng Thảo</h6>
-          <p class="nav-account-info-email">thaolh@gmail.com</p>
-
+          <h6 class="nav-account-info-name">{{ user.hoVaTen }}</h6>
+          <p class="nav-account-info-email">{{ user.email }}</p>
+          <p>{{user.vaiTro.TenVaiTro}}</p>
         </div>
       </div>
+      
       <div class="nav-account-logout">
-        <a href="/login"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-            class="bi bi-box-arrow-right ml-3" viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-              d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
-            <path fill-rule="evenodd"
-              d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
-          </svg></a>
+        <div class="row">
+          <div class="col-md-12 ml-3">
+
+            <ul>
+              <li><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-gear"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z" />
+                  <path
+                    d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z" />
+                </svg>
+                <ul>
+                  <li>
+                    <a href="#/changepassword"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                      </svg>  Đổi mật khẩu</a>
+                  </li>
+                  <li>
+                    <a  (click)="logout()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                          d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                        <path fill-rule="evenodd"
+                          d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                      </svg>  Đăng xuất</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-12 ml-1">
+            <a (click)="logout()"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                class="bi bi-box-arrow-right ml-3" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                <path fill-rule="evenodd"
+                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+              </svg></a>
+          </div>
+        </div>
       </div>
 
 
@@ -62,32 +93,34 @@
             </div>
             <div class="role_avata">
               <div class="avata_profile">
-                <img (click)="openChangeImage()"
-                  src="https://firebasestorage.googleapis.com/v0/b/vietfurniture-38c34.appspot.com/o/image%2FhoangThao.jpg?alt=media&token=ce883bde-7cca-4b08-af61-08c5f222a142"
-                  alt="" class="avata_profile_img">
+                <img (click)="openChangeImage()" [src]="user.anhDaiDien ? user.anhDaiDien : defaultImage" alt="" class="avata_profile_img">
               </div>
 
               <div class="role_profile">
                 <p class="title-card">THẺ HỌC SINH</p>
+
                 <div class="d-flex"><label>
                     <i>Họ và tên/Name:</i></label>
                   <h5> {{user.hoVaTen}}</h5>
                 </div>
 
-                <div class="d-flex"><label>
-                    <i>Ngày sinh/DateOfBirth:</i></label>
+                <div class="d-flex">
+                  <label><i>Ngày sinh/DateOfBirth:</i></label>
                   <p> {{user.ngaySinh | date:'dd/MM/yyyy'}}</p>
+
                 </div>
+
+              
 
                 <div class="d-flex">
                   <label> <i>Lớp/Class:</i></label>
                   <p> {{user.lopThi.tenLop}}</p>
-                  <div class="khung-qr">
-                    <img class="QR"
-                      src="https://firebasestorage.googleapis.com/v0/b/quizzeducation-eaea3.appspot.com/o/images%2FQR_Chau_Manh_Tan.png?alt=media&token=cf326965-2283-478c-b27e-043eb3c6afb9"
-                      alt="">
 
-                  </div>
+                  
+
+                  <div class="khung-qr">
+                    <img class="QR"[src]="qrCodeImage" alt="QR Code">
+                   </div>
                 </div>
                 <p class="footer-card">www.quizz.edu.vn</p>
               </div>
@@ -98,7 +131,8 @@
               <div class="title-content d-flex">
                 <h2>Thông tin cá nhân</h2>
                 <input type="file" accept="images/*" id="fileInput" style="display: none;">
-                <button style="margin-left: 70px; border-radius: 10px; border: none; " (click)="openFileInput()"><svg
+                <button style="margin-left: 70px; border-radius: 10px; border: none; "(click)="openChangeImage()" >
+                  <svg
                     xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-pencil-square" viewBox="0 0 16 16">
                     <path
@@ -108,24 +142,57 @@
                   </svg> Đổi ảnh</button>
               </div>
               <div class="profile-body-content-header">
-                <div class="profile-body-content-header-text">
-                  <h5 class="profile-body-content-header-text-name">Lê Hoàng Thảo</h5>
-                  <p class="profile-body-content-header-text-email">thaolh@gmail.com</p>
-                </div>
-                <div class="profile-body-content-header-icon">
-                  <i class="bi bi-info-circle"></i>
-                </div>
-              </div>
-              <div class="profile-body-content-body" style="margin-top: 20px;">
-                <div class="profile-body-content-body-left">
-                  <h5 class="profile-body-content-body-gender">Nam</h5>
-                  <p class="profile-body-content-body-numberphone">0328142887</p>
-                </div>
-                <div class="profile-body-content-body-right">
-                  <h5 class="profile-body-content-body-right-age">20 tuổi</h5>
-                </div>
+                
+                <div class="row g-3 grid p-fluid">
 
+                  <div class="field col-12">
+                    <label for="hoVanTen" class="form-label">Họ và tên</label>
+                    <input type="text" id="hoVanTen" class="form-control box-shadow-none disabled-input"
+                      [value]="user.hoVaTen">
+                  </div>
+                  <div class="field col-12">
+                    <label for="cccd" class="form-label">Căn cước công dân</label>
+                    <input type="text" id="cccd" class="form-control box-shadow-none disabled-input"
+                      [value]="user.canCuocCongDan">
+                  </div>
+                  <div class="field col-12">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" id="email" class="form-control box-shadow-none disabled-input"
+                      [value]="user.email">
+                  </div>
+                  <div class="field col-12">
+                    <label for="ngaySinh" class="form-label">Ngày sinh</label>
+                    <input type="text" id="ngaySinh" class="form-control box-shadow-none disabled-input"
+                      [value]="user.ngaySinh | date:'dd/MM/yyyy'">
+                  </div>
+                  <div class="field col-12">
+                    <label for="gioiTinh" class="form-label">Giới tính</label>
+                    <input type="text" id="gioiTinh" class="form-control box-shadow-none disabled-input"
+                      [value]="user.gioiTinh? 'Nam':'Nữ' ">
+                  </div>
+                  <div class="field col-12">
+                    <label for="soDienThoai" class="form-label">Số điện thoại</label>
+                    <input type="text" id="soDienThoai" class="form-control box-shadow-none disabled-input"
+                      [value]="user.soDienThoai">
+                  </div>
+                  <div class="field col-12">
+                    <label for="diaChi" class="form-label">Địa chỉ</label>
+                    <input type="text" id="diaChi" class="form-control box-shadow-none disabled-input"
+                      [value]="user.diaChi">
+                  </div>
+                  <div class="field col-12">
+                    <label for="lopThi" class="form-label">Lớp</label>
+                    <input type="text" id="lopThi" class="form-control box-shadow-none disabled-input"
+                      [value]="user.lopThi.tenLop">
+                  </div>
+
+                  <div class="field col-12">
+                    <label for="trangThai" class="form-label">Trạng thái</label>
+                    <input type="text" id="trangThai" class="form-control box-shadow-none disabled-input"
+                      [value]="user.trangThai? 'DHOC (Đang Học)':'NHOC (Nghĩ Học)'">
+                  </div>
               </div>
+
 
             </div>
           </div>
@@ -133,3 +200,4 @@
         <input id="changeImage" accept="image/*" type="file" (change)="saveNewProfilePic($event)" hidden>
       </div>
     </div>
+    

@@ -21,3 +21,17 @@
 .title-table{
     background-color: #2fe3ff;
 }
+
+.text-red{
+    color: red;
+}
+
+.text-green{
+    color: green;
+}
+
+.hoverable-row:hover {
+    background-color: #f0f0f0; /* Màu nền khi di chuột vào hàng */
+    cursor: pointer; /* Đổi con trỏ thành bàn tay để chỉ ra tính tương tác */
+  }
+  

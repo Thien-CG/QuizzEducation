@@ -78,7 +78,6 @@ public class MonThiRestController {
         if (!monThiDAO.existsById(maMon)) {
             return ResponseEntity.notFound().build();
         }
-
         monThiDAO.deleteById(maMon);
 
         return ResponseEntity.ok().build();

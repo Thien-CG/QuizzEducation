@@ -10,11 +10,11 @@ import { DefaultLayoutTeacherComponent } from './Teacher/containers-teacher/inde
 import { LoginComponent } from './Admin/views/pages/login/login.component';
 import { MainUserComponent } from './User/main-user/main-user.component';
 import { HistoryComponent } from './User/pages/history/history.component';
-// import { AboutComponent } from './User/pages/about/about.component';
 import { HomeComponent } from './User/pages/home/home.component';
 import { ScoreComponent } from './User/pages/score/score.component';
 import { ManageClassComponent } from './Teacher/views/manage-class/manage-class.component';
 import { ForgotPasswordComponent } from './Admin/views/pages/forgot-password/forgot-password.component';
+import { ExamComponent } from './User/pages/exam/exam.component';
 const routes: Routes = [
   {
     path: '',
@@ -25,7 +25,7 @@ const routes: Routes = [
     path: 'user',
     component: MainUserComponent,
     children: [
-      // { path: 'exam', component: AboutComponent },
+      { path: 'exam', component: ExamComponent },
       { path: 'home', component: HomeComponent },
       { path: 'score', component: ScoreComponent },
       { path: 'history', component: HistoryComponent }
@@ -72,7 +72,8 @@ const routes: Routes = [
         loadChildren: () =>
           import('./Admin/views/pages/pages.module').then((m) => m.PagesModule),
       },
-    ]
+    ],
+    canActivate: [InterceptorUrlGuard],
   },
   {
     path: 'teacher',
@@ -108,6 +109,7 @@ const routes: Routes = [
         component: ManageClassComponent
       }
     ],
+    canActivate: [InterceptorUrlGuard],
   },
   {
     path: '404',

@@ -48,4 +48,7 @@ public class BoCauHoiDaLam implements Serializable {
     @JoinColumn(name = "ten_dang_nhap")
     TaiKhoan taiKhoan;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "boCauHoiDaLam")
+    List<LichSuThi> List_LichSuThi;
 }

@@ -42,7 +42,8 @@ public class TaiKhoanRestController {
     public ResponseEntity<List<TaiKhoan>> findByHocSinh() {
         return ResponseEntity.ok(taiKhoanDAO.findByHocSinh());
     }
-     @GetMapping("taikhoan/giaovien")
+
+    @GetMapping("taikhoan/giaovien")
     public ResponseEntity<List<TaiKhoan>> findByGiaoVien() {
         return ResponseEntity.ok(taiKhoanDAO.findByGiaoVien());
     }

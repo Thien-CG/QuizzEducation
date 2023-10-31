@@ -42,7 +42,7 @@
       <div class="list-body">
         <p-table [value]="listContest" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" #dt1
           dataKey="maKyThi" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]"
-          [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [paginator]="true" currentPageReportTemplate="Đang xem {first} đến {last} trong tổng số {totalRecords} mục"
           [globalFilterFields]="['maKyThi', 'tenKyThi']">
 
           <ng-template pTemplate="header" class="theader">

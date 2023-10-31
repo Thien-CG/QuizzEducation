@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpSvService } from 'src/app/service/API.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-
+import * as QRCode from 'qrcode';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -20,6 +20,12 @@ export class NavbarComponent {
   public user: any;
   ngOnInit(): void {
     this.getTokenFromLocalStorage();
+
+    // Dữ liệu bạn muốn biến thành mã QR
+    this.qrCodeData = `${this.user.canCuocCongDan}|${this.user.hoVaTen}|${this.user.soDienThoai}|${this.user.lopThi.tenLop}|${this.user.diaChi}|`;
+
+    // Tạo hình ảnh QR
+    this.generateQRCode();
   }
 
   // Lấy dữ liệu người dùng từ Local Storage
@@ -56,6 +62,16 @@ export class NavbarComponent {
   logout() {
     localStorage.removeItem('token'); // Xóa token từ localStorage
     this.router.navigate(['/login']); // Chuyển hướng người dùng đến trang đăng nhập
+    this.user.token = ""
+    this.httpSvService.putItem('taikhoan',this.user.tenDangNhap,this.user).subscribe(
+      (response) => {
+        console.log('Cập nhật token thành công',response);
+        
+      },
+      (error) => {
+        console.log('Lỗi Cập nhật mật khẩu', error);
+      }
+    );
   }
   //-------------------------------------------------------- MAIN--------------------------------------------------------------------------------------
 
@@ -108,6 +124,18 @@ openFileInput() {
       const upload = await this.fireStorage.upload(path, file)
       const url = await upload.ref.getDownloadURL()
       console.log(url)
+      this.user.anhDaiDien = url;
+      this.httpSvService
+        .putItem('taikhoan', this.user.tenDangNhap, this.user)
+        .subscribe(
+          (response) => {
+            console.log('Ok con dê');
+            console.log(this.user.anhDaiDien);
+          },
+          (error) => {
+            console.log('Lỗi Cập nhật', error);
+          }
+        );
     } else {
       alert("Tour chỉ nhận ảnh từ 5MB trở xuống")
     }
@@ -115,5 +143,31 @@ openFileInput() {
 
   deleteImage(url: string) {
     this.fireStorage.storage.refFromURL(url).delete()
+  }
+
+
+
+  // Tạo QR cho tài khoản
+  public qrCodeData: string = ''; // Dữ liệu mã QR
+  public qrCodeImage: string = ''; // Đường dẫn hình ảnh mã QR
+  generateQRCode() {
+    const qrCodeOptions = {
+      type: 'image/jpeg', // Loại hình ảnh (có thể là 'image/jpeg', 'image/png', vv.)
+      quality: 0.92, // Chất lượng hình ảnh
+      margin: 1, // Độ rộng của viền (1 là mặc định)
+      color: {
+        dark: '#000000', // Màu sắc cho mã QR
+        light: '#ffffff' // Màu sắc cho phần nền
+      }
+    };
+
+    // Tạo hình ảnh QR
+    QRCode.toDataURL(this.qrCodeData, qrCodeOptions, (error, url) => {
+      if (error) {
+        console.error('Lỗi khi tạo hình ảnh QR:', error);
+      } else {
+        this.qrCodeImage = url;
+      }
+    });
   }
 }

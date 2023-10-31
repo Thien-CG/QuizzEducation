@@ -15,13 +15,13 @@ import com.vnpt.quizz_education_be.DTO.DiemThiDTO;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/quizzeducation/api/bangDiem")
+@RequestMapping("/quizzeducation/api")
 public class DiemThiRestController {
-
+ 
     @Autowired
     BoCauHoiDaLamDAO boCauHoiDaLamDAO;
 
-    @GetMapping("/{tenDangNhap}")
+    @GetMapping("bangdiem/{tenDangNhap}")
     public ResponseEntity<?> getBangDiem(@PathVariable("tenDangNhap") String tenDangNhap) {
         List<DiemThiDTO> list = boCauHoiDaLamDAO.getBangDiem(tenDangNhap);
         return ResponseEntity.ok(list);

@@ -22,9 +22,16 @@
 
             <div class="list-body">
 
-                <p-table [value]="listStudent" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" #dt1
-                    dataKey="maKyThi" [rows]="5" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5, 15, 25]"
-                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                <p-table [value]="listStudent" 
+                [paginator]="true" 
+                [rows]="5" 
+                [showCurrentPageReport]="true" #dt1
+                    dataKey="maKyThi" 
+                    [rows]="5" 
+                    [showCurrentPageReport]="true" 
+                    [rowsPerPageOptions]="[5, 15, 25]"
+                    [paginator]="true" 
+                    currentPageReportTemplate="Đang xem {first} đến {last} trong tổng số {totalRecords} mục"
                     [globalFilterFields]="['tenDangNhap', 'hoVaTen', 'ngaySinh','gioiTinh', 'diaChi','lopThi.maLopThi','canCuocCongDan']">
 
                     <ng-template pTemplate="caption">
@@ -97,6 +104,7 @@
                     </ng-template>
 
                     <ng-template pTemplate="header" class="theader">
+                        <th style="min-width:150px; text-align: center">Ảnh đại diện</th>
                         <th style="min-width:150px; text-align: center;" pSortableColumn="tenDangNhap"> Tên đăng nhập
                             <p-sortIcon field="tenDangNhap"></p-sortIcon>
                         </th>
@@ -130,6 +138,9 @@
                     </ng-template>
                     <ng-template pTemplate="body" class="tbody" let-student let-rowIndex="rowIndex">
                         <tr>
+                            <td class="text-center khung-avatar">
+                                <img [src]="student.anhDaiDien ? student.anhDaiDien : defaultImage" alt="" class="avata_profile_img">
+                            </td>
                             <td class="text-center">{{student.tenDangNhap}}</td>
                             <td class="text-center">{{ maskPassword(student.matKhau) }}</td>
 

@@ -39,8 +39,12 @@ export class LoginComponent implements OnInit {
   }
 
   public autoLogin() {
+    
     const token = localStorage.getItem('token');
+
     const helper = new JwtHelperService();
+    const data = JSON.parse(helper.decodeToken(token).sub);
+    console.log(data)
     if (token || !helper.isTokenExpired(token)) {
       let validateToken = this.httpClient.post<string>('http://localhost:8080/quizzeducation/api/validatetoken', { 'token': token });
       validateToken.subscribe(response => {
@@ -48,6 +52,10 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/user/home']);
         }
       });
+      console.log(helper.isTokenExpired(token))
+    }else{
+      
+
     }
   }
 
@@ -56,14 +64,26 @@ export class LoginComponent implements OnInit {
    if (this.formLogin.valid) {
       const API_LOGIN = 'http://localhost:8080/quizzeducation/api/login';
 
-      // console.log(typeof this.formLogin.value.remember);
+      console.log(typeof this.formLogin.value.remember);
       const request = this.httpClient.post<any>(API_LOGIN,this.formLogin.value);
       request.subscribe((response) => {
         // Khi token không phải mã 191003 có nghĩ nó không fail đăng nhập
         if (response.token != '191003') {
           const helper = new JwtHelperService();
           localStorage.setItem('token', response.token);
+          
           const data = JSON.parse(helper.decodeToken(response.token).sub);
+          data.token = response.token;
+          //Cập nhật lại token trong DB
+          this.httpSvService.putItem('taikhoan', data.tenDangNhap, data).subscribe(
+            (response) => {
+              console.log('Cập nhật token thành công');
+            },
+            (error) => {
+              console.log('Lỗi Cập nhật mật khẩu', error);
+            }
+          );
+
           // Chuyển hướng đến trang chính hoặc làm bất kỳ điều gì cần thiết.
           if(data.vaiTro.tenVaiTro === 'Học sinh'){
               this.router.navigate(['user/home'])

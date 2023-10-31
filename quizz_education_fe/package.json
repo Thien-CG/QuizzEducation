@@ -54,6 +54,7 @@
     "ngx-scrollbar": "^13.0.3",
     "primeicons": "^6.0.1",
     "primeng": "^16.4.1",
+    "qrcode": "^1.5.3",
     "rxjs": "~7.8.1",
     "tslib": "^2.3.0",
     "xlsx": "^0.18.5",

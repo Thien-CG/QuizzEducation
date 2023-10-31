@@ -2,17 +2,14 @@
   <div class="d-flex">
     <h5 class="mb-4 text-left mt-5" style=" font-family: 'Handlee', cursive;">Danh sách điểm các môn đã thi</h5>
     <div class="btn-export ml-auto">
-      <button>Print</button>
-      <button>Copy</button>
-      <button>Excel</button>
-      <button>CSV</button>
-      <button>PDF</button>
-    </div>
+     
+      <button  class="btn btn-primary mr-2 text-light" (click)="exportExcel()">Xuất file Excel</button>
+      
   </div>
 
 
 
-  <div class="d-flex flex-column align-items-center justify-content-center">
+  <!-- <div class="d-flex flex-column align-items-center justify-content-center">
 
     <table class="table table-bordered">
       <thead>
@@ -20,32 +17,20 @@
           <th class="d-none d-md-table-cell" scope="col">STT</th>
           <th scope="col">Tên kì thi</th>
           <th scope="col">Môn thi</th>
-          <th class="d-none d--table-cell" scope="col">Lớp thi</th>
+          <th class="d-none d-md-table-cell" scope="col">Lớp thi</th>
           <th scope="col">Điểm thi</th>
           <th scope="col">Trạng thái</th>
           <th scope="col">Thao Tác</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr  *ngFor="let diemThi of ListDiemThi">
           <th class="d-none d-md-table-cell" scope="row">1</th>
-          <td>HK1 Lớp 11 - 2023</td>
-          <td>Toán</td>
-          <td class="d-none d-md-cell">11A1</td>
-          <td>9.0</td>
-          <td style="color: green;">Đạt</td>
-          <td>
-            <a href="#/user/history">Chi tiết</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th class="d-none d-md-table-cell" scope="row">2</th>
-          <td>HK1 Lớp 11 - 2023</td>
-          <td>Hóa</td>
-          <td class="d-none d-md-cell">11A1</td>
-          <td>4.0</td>
-          <td style="color: red;">Chưa đạt</td>
+          <td>{{diemThi.tenKyThi}}</td>
+          <td>{{diemThi.tenMon}}</td>
+          <td class="d-none d-md-table-cell">{{diemThi.lopThi}}</td>
+          <td>{{diemThi.diemSo}}</td>
+          <td [ngClass]="getBadgeClass(diemThi.trangThai)">{{ diemThi.trangThai }}</td>
           <td>
             <a href="#/user/history">Chi tiết</a>
           </td>
@@ -53,5 +38,62 @@
 
       </tbody>
     </table>
-  </div>
+
+  </div> -->
 </div>
+<p-table [value]="ListDiemThi" [paginator]="true" [rows]="5" #dt1 dataKey="tenKyThi" [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+  currentPageReportTemplate="Đang xem {first} đến {last} trong tổng số {totalRecords} mục"
+  [globalFilterFields]="['tenKyThi', 'tenMon', 'lopThi','diemSo','trangThai']">
+
+  <!-- <ng-template pTemplate="caption">
+    <div class="group-header-table ">
+        <div class="inport">
+          <button type="button" pButton pRipple (click)="exportExcel()" class="btn btn-primary mr-2 text-light"
+          pTooltip="XLS" tooltipPosition="bottom">Xuất file Excel</button>
+
+        </div>
+        
+    </div>
+</ng-template> -->
+
+  <ng-template pTemplate="header" class="theader">
+
+    <tr>
+      <th class="text-center">#</th>
+      <th pSortableColumn="tenKyThi">Tên kỳ thi<p-sortIcon field="tenKyThi"></p-sortIcon>
+      </th>
+      <th pSortableColumn="tenMon">Môn thi<p-sortIcon field="tenMon"></p-sortIcon>
+      </th>
+      <th class="text-center" pSortableColumn="lopThi">Lớp thi
+        <p-sortIcon field="lopThi"></p-sortIcon>
+      </th>
+      <th class="text-center" pSortableColumn="diemSo">Điểm thi
+        <p-sortIcon field="diemSo"></p-sortIcon>
+      </th>
+      <th class="text-center" pSortableColumn="trangThai">Trạng thái
+        <p-sortIcon field="trangThai"></p-sortIcon>
+      </th>
+      <th class="text-center">Thao tác</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" class="tbody" let-diemThi let-rowIndex="rowIndex">
+    <tr class="hoverable-row">
+      <td class="text-center">{{ rowIndex + 1 }}</td>
+      <td>{{ diemThi.tenKyThi }}</td>
+      <td>{{ diemThi.tenMon }}</td>
+      <td class="d-none d-md-table-cell text-center">{{ diemThi.lopThi }}</td>
+      <td class="text-center">{{ diemThi.diemSo }}</td>
+      <td class="text-center" [ngClass]="getBadgeClass(diemThi.trangThai)">{{ diemThi.trangThai }}</td>
+      <td class="text-center">
+        <button type="button" class="btn btn-info">Chi tiết </button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+  </ng-template>
+  <ng-template pTemplate="paginatorright">
+    <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-table>

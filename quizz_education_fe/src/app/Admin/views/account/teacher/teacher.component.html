@@ -20,7 +20,7 @@
 
                 <p-table [value]="listTeacher" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" #dt1
                     dataKey="maKyThi" [rows]="5" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5, 15, 25]"
-                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [paginator]="true" currentPageReportTemplate="Đang xem {first} đến {last} trong tổng số {totalRecords} mục"
                     [globalFilterFields]="['tenDangNhap', 'hoVaTen', 'ngaySinh','gioiTinh', 'diaChi','lopThi.maLop']">
 
                     <ng-template pTemplate="caption">
