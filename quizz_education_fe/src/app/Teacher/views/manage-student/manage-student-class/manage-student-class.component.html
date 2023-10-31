@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" *ngIf="classList && classList.length > 0">
   <p-table #dt1 [value]="classList" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
     [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -35,3 +35,4 @@
     </ng-template>
   </p-table>
 </div>
+<div class="text-center" *ngIf="classList && classList.length == 0">Hiện Chưa Có Lớp Nào Được Thêm Vào</div>

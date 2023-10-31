@@ -117,7 +117,7 @@ defaultImage: string = 'https://firebasestorage.googleapis.com/v0/b/quizzeducati
 
       this.showSussce();
       setTimeout(() => {
-        location.reload();
+        window.location.reload();
       }, 2000);
     }, (error) => {
       this.showError()

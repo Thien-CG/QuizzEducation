@@ -15,8 +15,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
     private router: Router,
-    private httpSvService : HttpSvService,
-  ) {}
+    private httpSvService: HttpSvService,
+  ) { }
 
   public formLogin = this.formBuilder.group({
     tenDangNhap: new FormControl('', [Validators.required]),
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     remember: new FormControl(false, [Validators.required]),
   });
 
-  
+
   public get getTenDangNhap() {
     return this.formLogin.get('tenDangNhap');
   }
@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.autoLogin();
-   
   }
 
   public autoLogin() {
@@ -59,9 +58,9 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  public data="";
+  public data = "";
   public loginMethod() {
-   if (this.formLogin.valid) {
+    if (this.formLogin.valid) {
       const API_LOGIN = 'http://localhost:8080/quizzeducation/api/login';
 
       console.log(typeof this.formLogin.value.remember);
@@ -85,24 +84,21 @@ export class LoginComponent implements OnInit {
           );
 
           // Chuyển hướng đến trang chính hoặc làm bất kỳ điều gì cần thiết.
-          if(data.vaiTro.tenVaiTro === 'Học sinh'){
-              this.router.navigate(['user/home'])
-          } else if(data.vaiTro.tenVaiTro === 'Giáo viên'){
+          if (data.vaiTro.tenVaiTro === 'Học sinh') {
+            this.router.navigate(['user/home'])
+          } else if (data.vaiTro.tenVaiTro === 'Giáo viên') {
             this.router.navigate(['teacher'])
-          } else if(data.vaiTro.tenVaiTro === 'Admin'){
+          } else if (data.vaiTro.tenVaiTro === 'Admin') {
             this.router.navigate(['admin'])
-          }  
+          }
           alert("Bạn đã đăng nhập thành công!")
-        }else{alert("Uiss bạn ơi, tài khoản hoặc mật khẩu không đúng rùi?");}
-        
-        
+        }
+        else { alert("Uiss bạn ơi, tài khoản hoặc mật khẩu không đúng rùi?"); }
       },
         (error) => {
           console.error(error);
           alert("Uiss bạn ơi, tài khoản hoặc mật khẩu không đúng rùi?");
         })
-
     }
   }
-
 }
