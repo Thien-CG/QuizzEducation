@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" *ngIf="listMonThi && listMonThi.length > 0">
   <p-table #dt1 [value]="listMonThi" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
     [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -34,3 +34,4 @@
     </ng-template>
   </p-table>
 </div>
+<div class="text-center" *ngIf="listMonThi && listMonThi.length == 0">Hiện Chưa Có Môn Nào Được Thêm Vào</div>

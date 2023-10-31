@@ -1,13 +1,12 @@
 <p-toast key="toast1"></p-toast>
 
-<div class="card">
+<div class="card" *ngIf="currentUser">
   <div class="card-body">
-    <h4 class="card-title">Danh sách Tour</h4>
+    <h4 class="card-title">Danh sách Học Sinh Lớp {{currentUser.lopThi.tenLop}}</h4>
     <button pButton class="btn btn-success" (click)="openNoClass()">Thêm Học Sinh</button>
     <p-table #dt1 [value]="studentList" sortField="tenDangNhap" [sortOrder]=-1 dataKey="id" [rows]="10"
-      [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
-      currentPageReportTemplate="Hiện {first} đến {last} trong tổng {totalRecords} bảng"
-      [globalFilterFields]="['tenDangNhap', 'hoVaTen', 'email']" [rowsPerPageOptions]="[10, 25, 50]">
+      [showCurrentPageReport]="true" currentPageReportTemplate="Hiện {first} đến {last} trong tổng {totalRecords} bảng"
+      [globalFilterFields]="['tenDangNhap', 'hoVaTen', 'email']">
       <ng-template pTemplate="caption">
         <div class="flex">
           <form [formGroup]="formFilter">
@@ -40,8 +39,7 @@
           <td>{{ studentList.soDienThoai }}</td>
           <td>{{ studentList.email }}</td>
           <td>{{ studentList.diaChi }}</td>
-          <td><button pButton label="Xóa" (click)="confirmDelete(studentList)"
-              class="btn btn-danger"></button></td>
+          <td><button pButton label="Xóa" (click)="confirmDelete(studentList)" class="btn btn-danger"></button></td>
         </tr>
       </ng-template>
     </p-table>
@@ -93,20 +91,23 @@
             <th></th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" class="tbody" let-studentList>
+        <ng-template pTemplate="body" class="tbody" let-student>
           <tr>
-            <td><img [src]="studentList.anhDaiDien" alt="" width="30px"></td>
-            <td>{{ studentList.tenDangNhap }}</td>
-            <td>{{ studentList.hoVaTen }}</td>
-            <td>{{ studentList.gioiTinh ? "Nam" : "Nữ" }}</td>
-            <td>{{ studentList.soDienThoai }}</td>
-            <td>{{ studentList.email }}</td>
-            <td>{{ studentList.diaChi }}</td>
-            <td><button pButton label="Thêm" (click)="addStudent(studentList)"
-                class="btn btn-success"></button></td>
+            <td><img [src]="student.anhDaiDien" alt="" width="30px"></td>
+            <td>{{ student.tenDangNhap }}</td>
+            <td>{{ student.hoVaTen }}</td>
+            <td>{{ student.gioiTinh ? "Nam" : "Nữ" }}</td>
+            <td>{{ student.soDienThoai }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.diaChi }}</td>
+            <td><button pButton label="Thêm" (click)="addStudent(student)" class="btn btn-success"
+                [disabled]="studentList.length == currentUser.lopThi.soLuongToiDa"></button></td>
           </tr>
         </ng-template>
       </p-table>
     </ng-template>
   </div>
+</div>
+<div class="text-center" *ngIf="currentUser == null">
+  Hiện Giáo Viên Chưa Được Phân Công Quản Lý Lớp Nào
 </div>

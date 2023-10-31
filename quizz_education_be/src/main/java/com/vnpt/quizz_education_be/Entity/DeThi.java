@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -37,19 +36,14 @@ public class DeThi implements Serializable {
     @Column(name = "da_su_dung")
     private Boolean daSuDung;
 
-    // Relationship N - 1
-   
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ma_chi_tiet_ky_thi")
     ChiTietKyThi chiTietKyThi;
 
-  
     @ManyToOne
     @JoinColumn(name = "ten_dang_nhap")
     TaiKhoan taiKhoan;
 
-  
     @ManyToOne
     @JoinColumn(name = "ma_mon")
     MonThi monThi;

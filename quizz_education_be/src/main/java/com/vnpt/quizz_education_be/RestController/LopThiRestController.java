@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vnpt.quizz_education_be.DAO.ChiTietKiThiDAO;
@@ -31,8 +32,12 @@ public class LopThiRestController {
     ChiTietKiThiDAO chiTietKiThiDAO;
 
     @GetMapping("lopthi")
-    public ResponseEntity<List<LopThi>> findAll() {
-    return ResponseEntity.ok(lopThiDAO.findAll());
+    public ResponseEntity<List<LopThi>> findAll(@RequestParam("kithi") Optional<Integer> maKiThi,
+            @RequestParam("monthi") Optional<Integer> maMon) {
+        if (maKiThi.isPresent() && maMon.isPresent()) {
+            return ResponseEntity.ok(chiTietKiThiDAO.getLopThiByKiThiAndMonThi(maKiThi, maMon));
+        }
+        return ResponseEntity.ok(lopThiDAO.findAll());
     }
 
     // Get 1 đối tượng thông qua id

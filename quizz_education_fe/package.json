@@ -43,7 +43,7 @@
     "angular-datatables": "^16.0.0",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.11.1",
-    "chart.js": "^3.9.1",
+    "chart.js": "^4.4.0",
     "datatables.net": "^1.11.3",
     "datatables.net-dt": "^1.11.3",
     "file-saver": "^2.0.5",
