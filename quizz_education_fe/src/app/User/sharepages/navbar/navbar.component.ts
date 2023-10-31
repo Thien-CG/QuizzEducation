@@ -62,6 +62,16 @@ export class NavbarComponent {
   logout() {
     localStorage.removeItem('token'); // Xóa token từ localStorage
     this.router.navigate(['/login']); // Chuyển hướng người dùng đến trang đăng nhập
+    this.user.token = ""
+    this.httpSvService.putItem('taikhoan',this.user.tenDangNhap,this.user).subscribe(
+      (response) => {
+        console.log('Cập nhật token thành công',response);
+        
+      },
+      (error) => {
+        console.log('Lỗi Cập nhật mật khẩu', error);
+      }
+    );
   }
   //-------------------------------------------------------- MAIN--------------------------------------------------------------------------------------
 

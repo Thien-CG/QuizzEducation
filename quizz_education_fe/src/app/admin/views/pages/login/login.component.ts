@@ -39,8 +39,12 @@ export class LoginComponent implements OnInit {
   }
 
   public autoLogin() {
+    
     const token = localStorage.getItem('token');
+
     const helper = new JwtHelperService();
+    const data = JSON.parse(helper.decodeToken(token).sub);
+    console.log(data)
     if (token || !helper.isTokenExpired(token)) {
       let validateToken = this.httpClient.post<string>('http://localhost:8080/quizzeducation/api/validatetoken', { 'token': token });
       validateToken.subscribe(response => {
@@ -49,6 +53,9 @@ export class LoginComponent implements OnInit {
         }
       });
       console.log(helper.isTokenExpired(token))
+    }else{
+      
+
     }
   }
 
@@ -67,6 +74,7 @@ export class LoginComponent implements OnInit {
           
           const data = JSON.parse(helper.decodeToken(response.token).sub);
           data.token = response.token;
+          //Cập nhật lại token trong DB
           this.httpSvService.putItem('taikhoan', data.tenDangNhap, data).subscribe(
             (response) => {
               console.log('Cập nhật token thành công');
