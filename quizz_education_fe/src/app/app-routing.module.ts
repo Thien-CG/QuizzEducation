@@ -41,6 +41,11 @@ const routes: Routes = [
     },
     children: [
       {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'exam'
+      },
+      {
         path: 'exam',
         loadChildren: () =>
           import('./Admin/views/exam/exam.module').then(
@@ -141,7 +146,7 @@ const routes: Routes = [
       title: 'ForgotPassword Page'
     }
   },
- { path: '**', redirectTo: '404' }
+  { path: '**', redirectTo: '404' }
 ];
 
 @NgModule({

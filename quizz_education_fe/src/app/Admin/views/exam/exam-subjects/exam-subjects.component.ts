@@ -4,7 +4,7 @@ import { HttpSvService } from '../../../../service/API.service';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
-import * as FileSaver from 'file-saver';
+// import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-exam-subjects',
@@ -133,21 +133,21 @@ export class ExamSubjectsComponent {
   }
 
   // Xuất excel
-  exportExcel() {
-    import('xlsx').then((xlsx) => {
-      const worksheet = xlsx.utils.json_to_sheet(this.ListexamClass);
-      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
-      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-      this.saveAsExcelFile(excelBuffer, 'Môn thi');
-    });
-  }
-  saveAsExcelFile(buffer: any, fileName: string): void {
-    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    let EXCEL_EXTENSION = '.xlsx';
-    const data: Blob = new Blob([buffer], {
-      type: EXCEL_TYPE
-    });
-    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-  }
+  // exportExcel() {
+  //   import('xlsx').then((xlsx) => {
+  //     const worksheet = xlsx.utils.json_to_sheet(this.ListexamClass);
+  //     const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+  //     const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+  //     this.saveAsExcelFile(excelBuffer, 'Môn thi');
+  //   });
+  // }
+  // saveAsExcelFile(buffer: any, fileName: string): void {
+  //   let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  //   let EXCEL_EXTENSION = '.xlsx';
+  //   const data: Blob = new Blob([buffer], {
+  //     type: EXCEL_TYPE
+  //   });
+  //   FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+  // }
 
 }

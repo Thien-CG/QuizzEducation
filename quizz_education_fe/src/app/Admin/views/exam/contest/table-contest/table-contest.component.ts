@@ -1,22 +1,41 @@
-import { OnDestroy, Component, OnInit, Renderer2 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { HttpSvService } from '../../../../../service/API.service';
 import { HttpClient } from '@angular/common/http';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import * as moment from 'moment';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import * as FileSaver from 'file-saver';
+import { HttpSvService } from '../../../../../service/API.service';
+import { MessageService } from 'primeng/api';
+import { DialogService,DynamicDialogRef  } from 'primeng/dynamicdialog';
+import { ContestDetailComponent } from './contest-detail/contest-detail.component';
+
 @Component({
   selector: 'app-table-contest',
   templateUrl: './table-contest.component.html',
-  styleUrls: ['./table-contest.component.scss']
+  styleUrls: ['./table-contest.component.scss'],
+  providers: [MessageService, DialogService]
 })
 export class TableContestComponent implements OnInit {
   constructor(private renderer: Renderer2, private httpService: HttpSvService, private http: HttpClient,
-    private formBuilder: FormBuilder,) { }
+    private formBuilder: FormBuilder, private messageService: MessageService, public dialogService: DialogService) {
 
+
+  }
+
+
+  statuses: any[];
 
   ngOnInit(): void {
     this.getData();
+    this.getTokenFromLocalStorage();
+    this.getDataLop();
+    this.getDataMon();
+
+    this.statuses = [
+      { label: 'Out of Stock', value: 'OUTOFSTOCK' },
+      { label: 'In Stock', value: 'INSTOCK' },
+      { label: 'Low Stock', value: 'LOWSTOCK' },
+      
+    ];
   }
 
   formatDateTime(dateTime: string): string {
@@ -33,23 +52,24 @@ export class TableContestComponent implements OnInit {
   //Lấy dử liệu về để cập nhật
   messageEdit: string = '';
   onSubmit() {
+
     // Định dạng lại thời gian sử dụng moment
     const formattedStartTime = moment(this.formattedStartTime).format("YYYY-MM-DD HH:mm:ss.S");
     const formattedEndTime = moment(this.formattedEndTime).format("YYYY-MM-DD HH:mm:ss.S");
     const currentTime = new Date().getTime();
     const formatcurrentTime = moment(currentTime).format("YYYY-MM-DD HH:mm:ss.S");
     const data = {
-      maKyThi: this.id,
+      maKyThi: this.idKyThi,
       tenKyThi: this.name,
       thoiGianBatDau: formattedStartTime, // Sử dụng thời gian đã định dạng
       thoiGianKetThuc: formattedEndTime, // Sử dụng thời gian đã định dạng
       daDienRa: true,
       taiKhoan: {
-        tenDangNhap: "AoNhatDuy",
+        tenDangNhap: this.username,
       },
     };
-    const id = this.dskythi.maKyThi; // Lấy id từ dữ liệu hiện tại
-    if (!this.id || !this.name || !this.formattedStartTime || !this.formattedEndTime) {
+    const id = this.itemKyThi.maKyThi; // Lấy id từ dữ liệu hiện tại
+    if (!this.idKyThi || !this.name || !this.formattedStartTime || !this.formattedEndTime) {
       this.messageEdit = "Vui lòng điền đầy đủ thông tin."
       return;
     }
@@ -78,11 +98,11 @@ export class TableContestComponent implements OnInit {
       thoiGianKetThuc: this.formattedEndTime,
       daDienRa: true,
       taiKhoan: {
-        tenDangNhap: "AoNhatDuy",
+        tenDangNhap: this.username,
       },
     };
 
-    const id = this.dskythi.maKyThi; // Lấy id từ dữ liệu hiện tại
+    const id = this.itemKyThi.maKyThi; // Lấy id từ dữ liệu hiện tại
 
     // Gọi hàm putItem để cập nhật thông tin nhân viên
     this.httpService.putItem('kyThi', id, data)
@@ -114,7 +134,7 @@ export class TableContestComponent implements OnInit {
   public getData() {
     this.httpService.getList('kythi').subscribe(response => {
       this.listContest = response;
-      
+
     })
   }
 
@@ -133,43 +153,150 @@ export class TableContestComponent implements OnInit {
   }
 
 
-  id: number | undefined;
+  idKyThi: number | undefined;
   name: string = '';
-  public dskythi: any = {};
+  public itemKyThi: any = {};
   contestStatus: string = '';
   formattedStartTime: string = '';
   formattedEndTime: string = '';
   getEditKyThi(id: number) {
-    console.log(id);
-    const apiUrl = `http://localhost:8080/quizzeducation/api/kythi/${id}`;
-    this.id = id;
-    this.http.get(apiUrl).subscribe((response: any) => {
-
-      this.dskythi = response;
-      this.formattedStartTime = this.formatDateTime(this.dskythi.thoiGianBatDau);
-      this.formattedEndTime = this.formatDateTime(this.dskythi.thoiGianKetThuc);
-      this.name = this.dskythi.tenKyThi;
+    this.idKyThi = id;
+    this.httpService.getItem("kythi", id).subscribe((response: any) => {
+      this.itemKyThi = response;
+      this.formattedStartTime = this.formatDateTime(this.itemKyThi.thoiGianBatDau);
+      this.formattedEndTime = this.formatDateTime(this.itemKyThi.thoiGianKetThuc);
+      this.name = this.itemKyThi.tenKyThi;
     });
   }
 
-  date: Date | undefined;
+  @ViewChild('confirmButton', { static: false }) confirmButton: ElementRef;
+  // chi tiết kì thi
+  itemChiTietKiThi: any;
+  tenKyThi: number;
+  getItemChiTietKyThi(id: number) {
+    this.httpService.getItem("chitietkythi/kythi", id).subscribe((response: any) => {
+      this.itemChiTietKiThi = response;
+      this.confirmButton.nativeElement.click();
+      if (this.itemChiTietKiThi && Array.isArray(this.itemChiTietKiThi)) {
+        const tenKyThiArray = this.itemChiTietKiThi.map(item => item.kyThi.tenKyThi);
+        this.tenKyThi = tenKyThiArray[0];
+      } else {
+        console.error("Dữ liệu không tồn tại hoặc không hợp lệ");
+      }
 
 
-  // Xuất excel
-  exportExcel() {
-    import('xlsx').then((xlsx) => {
-      const worksheet = xlsx.utils.json_to_sheet(this.listContest);
-      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
-      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-      this.saveAsExcelFile(excelBuffer, 'Kỳ thi');
+
+    }, error => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Không có chi tiết kỳ thi trong kỳ thi này ' });
     });
   }
-  saveAsExcelFile(buffer: any, fileName: string): void {
-    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    let EXCEL_EXTENSION = '.xlsx';
-    const data: Blob = new Blob([buffer], {
-      type: EXCEL_TYPE
-    });
-    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+
+
+  lopThi: any[] = [];
+  listLopThi: any;
+
+  getDataLop() {
+    this.httpService.getList('lopthi').subscribe(response => {
+      this.listLopThi = response;
+      this.initializeLopThiOptions();
+    })
+  }
+
+  initializeLopThiOptions() {
+    // Kiểm tra nếu listLopThi đã được tải
+    if (this.listLopThi) {
+      this.lopThi = this.listLopThi.map(lop => {
+        return { label: lop.tenLop, value: lop.maLopThi };
+      });
+    }
+  }
+
+  monThi: any[] = [];
+  listMonThi: any;
+
+  getDataMon() {
+    this.httpService.getList('monthi').subscribe(response => {
+      this.listMonThi = response;
+      this.initializeMonThiOptions();
+    })
+  }
+
+  initializeMonThiOptions() {
+    // Kiểm tra nếu listLopThi đã được tải
+    if (this.listMonThi) {
+      this.monThi = this.listMonThi.map(lop => {
+        return { label: lop.tenMon, value: lop.maMon };
+      });
+    }
+  }
+
+
+
+  // Lấy dữ liệu người dùng từ Local Storage
+  user: any;
+  username: any;
+  clonedProducts: { [s: string]: any } = {};
+
+  public getTokenFromLocalStorage(): any {
+    const token = localStorage.getItem('token'); // Lấy token từ localStorage
+    if (token) {
+      const helper = new JwtHelperService();
+      try {
+        const decodedToken = helper.decodeToken(token);
+        // Trích xuất dữ liệu từ trường 'sub'
+
+        if (decodedToken.sub) {
+
+          // Lấy dữ liệu từ Local Storage và gán cho biến user
+          this.user = JSON.parse(decodedToken.sub);
+
+          //Đi tìm trong DB lấy ra đối tượng
+          this.httpService.getItem('taikhoan', this.user.tenDangNhap).subscribe((userData) => {
+            this.user = userData;
+            this.username = this.user.tenDangNhap
+            // console.log(this.username);
+          });
+        }
+
+        return decodedToken; // Trả về đối tượng JSON
+      } catch (error) {
+        console.error('Lỗi giải mã token:', error);
+        return null;
+      }
+    }
+    return null; // Không tìm thấy token trong localStorage
+  }
+
+  tinhThoiGianChenhLech(itemChiTietKiThi: any): number {
+    const thoiGianKetThuc = new Date(itemChiTietKiThi.thoiGianKetThuc);
+    const thoiGianBatDau = new Date(itemChiTietKiThi.thoiGianBatDau);
+    const thoiGianChenhLech = thoiGianKetThuc.getTime() - thoiGianBatDau.getTime();
+    return thoiGianChenhLech / 60000;
+  }
+
+  // edit chi tiết kỳ thi
+  onRowEditInit(product: any) {
+    this.clonedProducts[product.id as string] = { ...product };
+  }
+
+  onRowEditSave(product: any) {
+    if (product.price > 0) {
+      delete this.clonedProducts[product.id as string];
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Product is updated' });
+    } else {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid Price' });
+    }
+  }
+
+  onRowEditCancel(product: any, index: number) {
+    this.itemChiTietKiThi[index] = this.clonedProducts[product.id as string];
+    delete this.clonedProducts[product.id as string];
+  }
+
+  ref: DynamicDialogRef | undefined;
+
+
+  show() {
+      this.ref = this.dialogService.open(ContestDetailComponent, { header: 'Select a Product'});
   }
 }
