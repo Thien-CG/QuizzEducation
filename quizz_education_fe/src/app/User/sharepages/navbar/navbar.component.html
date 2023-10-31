@@ -133,8 +133,9 @@
             <div class="profile-body-content">
               <div class="title-content d-flex">
                 <h2>Thông tin cá nhân</h2>
-                <input type="file" accept="images/*" id="fileInput" style="display: none;">
-                <button style="margin-left: 70px; border-radius: 10px; border: none; " (click)="openFileInput()"><svg
+                <input type="file" accept="images/*" id="fileInput" (change)="saveNewProfilePic($event)"
+                  style="display: none;">
+                <button style="margin-left: 70px; border-radius: 10px; border: none;" (click)="openFileInput()"><svg
                     xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-pencil-square" viewBox="0 0 16 16">
                     <path

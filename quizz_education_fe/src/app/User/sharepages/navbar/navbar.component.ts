@@ -22,6 +22,7 @@ export class NavbarComponent {
   public user: any;
   ngOnInit(): void {
     this.getTokenFromLocalStorage();
+    console.log(this.user)
   }
 
   // Lấy dữ liệu người dùng từ Local Storage
