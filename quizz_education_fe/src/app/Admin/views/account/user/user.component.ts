@@ -3,14 +3,13 @@ import { Component, Renderer2 } from '@angular/core';
 import { HttpSvService } from '../../../../service/API.service';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl } from '@angular/forms';
-import { MessageService } from 'primeng/api'
-  ;
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
   providers: [MessageService]
-})
+}) 
 export class UserComponent {
   myForm: FormGroup; // Khai báo FormGroup
 // Nếu chưa có ảnh thì set ảnh default

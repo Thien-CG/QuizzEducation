@@ -50,7 +50,7 @@ public class JWTRestController {
                     tokenAccount = jwtTokenProvider.createToken(accountLogin, 3 * 60 * 1000);// nhớ tài khoản trong 3 tiếng
                 }
                 
-                System.out.println("Có click remember hem? ---> "+account.isRemember());
+               
                  TaiKhoan token = new TaiKhoan();
                     token.setToken(tokenAccount);
                     return ResponseEntity.ok(token);
