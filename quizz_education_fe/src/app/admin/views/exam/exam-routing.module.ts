@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Kì thi'
+      title: 'Kỳ thi'
 
     },
     children: [
@@ -23,7 +23,7 @@ const routes: Routes = [
         path: 'exam-subjects',
         component: ExamSubjectsComponent,
         data: {
-          title: 'Exam Subjects'
+          title: 'Môn thi'
         }
       },
 
@@ -31,13 +31,13 @@ const routes: Routes = [
         path: 'contest',
         component: ContestComponent,
         data: {
-          title: 'Contest'
+          title: 'Đợt thi'
         }
       }, {
         path: 'exam-class',
         component: ExamClassComponent,
         data: {
-          title: 'Exam Class'
+          title: 'Lớp thi'
         }
       }
 

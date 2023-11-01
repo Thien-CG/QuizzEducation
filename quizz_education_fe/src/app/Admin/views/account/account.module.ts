@@ -1,3 +1,4 @@
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -72,7 +73,8 @@ import { ChartModule } from 'primeng/chart';
     InputMaskModule,
     TreeSelectModule,
     TagModule,
-    ChartModule
+    ChartModule,
+    BsDatepickerModule.forRoot()
   ]
 })
 export class UIAccountModule {

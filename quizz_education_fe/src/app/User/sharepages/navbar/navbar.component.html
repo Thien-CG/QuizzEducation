@@ -13,7 +13,7 @@
         <a routerLink="score" routerLinkActive="active-link" class="nav-item nav-link">Điểm Thi</a>
         <a routerLink="history" routerLinkActive="active-link" class="nav-item nav-link">Lịch Sử Thi</a>
       </div>
-      
+
       <div class="nav-account d-flex" data-bs-toggle="modal" data-bs-target="#profile">
         <div class="avarta-footer">
           <img [src]="user.anhDaiDien ? user.anhDaiDien : defaultImage" alt="" class="avata_profile_img">
@@ -24,7 +24,7 @@
           <p>{{user.vaiTro.TenVaiTro}}</p>
         </div>
       </div>
-      
+
       <div class="nav-account-logout">
         <div class="row">
           <div class="col-md-12 ml-3">
@@ -42,16 +42,16 @@
                     <a href="#/changepassword"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                         fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                      </svg>  Đổi mật khẩu</a>
+                      </svg> Đổi mật khẩu</a>
                   </li>
                   <li>
-                    <a  (click)="logout()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                    <a (click)="logout()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
                           d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
                         <path fill-rule="evenodd"
                           d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
-                      </svg>  Đăng xuất</a>
+                      </svg> Đăng xuất</a>
                   </li>
                 </ul>
               </li>
@@ -93,7 +93,8 @@
             </div>
             <div class="role_avata">
               <div class="avata_profile">
-                <img (click)="openChangeImage()" [src]="user.anhDaiDien ? user.anhDaiDien : defaultImage" alt="" class="avata_profile_img">
+                <img (click)="openChangeImage()" [src]="user.anhDaiDien ? user.anhDaiDien : defaultImage" alt=""
+                  class="avata_profile_img">
               </div>
 
               <div class="role_profile">
@@ -110,17 +111,17 @@
 
                 </div>
 
-              
+
 
                 <div class="d-flex">
                   <label> <i>Lớp/Class:</i></label>
                   <p> {{user.lopThi.tenLop}}</p>
 
-                  
+
 
                   <div class="khung-qr">
-                    <img class="QR"[src]="qrCodeImage" alt="QR Code">
-                   </div>
+                    <img class="QR" [src]="qrCodeImage" alt="QR Code">
+                  </div>
                 </div>
                 <p class="footer-card">www.quizz.edu.vn</p>
               </div>
@@ -131,9 +132,8 @@
               <div class="title-content d-flex">
                 <h2>Thông tin cá nhân</h2>
                 <input type="file" accept="images/*" id="fileInput" style="display: none;">
-                <button style="margin-left: 70px; border-radius: 10px; border: none; "(click)="openChangeImage()" >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                <button style="margin-left: 70px; border-radius: 10px; border: none; " (click)="openChangeImage()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-pencil-square" viewBox="0 0 16 16">
                     <path
                       d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -142,7 +142,7 @@
                   </svg> Đổi ảnh</button>
               </div>
               <div class="profile-body-content-header">
-                
+
                 <div class="row g-3 grid p-fluid">
 
                   <div class="field col-12">
@@ -191,13 +191,15 @@
                     <input type="text" id="trangThai" class="form-control box-shadow-none disabled-input"
                       [value]="user.trangThai? 'DHOC (Đang Học)':'NHOC (Nghĩ Học)'">
                   </div>
+                </div>
+
+
               </div>
-
-
             </div>
           </div>
+          <input id="changeImage" accept="image/*" type="file" (change)="saveNewProfilePic($event)" hidden>
         </div>
-        <input id="changeImage" accept="image/*" type="file" (change)="saveNewProfilePic($event)" hidden>
       </div>
     </div>
-    
+  </div>
+</div>

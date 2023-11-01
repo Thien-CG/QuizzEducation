@@ -20,14 +20,14 @@ const routes: Routes = [
         path: 'teacher',
         component: TeacherComponent,
         data: {
-          title: 'Teacher'
+          title: 'Giáo viên'
         }
       },
       {
         path: 'user',
         component: UserComponent,
         data: {
-          title: 'User'
+          title: 'Học sinh'
         }
       }
     ]

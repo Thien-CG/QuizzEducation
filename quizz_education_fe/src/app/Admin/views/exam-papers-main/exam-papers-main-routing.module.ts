@@ -33,10 +33,10 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'exam-papers',
+    path: 'profile-admin',
     component: ExamPapersComponent,
     data: {
-      title: 'Profile'
+      title: 'Thông tin cá nhân'
     }
   }
 ];

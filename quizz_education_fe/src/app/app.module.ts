@@ -68,6 +68,7 @@ import {
 
 import { ExamComponent } from './User/pages/exam/exam.component';
 import { ForgotPasswordComponent } from './Admin/views/pages/forgot-password/forgot-password.component';
+import { ProfileTeacherComponent } from './Teacher/views/profile-teacher/profile-teacher.component';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -98,7 +99,8 @@ const APP_CONTAINERS = [
     ReportComponent,
     ManageClassComponent,
     ForgotPasswordComponent,
-    ExamComponent
+    ExamComponent,
+    ProfileTeacherComponent
   ],
   imports: [
     BrowserModule,
