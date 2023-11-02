@@ -1,31 +1,38 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid pe-5">
-    <a class="navbar-brand text-primary p-lg-2" href="#/user/home"><img src="assets/img/brand/QEdu.png" alt=""
-        width="300px" height="100px"></a>
+    <a class="d-none d-sm-block navbar-brand text-primary p-lg-2" href="#/user/home"><img src="assets/img/brand/QEdu.png" alt=""
+        width="300px" height="100px">
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
       aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    
+      <img id="avata_profile_img_collapse" [src]="user.anhDaiDien ? user.anhDaiDien : defaultImage" alt="" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" data-bs-toggle="modal" data-bs-target="#profile">
+    
     <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
       <div class="navbar-nav mr-auto m-lg-auto">
         <a routerLink="home" routerLinkActive="active-link" class="nav-item nav-link">Lịch Thi</a>
         <a routerLink="exam" routerLinkActive="active-link" class="nav-item nav-link">Thi Ngay</a>
         <a routerLink="score" routerLinkActive="active-link" class="nav-item nav-link">Điểm Thi</a>
         <a routerLink="history" routerLinkActive="active-link" class="nav-item nav-link">Lịch Sử Thi</a>
+        <a class="nav-item nav-link d-block d-md-none" href="#/changepassword">Đổi mật khẩu</a>
+        <a class="nav-item nav-link d-block d-md-none" (click)="logout()">Đăng xuất</a>
       </div>
 
-      <div class="nav-account d-flex" data-bs-toggle="modal" data-bs-target="#profile">
-        <div class="avarta-footer">
+      <div class="nav-account d-flex navbar-nav mr-auto m-lg-auto" data-bs-toggle="modal" data-bs-target="#profile">
+        <div class="avarta-footer d-none d-sm-block">
           <img [src]="user.anhDaiDien ? user.anhDaiDien : defaultImage" alt="" class="avata_profile_img">
         </div>
-        <div class="nav-account-info">
+        <div class="nav-account-info  d-none d-sm-block">
           <h6 class="nav-account-info-name">{{ user.hoVaTen }}</h6>
           <p class="nav-account-info-email">{{ user.email }}</p>
           <p>{{user.vaiTro.TenVaiTro}}</p>
         </div>
       </div>
 
-      <div class="nav-account-logout">
+      <div class="nav-account-logout d-none d-sm-block">
         <div class="row">
           <div class="col-md-12 ml-3">
 
@@ -57,7 +64,7 @@
               </li>
             </ul>
           </div>
-          <div class="col-md-12 ml-1">
+          <div class="col-md-12 ml-1 d-none d-sm-block">
             <a (click)="logout()"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                 class="bi bi-box-arrow-right ml-3" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
