@@ -17,6 +17,7 @@ import { ForgotPasswordComponent } from './Admin/views/pages/forgot-password/for
 import { ExamComponent } from './User/pages/exam/exam.component';
 import { DashboardComponent } from './Admin/views/dashboard/dashboard.component';
 import { ProfileTeacherComponent } from './Teacher/views/profile-teacher/profile-teacher.component';
+import { ProfileAdminComponent } from './admin/views/profile-admin/profile-admin.component';
 const routes: Routes = [
   {
     path: '',
@@ -78,6 +79,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./Admin/views/pages/pages.module').then((m) => m.PagesModule),
       },
+      {
+        path: 'profile-admin',
+        component: ProfileAdminComponent,
+        data: {
+          title: 'Thông tin cá nhân'
+        }
+      },
     ],
     canActivate: [InterceptorUrlGuard],
   },
@@ -115,7 +123,7 @@ const routes: Routes = [
         component: ManageClassComponent
       },
       {
-        path: 'profile',
+        path: 'profile-teacher',
        
         component: ProfileTeacherComponent,
         data: {

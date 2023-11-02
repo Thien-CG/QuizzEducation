@@ -5,9 +5,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from './../environments/environment';
 import { ManageStudentResultComponent } from './Teacher/views/manage-student/manage-student-result/manage-student-result.component';
-
+import { CalendarModule } from 'primeng/calendar';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { PasswordModule } from 'primeng/password';
+import { InputMaskModule } from 'primeng/inputmask';
 // Import routing module
 import { AppRoutingModule } from './app-routing.module';
 
@@ -64,11 +65,13 @@ import {
   SidebarModule,
   TabsModule,
   UtilitiesModule,
+  
 } from '@coreui/angular';
 
 import { ExamComponent } from './User/pages/exam/exam.component';
 import { ForgotPasswordComponent } from './Admin/views/pages/forgot-password/forgot-password.component';
 import { ProfileTeacherComponent } from './Teacher/views/profile-teacher/profile-teacher.component';
+import { ProfileAdminComponent } from './admin/views/profile-admin/profile-admin.component';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -100,7 +103,8 @@ const APP_CONTAINERS = [
     ManageClassComponent,
     ForgotPasswordComponent,
     ExamComponent,
-    ProfileTeacherComponent
+    ProfileTeacherComponent,
+    ProfileAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -138,6 +142,8 @@ const APP_CONTAINERS = [
     NgbModule,
     RadioButtonModule,
     PasswordModule,
+    CalendarModule,
+    InputMaskModule,
   ],
   providers: [
     {

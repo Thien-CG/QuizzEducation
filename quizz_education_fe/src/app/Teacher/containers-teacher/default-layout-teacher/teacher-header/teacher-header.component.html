@@ -33,7 +33,7 @@
       </c-nav-item>
 
       <c-nav-item >
-        <a cNavLink routerLink="/teacher/profile" routerLinkActive="active">
+        <a cNavLink routerLink="/teacher/profile-teacher" routerLinkActive="active">
           Thông tin cá nhân
         </a>
       </c-nav-item>
@@ -89,7 +89,7 @@
         color=""
         [caret]="false"
         cDropdownToggle
-        class="py-0" data-bs-toggle="modal" data-bs-target="#profile"  cDropdownItem>
+        class="py-0" routerLink="/teacher/profile-teacher" cDropdownItem>
           <svg cIcon class="me-2" name="cilUser"></svg>
           Thông tin cá nhân
         </button>

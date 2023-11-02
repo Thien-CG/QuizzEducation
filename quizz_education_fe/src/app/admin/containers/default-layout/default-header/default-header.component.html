@@ -14,7 +14,7 @@
     </button>
     <c-header-nav class="d-none d-lg-flex me-auto">
       <c-nav-item >
-        <a cNavLink routerLink="/admin/exam-papers-main/profile-admin" routerLinkActive="active">
+        <a cNavLink routerLink="/admin/profile-admin" routerLinkActive="active">
           Thông tin cá nhân
         </a>
       </c-nav-item>
@@ -29,21 +29,6 @@
         <h6 style="color:#1d1c69;">{{user.email}}</h6>
       </c-nav-item>
 
-      <!-- <c-nav-item>
-        <a routerLink="/500" cNavLink>
-          <svg cIcon name="cilBell" size="lg"></svg>
-        </a>
-      </c-nav-item>
-      <c-nav-item>
-        <a routerLink="/500" cNavLink>
-          <svg cIcon name="cilList" size="lg"></svg>
-        </a>
-      </c-nav-item>
-      <c-nav-item>
-        <a routerLink="/500" cNavLink>
-          <svg cIcon name="cilEnvelopeOpen" size="lg"></svg>
-        </a>
-      </c-nav-item> -->
     </c-header-nav>
     <c-header-nav class="ms-3">
       <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
@@ -81,7 +66,7 @@
       </li>
       <li></li>
       <li>
-        <a routerLink="/admin/exam-papers-main/profile-admin" cDropdownItem>
+        <a routerLink="/admin/profile-admin" cDropdownItem>
           <svg cIcon class="me-2" name="cilUser"></svg>
           Thông tin cá nhân
         </a>

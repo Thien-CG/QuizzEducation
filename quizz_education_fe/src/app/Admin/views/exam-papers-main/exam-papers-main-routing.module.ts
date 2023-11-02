@@ -31,13 +31,6 @@ const routes: Routes = [
         }
       }
     ]
-  },
-  {
-    path: 'profile-admin',
-    component: ExamPapersComponent,
-    data: {
-      title: 'Thông tin cá nhân'
-    }
   }
 ];
 

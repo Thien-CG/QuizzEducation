@@ -17,6 +17,6 @@ public class TaiKhoanJWT {
     @Id
     public String tenDangNhap;
     public String matKhau;
-    public boolean trangThai;
+    public boolean trangThai = true;
     public String tenVaiTro;
 }

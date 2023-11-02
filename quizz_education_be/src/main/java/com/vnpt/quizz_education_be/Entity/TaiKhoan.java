@@ -26,7 +26,7 @@ public class TaiKhoan implements Serializable {
     private String matKhau;
 
     @Column(name = "trang_thai")
-    private Boolean trangThai;
+    private boolean trangThai = false;
 
     @Column(name = "email")
     private String email;

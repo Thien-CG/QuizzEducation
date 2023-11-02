@@ -39,6 +39,7 @@ public class TaiKhoanRestController {
     // Get danh sách tất cả tài khoản thuộc học sinh
     @GetMapping("taikhoan/hocsinh")
     public ResponseEntity<List<TaiKhoan>> findByHocSinh() {
+        List<TaiKhoan> danhSachTaiKhoan = taiKhoanDAO.findByHocSinh();
         return ResponseEntity.ok(taiKhoanDAO.findByHocSinh());
     }
 

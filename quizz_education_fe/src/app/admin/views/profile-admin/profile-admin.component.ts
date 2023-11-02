@@ -8,12 +8,12 @@ import { MessageService } from 'primeng/api';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import * as QRCode from 'qrcode';
 @Component({
-  selector: 'app-profile-teacher',
-  templateUrl: './profile-teacher.component.html',
-  styleUrls: ['./profile-teacher.component.scss'],
+  selector: 'app-profile-admin',
+  templateUrl: './profile-admin.component.html',
+  styleUrls: ['./profile-admin.component.scss'],
   providers: [MessageService]
 })
-export class ProfileTeacherComponent {
+export class ProfileAdminComponent {
 
 
   myForm: FormGroup; // Khai báo FormGroup
@@ -145,7 +145,7 @@ export class ProfileTeacherComponent {
         anhDaiDien:this.myForm.get('anhDaiDien').value,
         ngayTaoTaiKhoan: this.listItemStudent.ngayTaoTaiKhoan,
         vaiTro: {
-          maVaiTro: '2'
+          maVaiTro: '3'
         }
       }
       this.httpService.putItem('taikhoan', this.listItemStudent.tenDangNhap, data).subscribe(response => {
