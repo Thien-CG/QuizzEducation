@@ -7,6 +7,7 @@ import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl } from
 import { MessageService } from 'primeng/api';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import * as QRCode from 'qrcode';
+import { TaiKhoan } from 'src/app/models/TaiKhoan.entity';
 @Component({
   selector: 'app-profile-admin',
   templateUrl: './profile-admin.component.html',
@@ -150,9 +151,12 @@ export class ProfileAdminComponent {
       }
       this.httpService.putItem('taikhoan', this.listItemStudent.tenDangNhap, data).subscribe(response => {
   
+        let index = this.listItemStudent.findIndex(item => item == this.listItemStudent.tenDangNhap);
+        this.listItemStudent[index] = response as TaiKhoan;
         this.showSussce();
         setTimeout(() => {
-          location.reload();
+        
+          // location.reload();
         }, 2000);
       }, (error) => {
         this.showError()

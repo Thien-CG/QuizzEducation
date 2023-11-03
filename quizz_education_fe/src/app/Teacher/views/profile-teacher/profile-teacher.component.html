@@ -198,9 +198,9 @@
 
                   <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="anhDaiDien" class="form-label">Link ảnh đại diện</label>
-                        <input type="text" class="form-control" name="anhDaiDien" formControlName="anhDaiDien"required [readonly]="true">
-                    </div>
+                        <label for="anhDaiDien" class="form-label">Lớp chủ nhiệm</label>
+                        <input type="text" class="form-control" name="anhDaiDien" [value]="listItemStudent.lopThi.tenLop" required [readonly]="true">
+                      </div>
                   </div>
 
                 </div>
