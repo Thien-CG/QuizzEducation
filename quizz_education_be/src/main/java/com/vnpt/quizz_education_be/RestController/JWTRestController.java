@@ -29,31 +29,35 @@ public class JWTRestController {
     public ResponseEntity<TaiKhoan> LoginMethod(@RequestBody TaiKhoan account) throws JsonProcessingException {
         if (accountDAO.existsByTenDangNhap(account.getTenDangNhap())) {
 
+            // account là dữ liệu từ from đăng nhập
             // lấy tài khoản đăng nhập đi check với DB
             TaiKhoan accountLogin = accountDAO.findByTenDangNhap(account.getTenDangNhap());
             if (accountLogin.getTenDangNhap().trim().equals(account.getTenDangNhap())
-                    && accountLogin.getMatKhau().trim().equals(account.getMatKhau())) {
-
+                    && accountLogin.getMatKhau().trim().equals(account.getMatKhau())
+                    && accountLogin.isTrangThai() == true) {
                 // Tạo Entity lưu token cho ngắn
                 TaiKhoanJWT TKJWT = new TaiKhoanJWT();
                 TKJWT.setTenDangNhap(accountLogin.getTenDangNhap());
                 TKJWT.setMatKhau(accountLogin.getMatKhau());
-                TKJWT.setTrangThai(accountLogin.getTrangThai());
+                TKJWT.setTrangThai(accountLogin.isTrangThai());
                 TKJWT.setTenVaiTro(accountLogin.getVaiTro().getTenVaiTro());
 
                 // tạo token bằng lớp JwtTokenProvider
                 String tokenAccount;
 
                 if (account.isRemember()) {
-                    tokenAccount = jwtTokenProvider.createToken(accountLogin, 24 * 60 * 60 * 1000); // nhớ 1 ngày 24 tiếng (24(tiếng) * 60(phút) * 60(giây) * 1000)
+                    tokenAccount = jwtTokenProvider.createToken(accountLogin, 24 * 60 * 60 * 1000); // nhớ 1 ngày 24
+                                                                                                    // tiếng (24(tiếng)
+                                                                                                    // * 60(phút) *
+                                                                                                    // 60(giây) * 1000)
                 } else {
-                    tokenAccount = jwtTokenProvider.createToken(accountLogin, 3 * 60 * 1000);// nhớ tài khoản trong 3 tiếng
+                    tokenAccount = jwtTokenProvider.createToken(accountLogin, 3 * 60 * 1000);// nhớ tài khoản trong 3
+                                                                                             // tiếng
                 }
-                
-               
-                 TaiKhoan token = new TaiKhoan();
-                    token.setToken(tokenAccount);
-                    return ResponseEntity.ok(token);
+
+                TaiKhoan token = new TaiKhoan();
+                token.setToken(tokenAccount);
+                return ResponseEntity.ok(token);
             }
         }
 

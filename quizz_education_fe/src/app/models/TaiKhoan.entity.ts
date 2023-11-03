@@ -15,4 +15,7 @@ export interface TaiKhoan {
   anhDaiDien: string;
   lopThi: LopThi;
   vaiTro: VaiTro;
+
+  
+  
 }

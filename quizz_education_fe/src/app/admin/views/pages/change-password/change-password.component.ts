@@ -13,18 +13,17 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss'],
 })
-
-export class ChangePasswordComponent implements  OnInit, OnDestroy{
+export class ChangePasswordComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private httpSvService: HttpSvService,
     private formBuilder: FormBuilder,
     private emailService: EmailService,
-    public bsModalRef: BsModalRef,
+    public bsModalRef: BsModalRef
   ) {}
 
   public formChangePass = this.formBuilder.group({
-    matKhauMoi: new FormControl('', [Validators.required],),
+    matKhauMoi: new FormControl('', [Validators.required]),
   });
 
   public get getMatKhauMoi() {
@@ -82,8 +81,6 @@ export class ChangePasswordComponent implements  OnInit, OnDestroy{
   public user: any;
   ngOnInit(): void {
     this.getTokenFromLocalStorage();
-    
-    
   }
 
   public checkTaiKhoan() {
@@ -116,12 +113,11 @@ export class ChangePasswordComponent implements  OnInit, OnDestroy{
     }
   }
 
-
   //OTP xác nhận email
-  
-  sentOTP: string;//mã có thời gian
-  randomOTP :string;
-  userOTP :boolean = false;
+
+  sentOTP: string; //mã có thời gian
+  randomOTP: string;
+  userOTP: boolean = false;
 
   generateOtp(length: number): string {
     // Tạo mã OTP với chiều dài cho trước
@@ -131,96 +127,101 @@ export class ChangePasswordComponent implements  OnInit, OnDestroy{
       const randomIndex = Math.floor(Math.random() * charset.length);
       otp += charset[randomIndex];
     }
-  
+
     // Lấy thời gian hiện tại (timestamp) và cộng thêm 60 giây (60 * 1000 milliseconds) để tạo timestamp hết hạn
     const currentTimestamp = new Date().getTime();
     const expirationTimestamp = currentTimestamp + 60 * 1000; // 60 giây
-  
+
     // Kết hợp mã OTP và timestamp
     const otpWithTimestamp = `${otp}-${expirationTimestamp}`;
-  
+
     return otpWithTimestamp;
   }
 
-//check OTP có hợp lý không
-public confirmOTP(){
-  const codeOTP = this.formOTP.value.otp1 + this.formOTP.value.otp2 + this.formOTP.value.otp3 + this.formOTP.value.otp4
-  this.userOTP = this.verifyOtp(codeOTP)
-  if ( this.userOTP === true) {
-    // Mã OTP đúng
-    // Thực hiện các hành động sau khi xác nhận thành công
-    console.log("Mã OTP chính xác!");
-    this.updatePassWord();
-   
-    if(this.user.vaiTro.tenVaiTro === 'Học sinh'){
-      
+  //check OTP có hợp lý không
+  public confirmOTP() {
+    const codeOTP =
+      this.formOTP.value.otp1 +
+      this.formOTP.value.otp2 +
+      this.formOTP.value.otp3 +
+      this.formOTP.value.otp4;
+    this.userOTP = this.verifyOtp(codeOTP);
+    if (this.userOTP === true) {
+      // Mã OTP đúng
+      // Thực hiện các hành động sau khi xác nhận thành công
+      console.log('Mã OTP chính xác!');
+      this.updatePassWord();
+
+      if (this.user.vaiTro.tenVaiTro === 'Học sinh') {
         // this.router.navigate(['user/home'])
         this.router.navigate(['/user/home']).then(() => {
-          // Làm mới trang user/home
           window.location.reload();
         });
-      
-     
-     
-  } 
-} else {
-    // Mã OTP không khớp
-    alert("Mã OTP không đúng hoặc hết hiệu lực. Vui lòng thử lại!.");
-}
- 
-}
-
-//tách mã otp vs thời gian hiệu lực ra
-verifyOtp(userEnteredOTP: string): boolean {
-  // Tách mã OTP và timestamp từ chuỗi mã OTP
-  const parts = this.sentOTP.split('-');
-  if (parts.length === 2) {
-    const generatedOTP = parts[0];
-    const expirationTimestamp = parseInt(parts[1], 10);
-    this.randomOTP = generatedOTP;
-    // Lấy thời gian hiện tại
-    const currentTimestamp = new Date().getTime();
-
-    // Kiểm tra xem thời gian hiện tại có nhỏ hơn thời gian hết hạn của mã OTP không
-    if (currentTimestamp <= expirationTimestamp) {
-      // Kiểm tra xem mã OTP mà người dùng nhập có trùng khớp với mã OTP tự sinh không
-      if (userEnteredOTP === generatedOTP) {
-        return true; // Mã OTP hợp lệ và chưa hết hạn
+      }else if(this.user.vaiTro.tenVaiTro === 'Admin'){
+        this.router.navigate(['/admin']).then(() => {
+          window.location.reload();
+        });
+      }else if(this.user.vaiTro.tenVaiTro === 'Giáo viên'){
+        this.router.navigate(['/teacher']).then(() => {
+          window.location.reload();
+        });
       }
+    } else {
+      // Mã OTP không khớp
+      alert('Mã OTP không đúng hoặc hết hiệu lực. Vui lòng thử lại!.');
     }
   }
 
-  return false; // Mã OTP không hợp lệ hoặc đã hết hạn
-}
+  //tách mã otp vs thời gian hiệu lực ra
+  verifyOtp(userEnteredOTP: string): boolean {
+    // Tách mã OTP và timestamp từ chuỗi mã OTP
+    const parts = this.sentOTP.split('-');
+    if (parts.length === 2) {
+      const generatedOTP = parts[0];
+      const expirationTimestamp = parseInt(parts[1], 10);
+      this.randomOTP = generatedOTP;
+      // Lấy thời gian hiện tại
+      const currentTimestamp = new Date().getTime();
 
+      // Kiểm tra xem thời gian hiện tại có nhỏ hơn thời gian hết hạn của mã OTP không
+      if (currentTimestamp <= expirationTimestamp) {
+        // Kiểm tra xem mã OTP mà người dùng nhập có trùng khớp với mã OTP tự sinh không
+        if (userEnteredOTP === generatedOTP) {
+          return true; // Mã OTP hợp lệ và chưa hết hạn
+        }
+      }
+    }
 
-emailData = {
-  from:'Quizz Education <quizzeducation@tpl.edu.vn>',
-  to: '',
-  subject: 'Thay Đổi Mật Khẩu',
-  text: '',
-};
-// Hàm hỗ trợ thêm số 0 nếu cần
-addLeadingZero(value: number): string {
-  return value < 10 ? `0${value}` : value.toString();
-}
-sendEmail() {
-  this.sentOTP = this.generateOtp(4);//bao gồm mã và thời gian hiệu lực otp
-  const parts = this.sentOTP.split('-');//tách mã vs thời gian ra
-  if (parts.length === 2) {
-    const generatedOTP = parts[0];// mã otp
-    const expirationTimestamp = parseInt(parts[1], 10);//thời gian hiệu lực
-    this.randomOTP = generatedOTP;//gán để fill lên html
+    return false; // Mã OTP không hợp lệ hoặc đã hết hạn
   }
-  this.emailData.to = this.user.email;
 
-  // Lấy thời gian hiện tại, chỉ để hiển thị lên textEmail của html
-  const now = new Date();
-  const expirationTime = new Date(now.getTime() + 60 * 1000); // Thời gian hết hạn sau 60s (60 giây * 1000 milliseconds)
+  emailData = {
+    from: 'Quizz Education <quizzeducation@tpl.edu.vn>',
+    to: '',
+    subject: 'Thay Đổi Mật Khẩu',
+    text: '',
+  };
+  // Hàm hỗ trợ thêm số 0 nếu cần
+  addLeadingZero(value: number): string {
+    return value < 10 ? `0${value}` : value.toString();
+  }
+  sendEmail() {
+    this.sentOTP = this.generateOtp(4); //bao gồm mã và thời gian hiệu lực otp
+    const parts = this.sentOTP.split('-'); //tách mã vs thời gian ra
+    if (parts.length === 2) {
+      const generatedOTP = parts[0]; // mã otp
+      const expirationTimestamp = parseInt(parts[1], 10); //thời gian hiệu lực
+      this.randomOTP = generatedOTP; //gán để fill lên html
+    }
+    this.emailData.to = this.user.email;
 
- console.log(this.randomOTP)
-  
-  this.emailData.text = `
+    // Lấy thời gian hiện tại, chỉ để hiển thị lên textEmail của html
+    const now = new Date();
+    const expirationTime = new Date(now.getTime() + 60 * 1000); // Thời gian hết hạn sau 60s (60 giây * 1000 milliseconds)
+
+    console.log(this.randomOTP);
+
+    this.emailData.text = `
   <div class="container" style="max-width: 600px;
   margin: 0 auto;
   padding: 20px;">
@@ -235,10 +236,24 @@ sendEmail() {
           </br><p>Xin chào, ${this.user.hoVaTen}</p>
           </br><p>Chúng tôi đã nhận được yêu cầu xác minh địa chỉ email của bạn.</p>
           </br><p>Mã OTP đã được gửi đến email của bạn.</p>
-          </br><p class="code" style="font-size: 24px;font-weight: bold;color: #007bff;text-align: center; margin: auto; border-radius: 10px; padding: 10px;letter-spacing: 15px;font-size: 30px;">${this.randomOTP}</p>
+          </br><p class="code" style="font-size: 24px;font-weight: bold;color: #007bff;text-align: center; margin: auto; border-radius: 10px; padding: 10px;letter-spacing: 15px;font-size: 30px;">${
+            this.randomOTP
+          }</p>
           </br><p>Mã OTP này có hiệu lực trong vòng 60 giây.</p>
-          </br><p>Thời gian bắt đầu từ: ${this.addLeadingZero(now.getHours())}:${this.addLeadingZero(now.getMinutes())}:${this.addLeadingZero(now.getSeconds())} ${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}</p>
-          </br><p>Thời gian hết hạn: ${this.addLeadingZero(expirationTime.getHours())}:${this.addLeadingZero(expirationTime.getMinutes())}:${this.addLeadingZero(expirationTime.getSeconds())} ${expirationTime.getDate()}/${expirationTime.getMonth() + 1}/${expirationTime.getFullYear()}</p>
+          </br><p>Thời gian bắt đầu từ: ${this.addLeadingZero(
+            now.getHours()
+          )}:${this.addLeadingZero(now.getMinutes())}:${this.addLeadingZero(
+      now.getSeconds()
+    )} ${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}</p>
+          </br><p>Thời gian hết hạn: ${this.addLeadingZero(
+            expirationTime.getHours()
+          )}:${this.addLeadingZero(
+      expirationTime.getMinutes()
+    )}:${this.addLeadingZero(
+      expirationTime.getSeconds()
+    )} ${expirationTime.getDate()}/${
+      expirationTime.getMonth() + 1
+    }/${expirationTime.getFullYear()}</p>
           </br><p>Nếu bạn không yêu cầu mã này, vui lòng bỏ qua thông báo này.</p>
           </br><p>Không chuyển tiếp hoặc cung cấp mã này cho bất kỳ ai.</p>
           </br><div class="instructions">
@@ -250,25 +265,24 @@ sendEmail() {
   </div>
 `;
 
-  console.log(this.emailData);
-  this.httpSvService.postItem('send-email',this.emailData).subscribe(
-    (response) => {
-      console.log('Email sent successfully.');
-      
-    },
-    (error) => {
-      console.error('Failed to send email: ', error);
-    }
-  );
-  // Tạo một subscription để cập nhật thời gian đếm ngược sau mỗi giây
-  this.countdownSubscription = interval(1000).subscribe(() => {
-    if (this.countdown > 0) {
-      this.countdown--; // Giảm thời gian đếm ngược đi 1 giây
-    }
-  });
-}
+    console.log(this.emailData);
+    this.httpSvService.postItem('send-email', this.emailData).subscribe(
+      (response) => {
+        console.log('Email sent successfully.');
+      },
+      (error) => {
+        console.error('Failed to send email: ', error);
+      }
+    );
+    // Tạo một subscription để cập nhật thời gian đếm ngược sau mỗi giây
+    this.countdownSubscription = interval(1000).subscribe(() => {
+      if (this.countdown > 0) {
+        this.countdown--; // Giảm thời gian đếm ngược đi 1 giây
+      }
+    });
+  }
 
-//Đếm ngược 60s
+  //Đếm ngược 60s
   countdown: number = 60; // Thời gian đếm ngược ban đầu là 60 giây
   countdownSubscription: Subscription;
 
@@ -278,5 +292,4 @@ sendEmail() {
       this.countdownSubscription.unsubscribe();
     }
   }
-
 }

@@ -16,6 +16,8 @@ import { ManageClassComponent } from './Teacher/views/manage-class/manage-class.
 import { ForgotPasswordComponent } from './Admin/views/pages/forgot-password/forgot-password.component';
 import { ExamComponent } from './User/pages/exam/exam.component';
 import { DashboardComponent } from './Admin/views/dashboard/dashboard.component';
+import { ProfileTeacherComponent } from './Teacher/views/profile-teacher/profile-teacher.component';
+import { ProfileAdminComponent } from './admin/views/profile-admin/profile-admin.component';
 const routes: Routes = [
   {
     path: '',
@@ -77,6 +79,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./Admin/views/pages/pages.module').then((m) => m.PagesModule),
       },
+      {
+        path: 'profile-admin',
+        component: ProfileAdminComponent,
+        data: {
+          title: 'Thông tin cá nhân'
+        }
+      },
     ],
     canActivate: [InterceptorUrlGuard],
   },
@@ -84,7 +93,7 @@ const routes: Routes = [
     path: 'teacher',
     component: DefaultLayoutTeacherComponent,
     data: {
-      title: 'Home',
+      title: 'Trang chủ',
     },
     children: [
       {
@@ -112,6 +121,14 @@ const routes: Routes = [
       {
         path: 'manage-class',
         component: ManageClassComponent
+      },
+      {
+        path: 'profile-teacher',
+       
+        component: ProfileTeacherComponent,
+        data: {
+          title: 'Thông tin tài khoản',
+        }
       }
     ],
     canActivate: [InterceptorUrlGuard],

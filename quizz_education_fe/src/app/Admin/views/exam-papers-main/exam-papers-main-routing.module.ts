@@ -31,13 +31,6 @@ const routes: Routes = [
         }
       }
     ]
-  },
-  {
-    path: 'exam-papers',
-    component: ExamPapersComponent,
-    data: {
-      title: 'Profile'
-    }
   }
 ];
 
