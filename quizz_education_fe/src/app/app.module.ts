@@ -45,7 +45,9 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { ManageClassComponent } from './Teacher/views/manage-class/manage-class.component';
 import { ScoreComponent } from './User/pages/score/score.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
+
+
 import {
   AvatarModule,
   BadgeModule,
@@ -68,7 +70,8 @@ import {
 
 import { ExamComponent } from './User/pages/exam/exam.component';
 import { ForgotPasswordComponent } from './Admin/views/pages/forgot-password/forgot-password.component';
-
+import { CreateExamQuestionsComponent } from './Teacher/views/forms/test-schedule/create-exam-questions/create-exam-questions.component';
+import { RadioButtonModule } from 'primeng/radiobutton';
 const APP_CONTAINERS = [
   DefaultFooterComponent,
   DefaultHeaderComponent,
@@ -98,9 +101,11 @@ const APP_CONTAINERS = [
     ReportComponent,
     ManageClassComponent,
     ForgotPasswordComponent,
-    ExamComponent
+    ExamComponent,
+    
   ],
   imports: [
+    RadioButtonModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -133,7 +138,8 @@ const APP_CONTAINERS = [
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
     ToastModule,
-    NgbModule
+    NgbModule,
+ 
   ],
   providers: [
     {

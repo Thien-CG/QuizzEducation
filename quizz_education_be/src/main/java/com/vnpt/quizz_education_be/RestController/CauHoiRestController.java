@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vnpt.quizz_education_be.DAO.CauHoiDAO;
 import com.vnpt.quizz_education_be.Entity.CauHoi;
+import com.vnpt.quizz_education_be.Entity.PhanCong;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -40,7 +41,14 @@ public class CauHoiRestController {
         }
         return ResponseEntity.ok(optional.get());
     }
-
+    @GetMapping("cauhoi/dethi/{id}")
+    public ResponseEntity<List<CauHoi>> findByMaDeThi(@PathVariable("id") int maDeThi) {
+        List<CauHoi> resultList = cauHoiDAO.findByMaDeThi(maDeThi);
+        if (resultList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(resultList);
+    }
     @PostMapping("cauhoi")
     public ResponseEntity<CauHoi> post(@RequestBody CauHoi cauhoi) {
         if (cauHoiDAO.existsById(cauhoi.getMaCauHoi())) {
@@ -69,8 +77,5 @@ public class CauHoiRestController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("listCauHoi")
-    public ResponseEntity<List<CauHoi>> getListCauHoi(@RequestParam("maDeThi") Integer maDeThi) {
-        return ResponseEntity.ok(cauHoiDAO.getCauHoiByDeThi(maDeThi));
-    }
+   
 }

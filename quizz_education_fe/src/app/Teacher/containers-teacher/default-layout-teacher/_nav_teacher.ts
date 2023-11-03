@@ -8,37 +8,10 @@ export const navTeacherItems: INavData[] = [
     url: '/teacher',
     iconComponent: { name: 'cil-notes' },
     children: [
+      
       {
-        name: 'Form Control',
-        url: 'form-control'
-      },
-      {
-        name: 'Select',
-        url: 'forms/select'
-      },
-      {
-        name: 'Checks & Radios',
-        url: 'forms/checks-radios'
-      },
-      {
-        name: 'Range',
-        url: 'forms/range'
-      },
-      {
-        name: 'Input Group',
-        url: 'forms/input-group'
-      },
-      {
-        name: 'Floating Labels',
-        url: 'forms/floating-labels'
-      },
-      {
-        name: 'Layout',
-        url: 'forms/layout'
-      },
-      {
-        name: 'Validation',
-        url: '/teacher/forms/validation'
+        name: 'Phân Công',
+        url: '/teacher/forms/test-schedule'
       }
     ]
   },

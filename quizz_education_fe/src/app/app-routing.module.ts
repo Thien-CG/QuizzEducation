@@ -15,6 +15,7 @@ import { ScoreComponent } from './User/pages/score/score.component';
 import { ManageClassComponent } from './Teacher/views/manage-class/manage-class.component';
 import { ForgotPasswordComponent } from './Admin/views/pages/forgot-password/forgot-password.component';
 import { ExamComponent } from './User/pages/exam/exam.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -106,13 +107,13 @@ const routes: Routes = [
     ],
     canActivate: [InterceptorUrlGuard],
   },
-  {
-    path: '404',
-    component: Page404Component,
-    data: {
-      title: 'Page 404',
-    },
-  },
+  // {
+  //   path: '404',
+  //   component: Page404Component,
+  //   data: {
+  //     title: 'Page 404',
+  //   },
+  // },
   {
     path: '500',
     component: Page500Component,
@@ -150,6 +151,7 @@ const routes: Routes = [
       scrollPositionRestoration: 'top',
       anchorScrolling: 'enabled',
       initialNavigation: 'enabledBlocking',
+     
       // relativeLinkResolution: 'legacy'
     }),
   ],

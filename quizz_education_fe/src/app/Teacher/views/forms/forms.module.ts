@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { RouterModule, Routes } from '@angular/router';
 
 import {
   ButtonGroupModule,
   ButtonModule,
   CardModule,
-  DropdownModule,
+  
   FormModule,
   GridModule,
   ListGroupModule,
@@ -14,30 +17,27 @@ import {
 } from '@coreui/angular';
 
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
-
+import { DataTablesModule } from "angular-datatables";
 import { FormsRoutingModule } from './forms-routing.module';
-import { RangesComponent } from './ranges/ranges.component';
-import { FloatingLabelsComponent } from './floating-labels/floating-labels.component';
-import { FormControlsComponent } from './form-controls/form-controls.component';
-import { SelectComponent } from './select/select.component';
-import { ChecksRadiosComponent } from './checks-radios/checks-radios.component';
-import { InputGroupsComponent } from './input-groups/input-groups.component';
-import { LayoutComponent } from './layout/layout.component';
-import { ValidationComponent } from './validation/validation.component';
-
-
+import { TableModule } from 'primeng/table';
+import { TestScheduleComponent } from './test-schedule/test-schedule.component';
+import { CreateExamQuestionsComponent } from './test-schedule/create-exam-questions/create-exam-questions.component';
+import { InputMaskModule } from 'primeng/inputmask';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { TreeSelectModule } from 'primeng/treeselect';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { CalendarModule } from 'primeng/calendar';
 @NgModule({
+  
   declarations: [
-    RangesComponent,
-    FloatingLabelsComponent,
-    FormControlsComponent,
-    SelectComponent,
-    ChecksRadiosComponent,
-    InputGroupsComponent,
-    LayoutComponent,
-    ValidationComponent
+    TestScheduleComponent,
+    CreateExamQuestionsComponent
+    
   ],
   imports: [
+    CalendarModule,
+    RadioButtonModule,
+    FormModule,
     CommonModule,
     FormsRoutingModule,
     DocsComponentsModule,
@@ -52,8 +52,18 @@ import { ValidationComponent } from './validation/validation.component';
     ButtonGroupModule,
     DropdownModule,
     SharedModule,
-    ListGroupModule
+    ListGroupModule,
+    TableModule,
+    DataTablesModule,
+    InputMaskModule,
+    InputTextModule,
+    MultiSelectModule,
+    TreeSelectModule,
+    DropdownModule,
+  
+    
   ]
 })
 export class CoreUIFormsModule {
+  RouterModule
 }

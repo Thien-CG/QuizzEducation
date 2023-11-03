@@ -210,30 +210,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="formattedEndTime" class="form-label">Giới tính</label>
-                                    <div class="form-checkbox">
-                                        <div class="form-checkbox">
-                                            <div class="flex align-items-center">
-                                                <p-radioButton name="gioiTinh" [value]="true"
-                                                    formControlName="gioiTinh"></p-radioButton>
-                                                <label for="ingredient1">Nam</label>
-                                            </div>
-                                            <div class="flex align-items-center checkbox">
-                                                <p-radioButton name="gioiTinh" [value]="false"
-                                                    formControlName="gioiTinh"></p-radioButton>
-                                                <label for="ingredient2">Nữ</label>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <small
-                                        *ngIf="myForm.get('gioiTinh').hasError('required') && myForm.get('gioiTinh').touched"
-                                        class="error-message">Vui lòng chọn giới tính !</small>
-                                </div>
-                            </div>
+                           
 
                             <div class="col-md-6">
                                 <div class="mb-3">

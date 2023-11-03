@@ -128,12 +128,12 @@
                             placeholder="Chọn ngày sinh" formControlName="namSinh"
                             [ngClass]="{'error-input-date': myForm.get('namSinh').invalid && myForm.get('namSinh').touched}"></p-calendar>
                     </div>
-                    <small *ngIf="myForm.get('namSinh').hasError('required') && myForm.get('namSinh').touched"
+                    <!-- <small *ngIf="myForm.get('namSinh').hasError('required') && myForm.get('namSinh').touched"
                         class="error-message">Năm sinh không được để trống !</small>
                     <small *ngIf="myForm.get('namSinh').hasError('invalidBirthDate') && myForm.get('namSinh').touched"
                         class="error-message">
                         Ngày sinh không được lớn hơn ngày hiện tại !
-                    </small>
+                    </small> -->
 
                 </div>
             </div>

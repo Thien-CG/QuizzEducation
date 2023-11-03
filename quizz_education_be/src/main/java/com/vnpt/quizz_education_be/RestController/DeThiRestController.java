@@ -40,7 +40,22 @@ public class DeThiRestController {
         }
         return ResponseEntity.ok(optional.get());
     }
-
+    @GetMapping("dethi/monthi/{id}")
+    public ResponseEntity<List<DeThi>> findByMaMonInDeThi(@PathVariable("id") int maMon) {
+        List<DeThi> resultList = deThiDAO.findByMaMonInDeThi(maMon);
+        if (resultList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(resultList);
+    }
+     @GetMapping("dethi/chitietkithi/{id}")
+    public ResponseEntity<List<DeThi>> findByMaChiTietKyThi(@PathVariable("id") int maChiTietKyThi) {
+        List<DeThi> resultList = deThiDAO.findByMaChiTietKyThi(maChiTietKyThi);
+        if (resultList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(resultList);
+    }
     @PostMapping("dethi")
     public ResponseEntity<DeThi> post(@RequestBody DeThi dethi) {
         if (deThiDAO.existsById(dethi.getMaDeThi())) {

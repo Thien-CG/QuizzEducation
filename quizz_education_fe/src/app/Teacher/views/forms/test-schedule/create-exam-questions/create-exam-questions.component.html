@@ -1,0 +1,50 @@
+<h3>Tạo đề thi</h3>
+<form [formGroup]="formGroup">
+    <div class="modal-body"> 
+        <div class="row">
+            
+        <p-table [value]="questions" [value]="dethi"
+            [globalFilterFields]="['noiDungCauHoi', 'monThi.tenMon']">
+            <ng-template pTemplate="header" class="theader">
+              
+               
+                <label for="tenDangNhap" class="form-label">Môn Thi: </label>
+                <p-dropdown formControlName="tenMon" [options]="dethi" optionLabel="monThi.tenMon">
+                    
+                </p-dropdown>
+                   
+             
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="tenDangNhap" class="form-label">Tên Đề Thi</label>
+                        <input type="text" class="form-control" id="tenDeThi" formControlName="tenDeThi"
+                            placeholder="Nhập tên đề thi" >                        
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="formattedEndTime" class="form-label">Ngày Tạo</label>
+                        <div class="flex justify-content-center ">
+                            <p-calendar [(ngModel)]="date" [showIcon]="true"></p-calendar>
+                        </div>
+                     
+    
+                    </div>
+                </div>
+
+                <div *ngFor="let question of questions">
+                    <label>
+                        <input type="checkbox" [value]="questions" (change)="toggleSelection(questions)">
+                      {{ question.noiDungCauHoi }}
+                    </label>
+                  </div>
+                
+                  <button  (click)="createExam()">Create Exam</button>
+            </ng-template>     
+          
+        </p-table>
+    </div>
+    </div>     
+   
+</form>

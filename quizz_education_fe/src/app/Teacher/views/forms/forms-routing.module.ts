@@ -1,14 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { TestScheduleComponent } from './test-schedule/test-schedule.component';
+import { CreateExamQuestionsComponent } from './test-schedule/create-exam-questions/create-exam-questions.component';
 
-import { FloatingLabelsComponent } from './floating-labels/floating-labels.component';
-import { FormControlsComponent } from './form-controls/form-controls.component';
-import { InputGroupsComponent } from './input-groups/input-groups.component';
-import { RangesComponent } from './ranges/ranges.component';
-import { SelectComponent } from './select/select.component';
-import { ChecksRadiosComponent } from './checks-radios/checks-radios.component';
-import { LayoutComponent } from './layout/layout.component';
-import { ValidationComponent } from './validation/validation.component';
+
+
 
 const routes: Routes = [
   {
@@ -20,64 +16,27 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'form-control'
+        redirectTo: 'form'
       },
       {
-        path: 'form-control',
-        component: FormControlsComponent,
+        path: 'form',
+        component: CreateExamQuestionsComponent,
+      },
+      {
+        path: 'test-schedule',
+        component: TestScheduleComponent,
         data: {
-          title: 'Form Control'
+          title: 'Test-schedule'
         }
       },
       {
-        path: 'select',
-        component: SelectComponent,
-        data: {
-          title: 'Select'
-        }
+        path: 'mon/:id/monthi',
+        component: CreateExamQuestionsComponent,
       },
       {
-        path: 'checks-radios',
-        component: ChecksRadiosComponent,
-        data: {
-          title: 'Checks & Radios'
-        }
+        path: 'mon/:id/monthi/:id2/kithi',
+        component: CreateExamQuestionsComponent
       },
-      {
-        path: 'range',
-        component: RangesComponent,
-        data: {
-          title: 'Range'
-        }
-      },
-      {
-        path: 'input-group',
-        component: InputGroupsComponent,
-        data: {
-          title: 'Input Group'
-        }
-      },
-      {
-        path: 'floating-labels',
-        component: FloatingLabelsComponent,
-        data: {
-          title: 'Floating Labels'
-        }
-      },
-      {
-        path: 'layout',
-        component: LayoutComponent,
-        data: {
-          title: 'Layout'
-        }
-      },
-      {
-        path: 'validation',
-        component: ValidationComponent,
-        data: {
-          title: 'Validation'
-        }
-      }
     ]
   }
 ];

@@ -1,0 +1,180 @@
+<div class="tabs">
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active text-dark" id="nav-danh-sach-tab" data-bs-toggle="tab"
+                data-bs-target="#nav-danh-sach" type="button" role="tab" aria-controls="nav-danh-sach"
+                aria-selected="true">Danh sách phân công</button>
+            <button class="nav-link text-dark" id="nav-create-tab" data-bs-toggle="tab" data-bs-target="#nav-create"
+                type="button" role="tab" aria-controls="nav-create" aria-selected="false">Tạo đề thi</button>
+         
+        </div>
+    </nav>
+
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active mt-4" id="nav-danh-sach" role="tabpanel"
+            aria-labelledby="nav-danh-sach-tab">
+            <!-- test -->
+            <div class="group-header-table ">      
+                <div class="form-search">
+                    <form class="w-100" [formGroup]="formFilter" >
+                        <div class="input-group mb-3">
+                            <button (click)="dt1.filterGlobal(getValueSearch(), 'contains')"
+                                class="btn btn-outline-secondary box-shadow-none" type="button" id="button-search"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+                                    fill="none">
+                                    <path
+                                        d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z"
+                                        stroke="#667085" stroke-width="1.66667" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg></button>
+                            <input pInputText type="text" (change)="dt1.filterGlobal(getValueSearch(), 'contains')"
+                                formControlName="search" class="form-control box-shadow-none" placeholder="Tìm kiếm"
+                                aria-label="Example text with button addon" aria-describedby="button-search">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="list-body">
+                
+                <p-table [value]="listContest" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" #dt1
+                    dataKey="maKyThi" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]"
+                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [globalFilterFields]="['kyThi.tenKyThi', 'monThi.tenMon','kyThi.thoiGianBatDau','kyThi.thoiGianKetThuc']">
+        
+                    <ng-template pTemplate="header" class="theader">
+                        <tr>
+                            <th style="min-width:150px; text-align: center" pSortableColumn="kyThi.tenKyThi" >Tên kỳ thi <p-sortIcon
+                                    field="kyThi.tenKyThi"></p-sortIcon></th>
+                            <th style="min-width:150px; text-align: center" pSortableColumn="monThi.tenMon" >Tên môn thi <p-sortIcon
+                                    field="monThi.tenMon"></p-sortIcon></th>
+                                    <th style="min-width:150px; text-align: center" pSortableColumn="daTaoDe" >Đã Tạo Đề <p-sortIcon
+                                        field="daTaoDe"></p-sortIcon></th>        
+                            <th style="min-width:150px; text-align: center" pSortableColumn="kyThi.thoiGianBatDau" >Thời gian bắt đầu
+                                <p-sortIcon field="kyThi.thoiGianBatDau"></p-sortIcon>
+                            </th>
+                            <th style="min-width:150px; text-align: center" pSortableColumn="kyThi.thoiGianKetThuc" >Thời gian kết thúc
+                                <p-sortIcon field="kyThi.thoiGianKetThuc"></p-sortIcon>
+                            </th>
+                            <th style="min-width:150px; text-align: center">Chỉnh sửa</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" class="tbody" let-list let-rowIndex="rowIndex">
+                        <tr>
+                            <td class="text-center">{{list.kyThi.tenKyThi}}</td>
+                            <td class="text-center">{{list.monThi.tenMon}}</td>
+                            <td class="text-center"
+                            [ngClass]="{'text-success': list.daTaoDe == true, 'text-danger': list.daTaoDe == false }">
+                            {{list.daTaoDe ? 'Đã tạo đề' : 'Chưa tạo đề'}}</td>
+                            <td class="text-center">{{list.kyThi.thoiGianBatDau}}</td>
+                            <td class="text-center">{{list.kyThi.thoiGianKetThuc}}</td>   
+                            <td class="text-center" class="text-center"><button class="btn btn-primary"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                    (click)="editTeacher(list.maPhanCong)">Sửa</button></td>
+                                           
+                        </tr>
+                    </ng-template>
+                    
+                </p-table> 
+        
+            </div>
+        
+        </div>
+        <div class="tab-pane fade" id="nav-create" role="tabpanel" aria-labelledby="nav-create-tab">
+            <app-create-exam-questions></app-create-exam-questions>
+
+        </div>  
+        
+        <!-- Model -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa trạng thái đề thi</h5>
+                    </div>
+                    
+                    <form [formGroup]="myForm">
+                        <div class="modal-body">
+    
+                            <div class="row">
+                               
+                                <div class="col-md-6 ">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Kỳ Thi</label>
+                                        <div class="flex justify-content-center">
+                                            <input type="text" class="form-control" name="selectedKyThi"
+                                                formControlName="selectedKyThi" required [readonly]="true">
+                                        </div>
+                                    </div>
+    
+                                </div>
+                                                        
+                                <div class="col-md-6 ">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Thời Gian Bắt Đầu</label>
+                                        <div class="flex justify-content-center">
+                                            <input type="text" class="form-control" name="selectedthoiGianBatDau"
+                                                formControlName="selectedthoiGianBatDau" required [readonly]="true">
+                                        </div>
+                                    </div>
+    
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Môn Thi</label>
+                                        <div class="flex justify-content-center">
+                                            <input type="text" class="form-control" name="selectedMonThi"
+                                                formControlName="selectedMonThi" required [readonly]="true">
+                                        </div>
+                                    </div>
+    
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Thời Gian Kết Thúc</label>
+                                        <div class="flex justify-content-center">
+                                            <input type="text" class="form-control" name="selectedthoiGianKetThuc"
+                                                formControlName="selectedthoiGianKetThuc" required [readonly]="true">
+                                        </div>
+                                    </div>
+    
+                                </div>
+                                
+                              
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="formattedEndTime" class="form-label">Trạng thái</label>
+                                        <div class="form-checkbox">
+                                            <div class="form-checkbox">
+                                                <div class="flex align-items-center checkbox">
+                                                    <p-radioButton name="daTaoDe" [value]="true"
+                                                        formControlName="daTaoDe"></p-radioButton>
+                                                    <label for="ingredient1">Đã tạo đề</label>
+                                                </div>
+                                                <div class="flex align-items-center checkbox">
+                                                    <p-radioButton name="daTaoDe" [value]="false"
+                                                        formControlName="daTaoDe"></p-radioButton>
+                                                    <label for="ingredient2">Chưa tạo đề</label>
+                                                </div>
+                                            </div>   
+                                        </div>                                       
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+    
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button class="btn btn-primary" pButton pRipple (click)="updataThongTin()">Cập nhật</button>
+                           
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+
+
+
+
