@@ -97,7 +97,7 @@ const routes: Routes = [
     },
     children: [
       {
-        path: 'forms',
+        path: 'exam-management',
         loadChildren: () =>
           import('./Teacher/views/forms/forms.module').then(
             (m) => m.CoreUIFormsModule

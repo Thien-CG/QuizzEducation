@@ -4,42 +4,17 @@ export const navTeacherItems: INavData[] = [
 
 
   {
-    name: 'Quản lý',
+    name: 'Quản lý đề thi',
     url: '/teacher',
     iconComponent: { name: 'cil-notes' },
     children: [
       {
-        name: 'Form Control',
-        
-        url: 'form-control'
+        name: 'Lịch phân công',
+        url: 'exam-management/checks-radios'
       },
       {
-        name: 'Select',
-        url: 'forms/select'
-      },
-      {
-        name: 'Checks & Radios',
-        url: 'forms/checks-radios'
-      },
-      {
-        name: 'Range',
-        url: 'forms/range'
-      },
-      {
-        name: 'Input Group',
-        url: 'forms/input-group'
-      },
-      {
-        name: 'Floating Labels',
-        url: 'forms/floating-labels'
-      },
-      {
-        name: 'Layout',
-        url: 'forms/layout'
-      },
-      {
-        name: 'Validation',
-        url: '/teacher/forms/validation'
+        name: 'Danh sách đề thi',
+        url: 'exam-management/floating-labels'
       }
     ]
   },

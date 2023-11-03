@@ -14,68 +14,21 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Forms'
+      title: 'Quản lí đề thi'
     },
     children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'form-control'
-      },
-      {
-        path: 'form-control',
-        component: FormControlsComponent,
-        data: {
-          title: 'Form Control'
-        }
-      },
-      {
-        path: 'select',
-        component: SelectComponent,
-        data: {
-          title: 'Select'
-        }
-      },
       {
         path: 'checks-radios',
         component: ChecksRadiosComponent,
         data: {
-          title: 'Checks & Radios'
-        }
-      },
-      {
-        path: 'range',
-        component: RangesComponent,
-        data: {
-          title: 'Range'
-        }
-      },
-      {
-        path: 'input-group',
-        component: InputGroupsComponent,
-        data: {
-          title: 'Input Group'
+          title: 'Lịch phân công'
         }
       },
       {
         path: 'floating-labels',
         component: FloatingLabelsComponent,
         data: {
-          title: 'Floating Labels'
-        }
-      },
-      {
-        path: 'layout',
-        component: LayoutComponent,
-        data: {
-          title: 'Layout'
-        }
-      },
-      {
-        path: 'validation',
-        component: ValidationComponent,
-        data: {
-          title: 'Validation'
+          title: 'Danh sách đề thi'
         }
       }
     ]
