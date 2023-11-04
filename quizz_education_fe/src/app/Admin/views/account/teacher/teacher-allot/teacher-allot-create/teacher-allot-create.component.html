@@ -7,31 +7,42 @@
                     <label for="tenDangNhap" class="form-label">Tên kỳ thi</label><br>
                     <p-treeSelect class="selectClass" [options]="tenkythi" formControlName="tenkythi"
                         placeholder="Chọn kỳ thi"
-                        [ngClass]="{'error-input-select': myForm.get('tenkythi').invalid && myForm.get('tenkythi').touched}"></p-treeSelect>
-                    <!-- <small
-                        *ngIf="myForm.get('selectedLopThi').hasError('required') && myForm.get('selectedLopThi').touched"
-                        class="error-message">Vui lòng chọn để tên kỳ thi !</small> -->
+                        [ngClass]="{'error-input-select': errorMesssage || myForm.get('tenkythi').invalid && myForm.get('tenkythi').touched}"></p-treeSelect>
+                    <small *ngIf="myForm.get('tenkythi').hasError('required') && myForm.get('tenkythi').touched"
+                        class="error-message">Vui lòng chọn tên kỳ thi !</small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="tenDangNhap" class="form-label">Tên môn thi</label><br>
                     <p-treeSelect class="selectClass" [options]="tenMonthi" formControlName="tenmonthi"
-                        placeholder="Chọn môn thi"></p-treeSelect>
+                        placeholder="Chọn môn thi"
+                        [ngClass]="{'error-input-select': errorMesssage || myForm.get('tenmonthi').invalid && myForm.get('tenmonthi').touched}"></p-treeSelect>
+                    <small *ngIf="myForm.get('tenmonthi').hasError('required') && myForm.get('tenmonthi').touched"
+                        class="error-message">Vui lòng chọn tên môn thi !</small>
+                    <small *ngIf="errorMesssage" class="error-message">{{ errorMesssage }}</small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="tenDangNhap" class="form-label">Tên giáo viên</label><br>
                     <p-treeSelect class="selectClass" [options]="hovaten" formControlName="tengiaovien"
-                        placeholder="Chọn giáo viên"></p-treeSelect>
+                        placeholder="Chọn giáo viên"
+                        [ngClass]="{'error-input-select': myForm.get('tengiaovien').invalid && myForm.get('tengiaovien').touched}"></p-treeSelect>
+                    <small *ngIf="myForm.get('tengiaovien').hasError('required') && myForm.get('tengiaovien').touched"
+                        class="error-message">Vui lòng chọn tên giáo viên !</small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="tenDangNhap" class="form-label">Thời hạn</label><br>
-                    <p-calendar [touchUI]="true" [readonlyInput]="true" [showIcon]="true" dateFormat="dd/mm/yy"
-                        formControlName="thoihan" placeholder="Nhập thời hạn tạo đề"></p-calendar>
+                    <p-calendar [minDate]="minDate" [touchUI]="true" [readonlyInput]="true" [showIcon]="true"
+                        dateFormat="dd/mm/yy" formControlName="thoihan" placeholder="Nhập thời hạn tạo đề"
+                        [ngClass]="{'error-input-date': myForm.get('thoihan').invalid && myForm.get('thoihan').touched}"></p-calendar>
+                    <small *ngIf="myForm.get('thoihan').hasError('required') && myForm.get('thoihan').touched"
+                        class="error-message">Vui lòng nhập thời hạn !</small>
+
+
                 </div>
             </div>
         </div>
@@ -39,7 +50,7 @@
     <p-toast></p-toast>
     <div class="modal-footer">
         <button class="btn btn-secondary m-lg-2" type="button" (click)="resetForm()">Làm mới</button>
-        <button type="submit" class="btn btn-primary" pButton pRipple (click)="createPhanCong()">Tạo phân công</button>
+        <button type="submit" class="btn btn-primary" pButton pRipple>Tạo phân công</button>
     </div>
 
 </form>

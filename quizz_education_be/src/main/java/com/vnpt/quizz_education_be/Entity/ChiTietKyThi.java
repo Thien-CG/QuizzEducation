@@ -2,10 +2,6 @@ package com.vnpt.quizz_education_be.Entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vnpt.quizz_education_be.DTO.Time;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,8 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.vnpt.quizz_education_be.DTO.Time;
+
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -48,10 +46,6 @@ public class ChiTietKyThi implements Serializable {
     @ManyToOne
     @JoinColumn(name = "ma_lop")
     LopThi lopThi;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "chiTietKyThi")
-    List<DeThi> list_DeThi;
 
     // Tính thời gian làm bài
     public Time getTime() {
@@ -87,14 +81,6 @@ public class ChiTietKyThi implements Serializable {
             return 0;// Đang diễn ra
         } else {
             return 2;// Đã kết thúc
-        }
-    }
-
-    public DeThi getDeThi() {
-        try {
-            return this.getList_DeThi().get(0);
-        } catch (Exception e) {
-            return null;
         }
     }
 }

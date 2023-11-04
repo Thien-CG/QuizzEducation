@@ -18,8 +18,8 @@
       <!-- test -->
       <div class="group-header-table ">
         <div class="inport">
-          <button type="button" pButton pRipple (click)="exportExcel()" class="btn btn-success mr-2 text-light"
-            pTooltip="XLS" tooltipPosition="bottom">Xuất file Excel</button>
+          <button type="button" pButton pRipple class="btn btn-success mr-2 text-light" pTooltip="XLS"
+            tooltipPosition="bottom">Xuất file Excel</button>
         </div>
         <div class="form-search">
           <form class="w-100" [formGroup]="formFilter">
@@ -48,7 +48,7 @@
           <ng-template pTemplate="header" class="theader">
             <tr>
               <th pSortableColumn="maKyThi" style="width:14%">Mã kỳ thi <p-sortIcon field="maKyThi"></p-sortIcon> </th>
-              <th pSortableColumn="tenKyThi" style="width:30% ">Tên kỳ thi <p-sortIcon field="tenKyThi"></p-sortIcon>
+              <th pSortableColumn="tenKyThi" style="width:28% ">Tên kỳ thi <p-sortIcon field="tenKyThi"></p-sortIcon>
               </th>
               <th style="width:15%; text-align: center;">Trạng thái
               </th>
@@ -57,7 +57,7 @@
               <th pSortableColumn="thoiGianKetThuc" style="width:17%;text-align: center;">Thời gian kết thúc <p-sortIcon
                   field="thoiGianKetThuc"></p-sortIcon>
               </th>
-              <th style="width:8%">Thao tác</th>
+              <th style="width:22%; text-align: center;">Thao tác</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" class="tbody" let-listContest let-rowIndex="rowIndex">
@@ -73,15 +73,17 @@
             }">
                 {{ getContestStatus(listContest.thoiGianBatDau, listContest.thoiGianKetThuc) }}
               </td>
-
-
               <td class="d-none d-lg-table-cell moPhai text-center">
                 {{listContest.thoiGianBatDau | date: 'dd/MM/yyyy'}}</td>
-
               <td class="d-none d-lg-table-cell moPhai text-center">
                 {{listContest.thoiGianKetThuc | date: 'dd/MM/yyyy'}}</td>
-              <td class="text-center"><button class="btn btn-info text-light" data-bs-toggle="modal"
-                  data-bs-target="#exampleModal" (click)="getEditKyThi(listContest.maKyThi)">Sửa</button></td>
+              <td class="text-center d-flex"><button class="btn btn-info text-light mx-2" data-bs-toggle="modal"
+                  data-bs-target="#exampleModal" (click)="getEditKyThi(listContest.maKyThi)">Sửa</button>
+                <button class="btn btn-info text-light" (click)="getItemChiTietKyThi(listContest.maKyThi)" style="width: 100px;">Chi
+                  tiết</button>
+
+                <!-- <button type="button"  pButton icon="pi pi-info-circle" label="Show"></button> -->
+              </td>
             </tr>
           </ng-template>
           <ng-template pTemplate="paginatorleft">
@@ -94,8 +96,9 @@
 
       </div>
 
-
-
+      <button #confirmButton class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#chitiet" hidden>Xác
+        nhận</button>
+      <p-toast></p-toast>
     </div>
     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 
@@ -103,7 +106,7 @@
 
     </div>
     <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-      <!-- <app-contest-detail></app-contest-detail> -->
+      <app-contest-detail></app-contest-detail>
     </div>
   </div>
 
@@ -156,4 +159,162 @@
       </div>
     </div>
   </div>
+
+
+  <div class="modal fade" id="chitiet" tabindex="-1" editMode="row" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel">{{tenKyThi}}</h4>
+        </div>
+        <div class="modal-body">
+
+          <p-table [value]="itemChiTietKiThi" editMode="row" dataKey="maChiTietKyThi" [paginator]="true"
+            [showCurrentPageReport]="true" #dt1 [rows]="10" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [globalFilterFields]="['monThi.maMon', 'lopThi.maLopThi']">
+
+            <ng-template pTemplate="caption">
+              <div class="group-header-table ">
+                <div class="inport modal-filter">
+                  <p-columnFilter class="columnFilterLopThi" field="lopThi.maLopThi" matchMode="equals"
+                    [showMenu]="false">
+                    <ng-template pTemplate="filter" let-label let-filter="filterCallback">
+                      <p-dropdown [ngModel]="label" [options]="lopThi" (onChange)="filter($event.value)"
+                        placeholder="Lớp thi" [showClear]="true">
+                        <ng-template let-option pTemplate="item">
+                          <span class="ml-1 mt-1">{{ option.label }}</span>
+                        </ng-template>
+                      </p-dropdown>
+                    </ng-template>
+                  </p-columnFilter>
+
+                  <p-columnFilter class="columnFilterLopThi" field="monThi.maMon" matchMode="equals" [showMenu]="false">
+                    <ng-template pTemplate="filter" let-label let-filter="filterCallback">
+                      <p-dropdown [ngModel]="label" [options]="monThi" (onChange)="filter($event.value)"
+                        placeholder="Môn thi" [showClear]="true">
+                        <ng-template let-option pTemplate="item">
+                          <span class="ml-1 mt-1">{{ option.label }}</span>
+                        </ng-template>
+                      </p-dropdown>
+                    </ng-template>
+                  </p-columnFilter>
+                </div>
+              </div>
+            </ng-template>
+
+
+            <ng-template pTemplate="header" class="theader">
+              <tr>
+
+                <th pSortableColumn="monThi.maMon" style="width:18%;">Tên môn thi<p-sortIcon
+                    field="monThi.maMon"></p-sortIcon>
+                </th>
+                <th pSortableColumn="lopThi.maLopThi" style="width:18%; text-align: center;">Tên lớp thi<p-sortIcon
+                    field="lopThi.maLopThi"></p-sortIcon>
+                </th>
+                <th style="width:15%; text-align: center;">Thời gian làm bài
+                </th>
+                <th pSortableColumn="thoiGianBatDau" style="width:20%;  text-align: center;">Thời gian bắt đầu
+
+                </th>
+                <th pSortableColumn="thoiGianKetThuc" style="width:20%;text-align: center;">Thời gian kết thúc
+
+                </th>
+                <th style="width:8%">Thao tác</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" class="tbody" let-itemChiTietKiThi let-editing="editing" let-ri="rowIndex">
+
+              <tr [pEditableRow]="itemChiTietKiThi">
+
+                <td>
+
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+
+
+
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{itemChiTietKiThi.monThi.tenMon}}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td class="text-center">
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input pInputText type="text" [(ngModel)]="itemChiTietKiThi.lopThi.tenLop">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{itemChiTietKiThi.lopThi.tenLop}}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td class="text-center">{{ tinhThoiGianChenhLech(itemChiTietKiThi) }} phút</td>
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input pInputText type="text"
+                        [ngModel]="itemChiTietKiThi.thoiGianBatDau | date: 'yyyy-MM-dd HH:mm:ss'"
+                        (ngModelChange)="itemChiTietKiThi.thoiGianBatDau = $event">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{itemChiTietKiThi.thoiGianBatDau | date: 'dd/MM/yyyy HH:mm:ss'}}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td class="text-center">
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input pInputText type="text" [(ngModel)]="itemChiTietKiThi.thoiGianKetThuc">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{itemChiTietKiThi.thoiGianKetThuc | date: 'dd/MM/yyyy HH:mm:ss'}}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td>
+                  <div class="flex align-items-center justify-content-center gap-2">
+                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                      (click)="onRowEditInit(itemChiTietKiThi)" class="p-button-rounded p-button-text"></button>
+                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                      (click)="onRowEditSave(itemChiTietKiThi)"
+                      class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                      (click)="onRowEditCancel(itemChiTietKiThi, ri)"
+                      class="p-button-rounded p-button-text p-button-danger"></button>
+                  </div>
+                </td>
+              </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft">
+              <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+            </ng-template>
+            <ng-template pTemplate="paginatorright">
+              <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+            </ng-template>
+          </p-table>
+
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <form (ngSubmit)="onSubmit()">
+            <button class="btn btn-primary">Save changes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </div>

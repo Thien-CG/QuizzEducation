@@ -76,6 +76,6 @@ export const navItems: INavData[] = [
     name: 'Thống kê',
     iconComponent: { name: 'cil-description' },
     class: 'mt-auto',
-    url: '/report'
+    url: '/admin/dashboard'
   }
 ];

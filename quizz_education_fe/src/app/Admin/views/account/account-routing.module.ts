@@ -5,38 +5,38 @@ import { TeacherComponent } from './teacher/teacher.component';
 
 
 const routes: Routes = [
-    {
+  {
+    path: '',
+    data: {
+      title: 'Người dùng'
+    },
+    children: [
+      {
         path: '',
+        pathMatch: 'full',
+        redirectTo: 'teacher'
+      },
+      {
+        path: 'teacher',
+        component: TeacherComponent,
         data: {
-            title: 'Người dùng'
-        },
-        children: [
-            {
-                path: '',
-                pathMatch: 'full',
-                redirectTo: 'teacher'
-            },
-            {
-                path: 'teacher',
-                component: TeacherComponent,
-                data: {
-                    title: 'Teacher'
-                }
-            },
-            {
-                path: 'user',
-                component: UserComponent,
-                data: {
-                    title: 'User'
-                }
-            }
-        ]
-    }
+          title: 'Giáo viên'
+        }
+      },
+      {
+        path: 'user',
+        component: UserComponent,
+        data: {
+          title: 'Học sinh'
+        }
+      }
+    ]
+  }
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
 export class AccountRoutingModule {
 }

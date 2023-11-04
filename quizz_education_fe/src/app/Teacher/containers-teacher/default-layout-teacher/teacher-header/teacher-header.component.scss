@@ -1,0 +1,190 @@
+// .notification-icon {
+//     position: relative;
+//     display: inline-block;
+//     text-decoration: none;
+//     color: #333; /* Màu biểu tượng */
+//     font-size: 24px; /* Kích thước biểu tượng */
+//   }
+  
+//   .notification-badge {
+//     position: absolute;
+//     top: -5px; /* Điểm bắt đầu từ trên cùng của biểu tượng */
+//     right: -15px; /* Điểm bắt đầu từ phía bên phải của biểu tượng */
+//     background-color: #007bff; /* Màu nền của badge */
+//     color: #fff; /* Màu chữ số */
+//     border-radius: 50%; /* Bo tròn góc để tạo badge tròn */
+//     width: 28px; /* Kích thước của badge */
+//     height: 28px;
+//     text-align: center;
+//     font-size: 14px; /* Kích thước chữ số */
+//     line-height: 28px; /* Để giữ chữ số giữa badge */
+//   }
+  
+
+
+/*----------------------------- Profile modal ----------------------------- */
+
+.profile-header {
+    margin: 10px auto;
+    width: 90%;
+    height: fit-content;
+    border-radius: 10px;
+    // background-color: #00afef;
+    background: linear-gradient(to right, #0158d2, #00afef);
+}
+
+.profile-header .background_profile {
+    width: 100%;
+    height: 120px;
+}
+
+.profile-header .background_profile .background_profile_img {
+    width: 100%;
+    height: 95%;
+    object-fit: cover;
+}
+
+.profile-header .role_avata {
+    display: flex;
+    // justify-content: space-between;
+    width: 90%;
+    height: 110px;
+    margin: 0 auto;
+    align-items: center;
+    // padding-top: -50px;
+}
+.profile-header .role_avata .title-card{
+    position: absolute; 
+    top: 78px; 
+    margin-left: 15%;
+    color: #ce0043;
+}
+.profile-header .role_avata .footer-card{
+    position: absolute; 
+    top: 223px;
+    font-size: 10px; 
+    margin-left: 15%;
+    color:white;
+}
+.profile-header .role_avata .khung-qr{
+    width: 60px;
+    height: 60px;
+    margin-left: 150px;
+    margin-bottom: 30px;
+}
+
+.profile-header .role_avata .QR{
+    width: 100%;
+} 
+
+
+
+/*Khung ảnh*/
+.profile-header .avata_profile {
+    width: 90px;
+    height: 130px;
+    /* position: relative;
+    top: -50px;
+    left: 40px; */
+    // padding: 6px; 
+    margin: 0px 0px 50px 0px;
+    // border-radius: 50%;
+    background-color: #F2F4F7;
+    
+}
+
+/*Tấm ảnh chính*/
+.profile-header .avata_profile .avata_profile_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    // border-radius: 50%;
+}
+
+.profile-header .role_profile label {
+    color: red;
+    padding-right: 10px;
+    font-size: 12px;
+}
+
+.profile-header .role_profile {
+   padding-left: 10px;
+    font-family: "Inter";
+
+}
+.profile-body {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.profile-body .profile-body-content {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.profile-body .profile-body-content .profile-body-content-header,
+.profile-body .profile-body-content .profile-body-content-body {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px ;
+    border-bottom: 1px solid #101828;
+}
+
+.profile-body-content-header-icon {
+    background-color: var(--primary_25);
+    padding: 5px 10px;
+    border-radius: 50%;
+}
+
+.profile-body .profile-body-content .profile-body-content-body {
+    border-bottom:none;
+}
+
+
+// danh sách của setting
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    position: relative;
+    // margin: 5px 0;
+}
+
+li ul {
+    display: none;
+    position: absolute;
+    left: 40%; /* Hiển thị bên phải của mục cha */
+    top: 0;
+    background-color: #f1f1f1;
+    padding: 5px;
+}
+
+li:hover ul {
+    display: block;
+}
+li ul li:hover{
+    background-color: rgb(188, 247, 255);
+    display: block;
+}
+li ul li{
+    width: 160px;
+    font-size: 16px;
+}
+li ul li a{
+    text-decoration: none;
+}
+.disabled-input {
+    pointer-events: none; /* Ngăn chặn sự tương tác của người dùng */
+    background-color: #e9ecef;
+    color: black;
+    opacity: 1;
+  }
+  
+
+  

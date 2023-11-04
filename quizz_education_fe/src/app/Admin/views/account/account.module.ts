@@ -1,3 +1,4 @@
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -34,6 +35,8 @@ import { TagModule } from 'primeng/tag';
 import { CreateTeacherComponent } from './teacher/create-teacher/create-teacher.component';
 import { TeacherAllotComponent } from './teacher/teacher-allot/teacher-allot.component';
 import { TeacherAllotCreateComponent } from './teacher/teacher-allot/teacher-allot-create/teacher-allot-create.component';
+import { ChartModule } from 'primeng/chart';
+
 @NgModule({
   declarations: [
     TeacherComponent,
@@ -69,7 +72,9 @@ import { TeacherAllotCreateComponent } from './teacher/teacher-allot/teacher-all
     RadioButtonModule,
     InputMaskModule,
     TreeSelectModule,
-    TagModule
+    TagModule,
+    ChartModule,
+    BsDatepickerModule.forRoot()
   ]
 })
 export class UIAccountModule {

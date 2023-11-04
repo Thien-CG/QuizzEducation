@@ -23,13 +23,6 @@ const routes: Routes = [
         data: {
           title: 'Exam Answer'
         }
-      },
-      {
-        path: 'exam-papers',
-        component: ExamPapersComponent,
-        data: {
-          title: 'Exam Papers'
-        }
       },{
         path: 'exam-request',
         component: ExamClassComponent,
@@ -47,3 +40,4 @@ const routes: Routes = [
 })
 export class ExamPapersMainRoutingModule {
 }
+ 

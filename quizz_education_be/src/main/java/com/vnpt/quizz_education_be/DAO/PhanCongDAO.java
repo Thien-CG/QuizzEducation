@@ -16,4 +16,7 @@ public interface PhanCongDAO extends JpaRepository<PhanCong, Integer> {
 
     @Query("SELECT p.monThi FROM PhanCong p WHERE p.taiKhoan.tenDangNhap = ?1")
     List<MonThi> getMonThiPhanCongTaiKhoan(Optional<String> tenDangNhap);
+
+    @Query("SELECT p FROM PhanCong p WHERE p.taiKhoan.tenDangNhap = ?1")
+    List<PhanCong> getByUsername(String username);
 }

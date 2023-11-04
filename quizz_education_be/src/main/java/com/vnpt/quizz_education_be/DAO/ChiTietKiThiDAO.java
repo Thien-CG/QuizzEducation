@@ -9,9 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.vnpt.quizz_education_be.Entity.ChiTietKyThi;
-
-import java.util.List;
-import java.util.Optional;
 import com.vnpt.quizz_education_be.Entity.LopThi;
 import com.vnpt.quizz_education_be.Entity.MonThi;
 
@@ -35,5 +32,5 @@ public interface ChiTietKiThiDAO extends JpaRepository<ChiTietKyThi, Integer> {
     List<MonThi> getMonThiInKiThi(Integer maKyThi);
 
     @Query("SELECT p.lopThi FROM ChiTietKyThi p WHERE p.kyThi.maKyThi = ?1 AND p.monThi.maMon=?2")
-    List<LopThi> getLopThiByKiThiAndMonThi(Integer maKyThi, Integer maMonThi);
+    List<LopThi> getLopThiByKiThiAndMonThi(Optional<Integer> maKyThi, Optional<Integer> maMonThi);
 }

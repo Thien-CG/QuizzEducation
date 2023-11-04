@@ -42,6 +42,12 @@ nav{
     object-fit: cover;
     border-radius: 50%;
 }
+ .nav-account .avarta-footer img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
 
 .nav-account-info {
   margin-left: 10px;
@@ -123,6 +129,13 @@ nav{
 .profile-header .avata_profile .avata_profile_img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    // border-radius: 50%;
+}
+
+#avata_profile_img_collapse {
+    width: 20%;
+    height: 5%;
     object-fit: cover;
     // border-radius: 50%;
 }

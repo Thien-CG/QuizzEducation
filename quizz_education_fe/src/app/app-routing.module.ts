@@ -15,6 +15,9 @@ import { ScoreComponent } from './User/pages/score/score.component';
 import { ManageClassComponent } from './Teacher/views/manage-class/manage-class.component';
 import { ForgotPasswordComponent } from './Admin/views/pages/forgot-password/forgot-password.component';
 import { ExamComponent } from './User/pages/exam/exam.component';
+import { DashboardComponent } from './Admin/views/dashboard/dashboard.component';
+import { ProfileTeacherComponent } from './Teacher/views/profile-teacher/profile-teacher.component';
+import { ProfileAdminComponent } from './admin/views/profile-admin/profile-admin.component';
 const routes: Routes = [
   {
     path: '',
@@ -40,6 +43,15 @@ const routes: Routes = [
       title: 'Admin'
     },
     children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'exam'
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent
+      },
       {
         path: 'exam',
         loadChildren: () =>
@@ -67,6 +79,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./Admin/views/pages/pages.module').then((m) => m.PagesModule),
       },
+      {
+        path: 'profile-admin',
+        component: ProfileAdminComponent,
+        data: {
+          title: 'Thông tin cá nhân'
+        }
+      },
     ],
     canActivate: [InterceptorUrlGuard],
   },
@@ -74,11 +93,11 @@ const routes: Routes = [
     path: 'teacher',
     component: DefaultLayoutTeacherComponent,
     data: {
-      title: 'Home',
+      title: 'Trang chủ',
     },
     children: [
       {
-        path: 'forms',
+        path: 'exam-management',
         loadChildren: () =>
           import('./Teacher/views/forms/forms.module').then(
             (m) => m.CoreUIFormsModule
@@ -102,6 +121,14 @@ const routes: Routes = [
       {
         path: 'manage-class',
         component: ManageClassComponent
+      },
+      {
+        path: 'profile-teacher',
+       
+        component: ProfileTeacherComponent,
+        data: {
+          title: 'Thông tin tài khoản',
+        }
       }
     ],
     canActivate: [InterceptorUrlGuard],
@@ -141,7 +168,7 @@ const routes: Routes = [
       title: 'ForgotPassword Page'
     }
   },
- { path: '**', redirectTo: '404' }
+  { path: '**', redirectTo: '404' }
 ];
 
 @NgModule({
