@@ -45,15 +45,19 @@ public class JWTRestController {
                 String tokenAccount;
 
                 if (account.isRemember()) {
-                    tokenAccount = jwtTokenProvider.createToken(accountLogin, 24 * 60 * 60 * 1000); // nhớ 1 ngày 24 tiếng (24(tiếng) * 60(phút) * 60(giây) * 1000)
+                    tokenAccount = jwtTokenProvider.createToken(accountLogin, 24 * 60 * 60 * 1000); // nhớ 1 ngày 24
+                                                                                                    // tiếng (24(tiếng)
+                                                                                                    // * 60(phút) *
+                                                                                                    // 60(giây) * 1000)
                 } else {
-                    tokenAccount = jwtTokenProvider.createToken(accountLogin, 3 * 60 * 1000);// nhớ tài khoản trong 3 tiếng
+                    tokenAccount = jwtTokenProvider.createToken(accountLogin, 3 * 60 * 1000);// nhớ tài khoản trong 3
+                                                                                             // tiếng
                 }
-                
-                System.out.println("Có click remember hem? ---> "+account.isRemember());
-                 TaiKhoan token = new TaiKhoan();
-                    token.setToken(tokenAccount);
-                    return ResponseEntity.ok(token);
+
+                // System.out.println("Có click remember hem? ---> "+account.isRemember());
+                TaiKhoan token = new TaiKhoan();
+                token.setToken(tokenAccount);
+                return ResponseEntity.ok(token);
             }
         }
 

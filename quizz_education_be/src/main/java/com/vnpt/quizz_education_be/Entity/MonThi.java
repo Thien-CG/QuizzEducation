@@ -25,7 +25,4 @@ public class MonThi implements Serializable {
     @Column(name = "ten_mon")
     private String tenMon;
 
-    @Column(name = "thoi_gian_lam_bai")
-    private Float thoiGianLamBai;
-
 }

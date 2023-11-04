@@ -1,111 +1,74 @@
-  <div class="container">
-    <div class="router">
-      <h6>
-        <a href="">Lịch thi</a> >>
-        <a href="">Thi ngay</a> >>
-        <a href="">Toán HK1</a>
-      </h6>
+<div class="container">
+  <div class="router">
+    <h6>
+      <a href="">Lịch thi</a> >>
+      <a href="">Thi ngay</a> >>
+      <a href="">Toán HK1</a>
+    </h6>
+  </div>
+  <div class="row">
+    <div class="col-md-9 bg-light">
+
+      <!-- Chi tiết câu hỏi -->
+      <form action="" method="post">
+        <div class="row">
+          <!-- Nội dung câu hỏi -->
+          <div class="question1 d-flex">
+            <div class="question-content md-9">
+              <span *ngIf="cauHoi">Câu {{index + 1}}: {{ cauHoi.noiDungCauHoi }}</span>
+            </div>
+          </div>
+
+          <!-- Đáp án câu hỏi -->
+          <div class="options" style="margin: auto;" *ngIf="cauHoi && cauHoi.dapAns">
+            <label *ngFor="let dapAn of cauHoi.dapAns; let j = index">
+              <ng-container *ngIf="cauHoi.nhieuDapAn === true">
+                <input type="checkbox" name="q1" value="a" [checked]="dapAn.daChon"
+                  (change)="onChangCheckBox($event, j)">
+                {{chuCai[j]}}. {{dapAn.noiDungDapAn}}
+              </ng-container>
+              <ng-container *ngIf="cauHoi.nhieuDapAn === false">
+                <input type="radio" name="q1" value="a" [checked]="dapAn.daChon" (change)="onChangRadio($event, j)">
+                {{chuCai[j]}}.
+                {{dapAn.noiDungDapAn}}
+              </ng-container>
+            </label>
+          </div>
+        </div>
+
+        <!-- Chuyển câu hỏi -->
+        <div class="question-footer">
+          <button class="btn-pre btn-info" [disabled]="index == 0" (click)="chuyenCauHoi(index - 1)">Câu trước</button>
+          <button class="btn-next btn-info" [disabled]="deThi && index === deThi.length - 1"
+            (click)="chuyenCauHoi(index + 1)">Câu tiếp theo</button>
+        </div>
+      </form>
     </div>
-    <div class="row"> 
-      <div class="col-md-9 bg-light">
+    <div class="col-md-3">
 
-        <form action="" method="post">
-
-          <div class="row">
-            <div class="question1 d-flex">
-              <div class="question-content md-9">
-                Câu hỏi 1: Ai là người tạo nền móng công trình nghiên cứu quản trị, đặc biệt là nghiên cứu về mối quan
-                hệ giữa
-                điều kiện lao động và kết quả của doanh nghiệp.
-              </div>
-              <div class="question-content-footer md-3">
-                Đạt điểm 0,50
-                <button class="btn-dat-co btn-danger">Đặt cờ</button>
-              </div>
-            </div>
-            <div class="options">
-              <label><input type="radio" name="q1" value="a"> A. Lựa chọn A</label>
-              <label><input type="radio" name="q1" value="b"> B. Lựa chọn B</label>
-              <label><input type="radio" name="q1" value="c"> C. Lựa chọn C</label>
-              <label><input type="radio" name="q1" value="d"> D. Lựa chọn D</label>
-            </div>
-          </div>
-
-
-
-          <div class="row">
-            <div class="question1 d-flex">
-              <div class="question-content md-9">
-                Câu hỏi 2: Ai là người tạo nền móng công trình nghiên cứu quản trị, đặc biệt là nghiên cứu về mối quan
-                hệ giữa
-                điều kiện lao động và kết quả của doanh nghiệp.
-              </div>
-              <div class="question-content-footer md-3">
-                Đạt điểm 0,50
-                <button class="btn-dat-co btn-primary">Đặt cờ</button>
-              </div>
-            </div>
-            <div class="options">
-              <label><input type="checkbox" name="q1" value="a"> A. Lựa chọn A</label>
-              <label><input type="checkbox" name="q1" value="b"> B. Lựa chọn B</label>
-              <label><input type="checkbox" name="q1" value="c"> C. Lựa chọn C</label>
-              <label><input type="checkbox" name="q1" value="d"> D. Lựa chọn D</label>
-            </div>
-          </div>
-          <div class="question-footer">
-            <button class="btn-pre btn-info">Câu trước</button>
-            <button class="btn-next btn-info">Câu tiếp theo</button>
-           
-          </div>
- 
-        </form>
-
+      <!-- Danh sách câu hỏi -->
+      <h5 class="question-header">Câu hỏi trắc nghiệm</h5>
+      <div class="question-container">
+        <button *ngFor="let de of deThi; let i = index" [ngClass]="{
+          'question': true,
+          'bg-warning': de.daChon,
+          'hehe': index === i
+        }" (click)="chuyenCauHoi(i)">{{i+1}}</button>
       </div>
-      <div class="col-md-3">
-        <h5 class="question-header">Câu hỏi trắc nghiệm</h5>
-        <div class="question-container">
-          <a href="#" class="question bg-warning">1 <i class="fas fa-flag flag-icon"></i></a>
-          <a href="#" class="question bg-warning">2</a>
-          <a href="#" class="question bg-warning">3</a>
-          <a href="#" class="question">4</a>
-          <a href="#" class="question">5</a>
-
-          <a href="#" class="question">6</a>
-          <a href="#" class="question">7</a>
-          <a href="#" class="question">8</a>
-          <a href="#" class="question">9<i class="fas fa-flag flag-icon"></i></a>
-          <a href="#" class="question">10</a>
-
-          <a href="#" class="question">11</a>
-          <a href="#" class="question">12</a>
-          <a href="#" class="question">13<i class="fas fa-flag flag-icon"></i></a>
-          <a href="#" class="question">14</a>
-          <a href="#" class="question">15<i class="fas fa-flag flag-icon"></i></a>
-
-          <a href="#" class="question">16<i class="fas fa-flag flag-icon"></i></a>
-          <a href="#" class="question">17</a>
-          <a href="#" class="question">18</a>
-          <a href="#" class="question">19</a>
-          <a href="#" class="question">20</a>
 
 
-          <a href="#" class="question">21</a>
-          <a href="#" class="question">22<i class="fas fa-flag flag-icon"></i></a>
-          <a href="#" class="question">23</a>
-          <a href="#" class="question">24</a>
-          <a href="#" class="question">25</a>
+      <!-- Thời gian làm bài -->
+      <div class="question-footer1 text-center d-flex justify-content-center align-items-center">
+        <div class="timer md-9 ">Thời gian còn lại: <br> <i class="far fa-clock"> {{displayTime}}</i>
         </div>
-
-        <div class="question-footer1 text-center d-flex justify-content-center align-items-center">
-          <div class="timer md-9 ">Thời gian còn lại: <br> <i class="far fa-clock"></i> 0:21:48
-          </div>
-          <button type="submit" class="btn-nop-bai bg-primary md-3">
-            Nộp bài thi
-            <br>
-            03/25
-          </button>
-        </div>
-
+        <button type="submit" class="btn-nop-bai bg-primary md-3">
+          Nộp bài thi
+          <br>
+          <ng-container *ngIf="deThi">
+            {{soCauDaLam}}/{{deThi.length}}
+          </ng-container>
+        </button>
       </div>
     </div>
   </div>
+</div>

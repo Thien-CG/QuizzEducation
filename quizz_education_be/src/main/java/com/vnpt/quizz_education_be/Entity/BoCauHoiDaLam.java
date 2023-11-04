@@ -1,7 +1,7 @@
 package com.vnpt.quizz_education_be.Entity;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,13 +30,13 @@ public class BoCauHoiDaLam implements Serializable {
     private int maBoCauHoiDaLam;
 
     @Column(name = "thoi_gian_bat_dau")
-    private Date thoiGianBatDau;
+    private Date thoiGianBatDau; // 10h
 
     @Column(name = "thoi_gian_ket_thuc")
-    private Date thoiGianKetThuc;
+    private Date thoiGianKetThuc; // 11h3
 
     @Column(name = "diem_so")
-    private Float diemSo;
+    private Float diemSo = 0.0f;
 
     // Relationship N - 1
 
@@ -44,11 +44,26 @@ public class BoCauHoiDaLam implements Serializable {
     @JoinColumn(name = "ma_de_thi")
     DeThi deThi;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(optional = true)
     @JoinColumn(name = "ten_dang_nhap")
     TaiKhoan taiKhoan;
 
     @JsonIgnore
     @OneToMany(mappedBy = "boCauHoiDaLam")
     List<LichSuThi> List_LichSuThi;
+
+    public boolean getVaoThi() {
+        Integer thoiGianLamBai = null;
+        try {
+            thoiGianLamBai = this.getDeThi().getThoiGianLamBai();
+            long thoiGianThi = Math
+                    .abs((this.getThoiGianKetThuc().getTime() - this.getThoiGianBatDau().getTime()) / 1000);
+            if (thoiGianLamBai - thoiGianThi > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
 }

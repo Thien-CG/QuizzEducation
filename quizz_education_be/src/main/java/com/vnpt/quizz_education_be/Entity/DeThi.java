@@ -38,24 +38,26 @@ public class DeThi implements Serializable {
     private Boolean daSuDung;
 
     // Relationship N - 1
-   
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ma_chi_tiet_ky_thi")
     ChiTietKyThi chiTietKyThi;
 
-  
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ten_dang_nhap")
     TaiKhoan taiKhoan;
 
-  
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ma_mon")
     MonThi monThi;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "deThi")
     List<CauHoi> cauHois;
+
+    @Column(name = "thoi_gian_lam_bai")
+    private Integer thoiGianLamBai;
 
 }

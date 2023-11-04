@@ -17,7 +17,7 @@ import com.vnpt.quizz_education_be.DTO.DiemThiDTO;
 @CrossOrigin(origins = "*")
 @RequestMapping("/quizzeducation/api")
 public class DiemThiRestController {
- 
+
     @Autowired
     BoCauHoiDaLamDAO boCauHoiDaLamDAO;
 
