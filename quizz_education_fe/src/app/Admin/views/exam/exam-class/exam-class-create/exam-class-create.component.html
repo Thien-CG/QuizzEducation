@@ -1,27 +1,33 @@
 <h3>Tạo lớp Thi</h3>
-<form>
+<form [formGroup]="myFormLopThi">
     <div class="modal-body">
         <div class="row">
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="tenMonThi" class="form-label">Tên lớp thi</label>
-                    <input type="text" class="form-control" id="tenLopThi" name="tenLopThi"
-                        placeholder="Nhập tên kỳ thi" [(ngModel)]="tenLopThi" required>
+                    <input type="text" class="form-control" id="tenLopThi" name="tenLopThi" formControlName="tenLop"
+                        placeholder="Nhập tên môn thi"
+                        [ngClass]="{'error-input': myFormLopThi.get('tenLop').invalid && myFormLopThi.get('tenLop').touched}">
+                    <small *ngIf="myFormLopThi.get('tenLop').hasError('required') && myFormLopThi.get('tenLop').touched"
+                        class="error-message">Vui lòng nhập tên lớp !</small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="input1" class="form-label">Số lượng học sinh</label>
 
-                    <div class="p-inputgroup">
-                        <input class="form-control" id="soLuongHocSinh" name="soLuongHocSinh"
-                            [(ngModel)]="soLuongHocSinh" pInputText placeholder="Nhập thời gian làm bài" required>
-                   
+
+                    <div class="flex justify-content-center">
+                        <p-inputMask mask="99" formControlName="soLuong"
+                            [ngClass]="{'error-input-ng': myFormLopThi.get('soLuong').invalid && myFormLopThi.get('soLuong').touched}"
+                            placeholder="Nhập số điện thoại"></p-inputMask>
                     </div>
+                    <small
+                        *ngIf="myFormLopThi.get('soLuong').hasError('required') && myFormLopThi.get('soLuong').touched"
+                        class="error-message">Vui lòng nhập số lượng !</small>
+
                 </div>
-
             </div>
-
         </div>
     </div>
 

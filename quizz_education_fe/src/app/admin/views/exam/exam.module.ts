@@ -15,7 +15,6 @@ import {
 } from '@coreui/angular';
 
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
-
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TableContestComponent } from './contest/table-contest/table-contest.component';
 import { ExamClassComponent } from './exam-class/exam-class.component';
@@ -23,7 +22,7 @@ import { FormsRoutingModule } from './exam-routing.module';
 import { TooltipModule } from 'primeng/tooltip';
 import { ContestComponent } from './contest/contest.component';
 import { ContestCreateComponent } from './contest/table-contest/contest-create/contest-create.component';
-
+import { InputMaskModule } from 'primeng/inputmask';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -70,7 +69,8 @@ import { ExamClassCreateComponent } from './exam-class/exam-class-create/exam-cl
     ConfirmDialogModule,
     DynamicDialogModule,
     MultiSelectModule,
-    TooltipModule
+    TooltipModule,
+    InputMaskModule
   ]
 })
 export class CoreUIExamModule {

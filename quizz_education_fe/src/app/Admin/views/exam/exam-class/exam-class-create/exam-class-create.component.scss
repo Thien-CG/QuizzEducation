@@ -7,3 +7,11 @@ h3 {
 .p-inputgroup {
     height: 40px;
 }
+:host ::ng-deep .error-input-ng input {
+    border: 1px solid red;
+    border-radius: 7px;
+}
+
+.error-message {
+    color: red;
+}

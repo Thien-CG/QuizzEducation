@@ -1,24 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { HttpSvService } from '../../../../../service/API.service';
+
 @Component({
   selector: 'app-table-contest',
   templateUrl: './table-contest.component.html',
   styleUrls: ['./table-contest.component.scss'],
-  providers: [MessageService, DialogService]
+  providers: [MessageService, DialogService, ConfirmationService]
 })
 export class TableContestComponent implements OnInit {
 
   myForm: FormGroup;
   myFormMonThi: FormGroup;
   myFormKyThi: FormGroup;
-  constructor(private renderer: Renderer2, private httpService: HttpSvService, private http: HttpClient,
+  constructor(private renderer: Renderer2, private httpService: HttpSvService, private http: HttpClient, private confirmationService: ConfirmationService, private elementRef: ElementRef,
     private formBuilder: FormBuilder, private fb: FormBuilder, private messageService: MessageService, public dialogService: DialogService, private modalService: NgbModal) {
 
     // Khởi tạo FormGroup và các FormControl
@@ -106,9 +106,11 @@ export class TableContestComponent implements OnInit {
     this.httpService.putItem("kythi", this.id, data)
       .subscribe((response: any) => {
         this.messageService.add({ severity: 'success', summary: 'Thông báo cập nhật', detail: 'Cập nhật kỳ thi thành công' });
-        setTimeout(() => {
-          location.reload();
-        }, 2000);
+        // setTimeout(() => {
+        //   location.reload();
+        // }, 2000);
+        this.getData()
+        this.getEditKyThi(this.id)
       }, (error: any) => {
         console.error('Lỗi khi gửi dữ liệu:', error);
       });
@@ -120,6 +122,7 @@ export class TableContestComponent implements OnInit {
   id: number;
   name: string = '';
   public dskythi: any = {};
+
   getEditKyThi(id: number) {
     this.id = id;
     this.httpService.getItem("kythi", id).subscribe((response: any) => {
@@ -129,6 +132,7 @@ export class TableContestComponent implements OnInit {
       const endtime = new Date(this.dskythi.thoiGianKetThuc)
       this.myFormKyThi.get('thoiGianBatDau').setValue(stattime)
       this.myFormKyThi.get('thoiGianKetThuc').setValue(endtime)
+
     });
   }
 
@@ -183,7 +187,7 @@ export class TableContestComponent implements OnInit {
 
   @ViewChild('confirmButton', { static: false }) confirmButton: ElementRef;
   // chi tiết kì thi
-  itemChiTietKiThi: any; 
+  itemChiTietKiThi: any;
   tenKyThi: number;
   idItemKyThi: number;
   TimeStart: Date
@@ -320,10 +324,14 @@ export class TableContestComponent implements OnInit {
   idLopThi: number;
   ngayBatDau: Date;
   ngayKetThuc: Date;
+
+  listKyThi_date: any;
+  maxDate: any;
+  minDate: any;
   editchitietkythi(id: number) {
     console.log("Da chay")
     this.httpService.getItem('chitietkythi', id).subscribe(response => {
-      
+
       this.idChiTietKyThi = id;
       this.itemChiTietKyThi = response;
       this.idMonThi = this.itemChiTietKyThi.monThi.maMon
@@ -348,6 +356,8 @@ export class TableContestComponent implements OnInit {
       this.httpService.getItem('chitietkythi/kythi', this.idKT).subscribe(response => {
         this.listKTChitietkythi = response
       })
+
+
     })
 
 
@@ -476,14 +486,26 @@ export class TableContestComponent implements OnInit {
 
   // Xóa chi tiết kỳ thi 
   deleteChiTietKyThi(id: number) {
-    this.httpService.deleteItem("chitietkythi", id).subscribe(data => {
-      this.messageService.add({ severity: 'success', summary: 'Thông báo xóa chi tiết kỳ thi', detail: 'Xóa chi tiết kỳ thi thành công' });
-      this.getItemChiTietKyThi(this.idItemKyThi, this.TimeStart, this.TimeEnd)
-    }, error => {
-      console.log("Xóa thất bại", error);
+    this.confirmationService.confirm({
+      message: 'Bạn có muốn xóa môn thi này khỏi lớp thi không ?',
+      header: 'Thông báo xóa',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.httpService.deleteItem("chitietkythi", id).subscribe(data => {
+          this.messageService.add({ severity: 'success', summary: 'Thông báo xóa chi tiết kỳ thi', detail: 'Xóa chi tiết kỳ thi thành công' });
+          this.getItemChiTietKyThi(this.idItemKyThi, this.TimeStart, this.TimeEnd)
+          this.getData();
+          this.getDataLop();
+          this.getDataMon();
+
+          this.myFormMonThi.reset();
+
+        }, error => {
+          console.log("Xóa thất bại", error);
+        });
+      },
 
     });
-
   }
 
 
@@ -491,10 +513,11 @@ export class TableContestComponent implements OnInit {
   listChitietkythi_monThi: any;
   selecttenmon_kythi: any[] = [];
   selecttenlop_kythi: any[] = [];
-
   selectMonThi() {
     this.httpService.getItem('chitietkythi/kythi/create', this.idItemKyThi).subscribe(data => {
       this.listChitietkythi_monThi = data;
+
+
 
       // Tạo danh sách môn học
       this.selecttenmon_kythi = this.listMonThi.filter(lop => {
@@ -503,6 +526,16 @@ export class TableContestComponent implements OnInit {
         return { name: lop.tenMon, code: lop.maMon };
       });
     });
+
+    this.httpService.getItem('kythi', this.idItemKyThi).subscribe(response => {
+      this.listKyThi_date = response
+
+      this.minDate = new Date(this.listKyThi_date.thoiGianBatDau)
+      this.maxDate = new Date(this.listKyThi_date.thoiGianKetThuc)
+
+
+    })
+
 
   }
 
@@ -591,13 +624,14 @@ export class TableContestComponent implements OnInit {
       .filter(item => item.lopThi === null)
       .map(item => item.maChiTietKyThi);
     this.httpService.deleteItem('chitietkythi', maChiTietKyThiNull).subscribe(data => {
-    })
+    }, err => { console.log("Không có lỗi"); }
+    )
+
     this.messageService.add({ severity: 'success', summary: 'Thông báo thêm môn thi vào kỳ thi', detail: 'Thông báo thêm môn thi vào kỳ thi thành công' });
     setTimeout(() => {
       location.reload();
     }, 2000);
+
   }
-
-
 
 }

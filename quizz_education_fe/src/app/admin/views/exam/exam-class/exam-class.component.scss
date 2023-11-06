@@ -52,6 +52,31 @@
     padding: 12px 15px;
 }
 
-:host ::ng-deep .p-dialog-footer button{
+:host ::ng-deep .p-dialog-footer button {
     margin-right: 20px;
+}
+
+.thaotac button {
+    height: 40px;
+    width: 40px;
+}
+
+:host ::ng-deep .error-input {
+    border: 1px solid red;
+    border-radius: 7px;
+}
+
+.error-message {
+    color: red;
+}
+
+:host ::ng-deep p-inputMask input {
+    width: 100%;
+    height: 37.6px;
+    border: 1px solid #b1b7c1;
+}
+
+:host ::ng-deep .error-input-ng input {
+    border: 1px solid red;
+    border-radius: 7px;
 }

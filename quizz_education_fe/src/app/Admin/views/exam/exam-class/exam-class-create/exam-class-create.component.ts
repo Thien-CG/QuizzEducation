@@ -1,6 +1,7 @@
-import { OnDestroy, Component, OnInit, Renderer2 } from '@angular/core';
-import { HttpSvService } from '../../../../../service/API.service';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { HttpSvService } from '../../../../../service/API.service';
 @Component({
   selector: 'app-exam-class-create',
   templateUrl: './exam-class-create.component.html',
@@ -8,37 +9,37 @@ import { MessageService } from 'primeng/api';
 })
 export class ExamClassCreateComponent {
 
-  constructor(private messageService: MessageService, private httpService: HttpSvService) { }// Khai báo các biến
-  tenLopThi: string = '';
-  soLuongHocSinh: number = 0;
-  messageCreate: string = '';
+  myFormLopThi: FormGroup;
+  constructor(private messageService: MessageService, private httpService: HttpSvService, private fb: FormBuilder,) {
+    this.myFormLopThi = this.fb.group({
+      tenLop: ['', [Validators.required]],
+      soLuong: ['', [Validators.required]],
+    });
+  }// Khai báo các biến
 
   // Hàm tạo lớp thi
   createLopThi() {
-    // Kiểm tra điều kiện trước khi tạo
-    if (this.tenLopThi.trim() === '') {
-      this.messageCreate = 'Không được bỏ trống tên lớp thi';
-      this.showCreateError();
+    if (this.myFormLopThi.invalid) {
+      for (const control in this.myFormLopThi.controls) {
+        if (this.myFormLopThi.controls.hasOwnProperty(control)) {
+          this.myFormLopThi.controls[control].markAsTouched();
+        }
+      }
       return;
     }
-
-    if (this.soLuongHocSinh <= 0) {
-      this.messageCreate = 'Số lượng học sinh phải lớn hơn 0';
-      this.showCreateError();
-      return;
-    }
-
     // Dữ liệu để gửi lên server
     const data = {
-      tenLop: this.tenLopThi,
-      soLuongToiDa: this.soLuongHocSinh
+      tenLop: this.myFormLopThi.get('tenLop').value,
+      soLuongToiDa: this.myFormLopThi.get('soLuong').value,
     };
 
     // Gửi yêu cầu tạo lớp thi
     this.httpService.postItem('lopthi', data).subscribe(
       (response) => {
-
-        this.showCreateSuccess();
+        this.messageService.add({ severity: 'success', summary: 'Tạo mới thành công', detail: 'Tạo mới lớp thi thành công' });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       },
       (error) => {
         console.log('Lỗi tạo mới', error);
@@ -46,22 +47,9 @@ export class ExamClassCreateComponent {
     );
   }
 
-  // Hiển thị thông báo thành công và làm mới trang sau 2 giây
-  showCreateSuccess() {
-    this.messageService.add({ severity: 'success', summary: 'Tạo mới thành công', detail: 'Tạo mới lớp thi thành công' });
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
-  }
-
-  // Hiển thị thông báo lỗi tạo mới
-  showCreateError() {
-    this.messageService.add({ severity: 'error', summary: 'Lỗi tạo mới', detail: this.messageCreate });
-  }
 
   // Làm mới
   clear() {
-    this.tenLopThi = '';
-    this.soLuongHocSinh = 0;
+    this.myFormLopThi.reset();
   }
 }

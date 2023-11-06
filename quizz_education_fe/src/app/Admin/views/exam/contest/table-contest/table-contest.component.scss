@@ -141,3 +141,6 @@ table {
     height: 37px;
     border-radius: 7px;
 }
+:host ::ng-deep p-confirmdialog  .p-element {
+    margin-left: 20px;
+}

@@ -13,11 +13,19 @@ import * as FileSaver from 'file-saver';
 })
 export class ExamClassComponent {
 
-  constructor(private messageService: MessageService, private httpService: HttpSvService, private confirmationService: ConfirmationService,
-    private formBuilder: FormBuilder,) { }
+  myFormLopThi: FormGroup;
+  constructor(private messageService: MessageService, private fb: FormBuilder, private httpService: HttpSvService, private confirmationService: ConfirmationService,
+    private formBuilder: FormBuilder,) {
+
+    this.myFormLopThi = this.fb.group({
+      tenLop: ['', [Validators.required]],
+      soLuong: ['', [Validators.required]],
+    });
+  }
   //Khai báo các biến ở đây
   // listLopHoc!: examClass[];
   listLopHoc!: examClass[];
+
 
   //Sửa lại chổ tìm kiếm trong thư viện
   public getValueSearch() {
@@ -43,56 +51,45 @@ export class ExamClassComponent {
   //Gọi API Theo id
   listLopHocId: any;
   idLopThi: any;
-  tenLopThi: string = '';
-  soLuongHocSinh: number = 0;
+
   editLopThi(id: number) {
     this.httpService.getItem('lopthi', id).subscribe(response => {
       this.listLopHocId = response;
-      this.tenLopThi = this.listLopHocId.tenLop;
-      this.soLuongHocSinh = this.listLopHocId.soLuongToiDa;
+      this.myFormLopThi.get('tenLop').setValue(this.listLopHocId.tenLop);
+      this.myFormLopThi.get('soLuong').setValue(this.listLopHocId.soLuongToiDa);
       this.idLopThi = id;
     })
   }
 
   // Cập nhật môn thi 
-  messageerror: string = "";
   updateMonThi() {
+
+    if (this.myFormLopThi.invalid) {
+      for (const control in this.myFormLopThi.controls) {
+        if (this.myFormLopThi.controls.hasOwnProperty(control)) {
+          this.myFormLopThi.controls[control].markAsTouched();
+        }
+      }
+      return;
+    }
     const data = {
       maLopThi: this.idLopThi,
-      tenLop: this.tenLopThi,
-      soLuongToiDa: this.soLuongHocSinh
+      tenLop: this.myFormLopThi.get('tenLop').value,
+      soLuongToiDa: this.myFormLopThi.get('soLuong').value,
     }
-    if (this.tenLopThi === '') {
-      this.messageerror = "Tên lớp không được để trống!";
-      this.showError()
-    } else if (this.soLuongHocSinh == 0) {
-      this.messageerror = "Số lượng học sinh không được để trống!";
-      this.showError()
-    } else if (this.soLuongHocSinh < 0) {
-      this.messageerror = "Số lượng học sinh không được nhỏ hơn 0!";
-      this.showError()
-    } else {
-      this.httpService.putItem('lopthi', this.idLopThi, data).subscribe(
-        (response) => {
-          this.show()
-        },
-        (error) => {
-          console.log("Lỗi Cập nhật", error);
-        }
-      );
-    }
-  }
-  show() {
-    this.messageService.add({ severity: 'success', summary: 'Lưu Thành Công', detail: 'Chỉnh sửa lớp thi thành công' });
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
-  }
 
-  showError() {
-    this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: this.messageerror });
+    this.httpService.putItem('lopthi', this.idLopThi, data).subscribe(
+      (response) => {
+        this.messageService.add({ severity: 'success', summary: 'Lưu Thành Công', detail: 'Chỉnh sửa lớp thi thành công' });
+        this.getData();
+      },
+      (error) => {
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: "Không sát định" });
+      }
+    );
 
   }
+
 
   // Thông báo xóa
   deleteMonThi(id: number) {
@@ -104,9 +101,8 @@ export class ExamClassComponent {
         this.httpService.deleteItem('lopthi', id).subscribe(
           (response) => {
             this.messageService.add({ severity: 'info', summary: 'Thông báo', detail: 'Xóa thành công' });
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+
+            this.getData();
           },
           (error) => {
             console.log("Lỗi Xóa", error);
@@ -134,21 +130,4 @@ export class ExamClassComponent {
   }
 
 
-  // Xuất excel
-  exportExcel() {
-    import('xlsx').then((xlsx) => {
-      const worksheet = xlsx.utils.json_to_sheet(this.listLopHoc);
-      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
-      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-      this.saveAsExcelFile(excelBuffer, 'Lớp thi');
-    });
-  }
-  saveAsExcelFile(buffer: any, fileName: string): void {
-    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    let EXCEL_EXTENSION = '.xlsx';
-    const data: Blob = new Blob([buffer], {
-      type: EXCEL_TYPE
-    });
-    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-  }
 }

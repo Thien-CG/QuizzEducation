@@ -224,7 +224,6 @@
               <div class="addClass">
                 <button class="btn btn-outline-primary" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal"
                   data-bs-dismiss="modal" [disabled]="getStatus() !== 'Chưa thi' ">
-
                   Thêm lớp</button>
 
               </div>
@@ -273,7 +272,8 @@
               </td>
               <td class="text-center d-flex thaotac">
 
-                <button data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" icon="pi pi-pencil" pButton class="btn btn-outline-primary mx-2"
+                <button data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal"
+                  icon="pi pi-pencil" pButton class="btn btn-outline-primary mx-2"
                   (click)="editchitietkythi(itemChiTietKiThi.maChiTietKyThi)"
                   [disabled]="getStatus() !== 'Chưa thi' ||  !(itemChiTietKiThi.lopThi) "></button>
 
@@ -306,8 +306,8 @@
       <div class="modal-header">
 
         <h4 class="modal-title" id="exampleModalLabel">Sửa lớp và môn trong kỳ thi</h4>
-        <button #confirmButtondismiss type="button" class="btn-close" data-bs-target="#exampleModalToggle"
-          data-bs-toggle="modal" data-bs-dismiss="modal"></button>
+        <button #close type="button" class="btn-close" data-bs-target="#exampleModalToggle" data-bs-toggle="modal"
+          data-bs-dismiss="modal"></button>
       </div>
       <form [formGroup]="myForm">
         <div class="modal-body">
@@ -401,8 +401,8 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="exampleModalLabel">Thêm lớp vào môn</h4>
-          <button #confirmButtondismiss type="button" class="btn-close" data-bs-target="#exampleModalToggle"
-            data-bs-toggle="modal" data-bs-dismiss="modal"></button>
+          <button #close type="button" class="btn-close" data-bs-target="#exampleModalToggle" data-bs-toggle="modal"
+            data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <div class="row">
@@ -431,8 +431,9 @@
             <div class="col-md-6">
               <div class="mb-3 input-edit-chitiet">
                 <label for="tenLop" class="form-label">Thời gian bất đầu</label> <br>
-                <p-calendar [minDate]="toDay" formControlName="thoiGianBatDau2" placeholder="Chọn thời gian bất đầu"
-                  dateFormat="dd/mm/yy" [showTime]="true" [showSeconds]="true" [showIcon]="true"
+                <p-calendar [minDate]="minDate"  [maxDate]="maxDate" formControlName="thoiGianBatDau2"
+                  placeholder="Chọn thời gian bất đầu" dateFormat="dd/mm/yy" [showTime]="true" [showSeconds]="true"
+                  [showIcon]="true"
                   [ngClass]="{'error-input-date': myFormMonThi.get('thoiGianBatDau2').invalid && myFormMonThi.get('thoiGianBatDau2').touched}"></p-calendar>
                 <small
                   *ngIf="myFormMonThi.get('thoiGianBatDau2').hasError('required') && myFormMonThi.get('thoiGianBatDau2').touched"
@@ -442,8 +443,9 @@
             <div class="col-md-6">
               <div class="mb-3 input-edit-chitiet">
                 <label for="tenLop" class="form-label">Thời gian kết thúc</label> <br>
-                <p-calendar [minDate]="toDay" formControlName="thoiGianKetThuc2" placeholder="Chọn thời gian bất đầu"
-                  dateFormat="dd/mm/yy" [showTime]="true" [showSeconds]="true" [showIcon]="true"
+                <p-calendar [minDate]="minDate" [maxDate]="maxDate" formControlName="thoiGianKetThuc2"
+                  placeholder="Chọn thời gian bất đầu" dateFormat="dd/mm/yy" [showTime]="true" [showSeconds]="true"
+                  [showIcon]="true"
                   [ngClass]="{'error-input-date': errorMesssage ||  myFormMonThi.get('thoiGianKetThuc2').invalid && myFormMonThi.get('thoiGianKetThuc2').touched}"></p-calendar>
                 <small
                   *ngIf="myFormMonThi.get('thoiGianKetThuc2').hasError('required') && myFormMonThi.get('thoiGianKetThuc2').touched"
@@ -459,6 +461,7 @@
 
         </div>
         <div class="modal-footer">
+
           <button class="btn btn-primary" (click)="UpdateLopvaoMon()" pButton pRipple>Thêm lớp vào môn</button>
         </div>
       </div>
@@ -469,3 +472,5 @@
 
 
 <p-toast></p-toast>
+
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
