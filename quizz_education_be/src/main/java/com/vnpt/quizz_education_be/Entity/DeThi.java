@@ -61,4 +61,9 @@ public class DeThi implements Serializable {
     @Column(name = "thoi_gian_lam_bai")
     private Integer thoiGianLamBai;
 
+    public long getTim() {
+        long minutes = this.getThoiGianLamBai() / 60;
+        return minutes;
+    }
+
 }

@@ -1,32 +1,48 @@
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { HttpClient } from '@angular/common/http';
+import { Component, HostListener, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Component } from '@angular/core';
-import { HttpSvService } from 'src/app/service/API.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import * as _ from 'lodash';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { error } from 'console';
-
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { HttpSvService } from 'src/app/service/API.service';
+import Swal from 'sweetalert2';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-exam',
   templateUrl: './exam.component.html',
-  styleUrls: ['./exam.component.scss']
+  styleUrls: ['./exam.component.scss'],
+  providers: [ConfirmationService, MessageService]
 })
-export class ExamComponent {
+export class ExamComponent implements OnDestroy {
   constructor(
     private router: Router,
     private httpSvService: HttpSvService,
     private httpClient: HttpClient,
+    private route: ActivatedRoute,
   ) { }
 
-  public user: any;
-  ngOnInit(): void {
-    this.index = 0;
-    this.getTokenFromLocalStorage();
-    this.getData();
+  ngOnDestroy() {
+    if (this.response) {
+      this.setTime();
+    }
   }
 
-  public getTokenFromLocalStorage(): any {
+  ngOnInit() {
+    this.index = 0;
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.getTokenFromLocalStorage();
+    this.getData();
+    window.addEventListener('online', () => {
+      // alert('1')
+    });
+    window.addEventListener('offline', () => {
+      alert('2')
+
+    });
+  }
+
+  private getTokenFromLocalStorage(): any {
     const token = localStorage.getItem('token'); // Lấy token từ localStorage
     if (token) {
       const helper = new JwtHelperService();
@@ -54,7 +70,10 @@ export class ExamComponent {
     return null; // Không tìm thấy token trong localStorage
   }
 
-  //Khai báo các biến ở đây
+  //! Khai báo các biến ở đây ----------------------------------------------------------------------
+  private user: any;
+
+  private id: any;
 
   deThi: any; // lưu đề thi
 
@@ -73,14 +92,66 @@ export class ExamComponent {
   displayTime: string = '';// đồng hồ đã định dạng
 
 
+  //! Các funtion ở đây ----------------------------------------------------------------------
 
-  //Lấy data về từ API
+  //! Gửi API lưu thời gian khi học sinh thoát hoặc reload lại trang web
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: BeforeUnloadEvent) {
+    this.setTime();
+  }
+
+  confirm() {
+    this.alert('test', 'question').then((result) => {
+      if (result) {
+        this.router.navigate(['/user/home']);
+      }
+    });
+  }
+
+
+  //! Thông báo dạng sweetalert
+  private async alert(text, icon) {
+    let check = false;
+    await Swal.fire({
+      title: 'Thông báo',
+      text: text,
+      icon: icon,
+      confirmButtonText: 'OK',
+      allowOutsideClick: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //! Xử lý nộp bài thành công
+        check = true;
+        // alert('1');
+      }
+    });
+    return check;
+  }
+
+
+  //! Gửi API để set thời gian làm bài của học sinh
+  private setTime(): void {
+    const API_LOGIN = 'http://localhost:8080/quizzeducation/api/boCauHoiDaLam/nopBai';
+    const request = this.httpClient.post(API_LOGIN, this.response);
+    request.subscribe(
+      (response) => {
+      },
+      error => {
+        this.alert('Lỗi kết nối server!', error);
+      }
+    );
+  }
+
+  //!Lấy data về từ API
   public getData() {
-    this.httpSvService.getList(`boCauHoiDaLam/${this.user.tenDangNhap}/2`).subscribe(
+    this.httpSvService.getList(`boCauHoiDaLam/${this.user.tenDangNhap}/` + this.id).subscribe(
       (response) => {
         this.response = _.cloneDeep(response);
         this.deThi = _.cloneDeep(response.boCauHoiDaLam.deThi.cauHois);
-        this.deThi2 = _.cloneDeep(this.deThi);
+        this.index = this.check();
+        if (this.index === -1) {
+          this.index = 0;
+        }
         this.getCauHoi(this.index);
         this.setSoCauDaLam();
         let timeFromDB = response.thoiGianLamBai;
@@ -89,25 +160,35 @@ export class ExamComponent {
           this.displayTime = this.formatTime(timeFromDB);
           if (timeFromDB <= 0) {
             clearInterval(intervalId);
-            this.displayTime = 'Hết thời gian!';
-            // Thực hiện sự kiện khi hết thời gian
+            this.setTime();
+            this.alert('Hết thời gian làm bài', 'error').then((result) => {
+              if (result) {
+                this.router.navigate(['/user/home']);
+              }
+            });
           }
         }, 1000);
       },
       error => {
         let e = error.error;
-        alert(e);
+        this.alert(e, 'error').then((result) => {
+          if (result) {
+            this.router.navigate(['/user/home']);
+          }
+        });
       }
 
     )
   }
 
-  // lấy câu hỏi trong đề
+
+  //! lấy câu hỏi trong đề
   public getCauHoi(index: number) {
     this.cauHoi = this.deThi[index];
   }
 
-  // chuyển sang câu hỏi khác
+
+  //! chuyển sang câu hỏi khác
   public chuyenCauHoi(i: number) {
     this.index = i;
     this.getCauHoi(this.index);
@@ -115,19 +196,33 @@ export class ExamComponent {
   }
 
 
-  // set số lượng câu hỏi đã làm
+  //! set số lượng câu hỏi đã làm
   public setSoCauDaLam() {
     this.soCauDaLam = 0;
-    this.deThi.forEach(cauHoi => {
+    this.deThi.forEach((cauHoi: { daChon: boolean; }) => {
       if (cauHoi.daChon === true) {
         this.soCauDaLam++;
       }
     });
-    console.log("🚀 this.deThi 2:", this.deThi)
   }
 
 
-  // onchange Radio đáp án
+  //! Hàm trả về giá trị đầu tiên của câu chưa làm
+  private check() {
+    let i = 0;
+    let i2 = -1;
+    for (let cauHoi of this.deThi) {
+      if (cauHoi.daChon === false) {
+        i2 = i;
+        break;
+      }
+      i++;
+    }
+    return i2;
+  }
+
+
+  //! onchange Radio đáp án
   public onChangRadio(event: Event, i: number) {
     this.response.dapAn = this.cauHoi.dapAns[i];
     this.response.cauHoi = _.cloneDeep(this.cauHoi);
@@ -148,14 +243,14 @@ export class ExamComponent {
 
       },
       error => {
-        console.log("🚀 ~ file: exam.component.ts:151 ~ ExamComponent ~ onChangRadio ~ error:", error)
+        this.alert('Lỗi kết nối server!', 'error');
       }
     );
 
   }
 
 
-  // onchange Checkbox đáp án
+  //! onchange Checkbox đáp án
   public onChangCheckBox(event: Event, i: number) {
     const isChecked = (event.target as HTMLInputElement).checked;
 
@@ -171,34 +266,38 @@ export class ExamComponent {
 
     request.subscribe(
       (response) => {
+        if (this.cauHoi.daChon === false) {
+          this.cauHoi.daChon = true;
+        }
+
+        if (isChecked) {
+          this.cauHoi.dapAns[i].daChon = true;
+        } else {
+          this.cauHoi.dapAns[i].daChon = false;
+        }
+
+        let check = false;
+        this.cauHoi.dapAns.forEach(dapAn => {
+          if (dapAn.daChon === true) {
+            check = true;
+          }
+        });
+        if (check === false) {
+          this.cauHoi.daChon = false;
+        }
+        this.setSoCauDaLam();
+      },
+      error => {
+        this.alert('Lỗi kết nối server!', 'error');
       }
     );
 
 
-    if (this.cauHoi.daChon === false) {
-      this.cauHoi.daChon = true;
-    }
 
-    if (isChecked) {
-      this.cauHoi.dapAns[i].daChon = true;
-    } else {
-      this.cauHoi.dapAns[i].daChon = false;
-    }
-
-    let check = false;
-    this.cauHoi.dapAns.forEach(dapAn => {
-      if (dapAn.daChon === true) {
-        check = true;
-      }
-    });
-    if (check === false) {
-      this.cauHoi.daChon = false;
-    }
-    this.setSoCauDaLam();
   }
 
 
-  // format thời gian
+  //! format thời gian
   formatTime(seconds: number): string {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);

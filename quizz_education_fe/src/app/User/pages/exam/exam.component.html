@@ -6,6 +6,8 @@
       <a href="">Toán HK1</a>
     </h6>
   </div>
+  <p-toast></p-toast>
+  <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
   <div class="row">
     <div class="col-md-9 bg-light">
 
@@ -61,7 +63,7 @@
       <div class="question-footer1 text-center d-flex justify-content-center align-items-center">
         <div class="timer md-9 ">Thời gian còn lại: <br> <i class="far fa-clock"> {{displayTime}}</i>
         </div>
-        <button type="submit" class="btn-nop-bai bg-primary md-3">
+        <button type="submit" class="btn-nop-bai bg-primary md-3" (click)="confirm()">
           Nộp bài thi
           <br>
           <ng-container *ngIf="deThi">

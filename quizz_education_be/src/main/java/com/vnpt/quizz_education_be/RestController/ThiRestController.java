@@ -66,18 +66,28 @@ public class ThiRestController {
                 return ResponseEntity.ok(new ThiDTO(boCauHoiDaLamDAO.save(boCauHoiDaLamNew)));
             }
         } else {
-            // if (boCauHoiDaLam.getVaoThi()) {
-            boCauHoiDaLam = getDeThiDaLam(boCauHoiDaLam);
-            if (deThi == null) { // ! Đề thi không tồn tại
-                return ResponseEntity.badRequest().body("Đề thi không tồn tại!");
+            if (boCauHoiDaLam.getVaoThi()) {
+                boCauHoiDaLam = getDeThiDaLam(boCauHoiDaLam);
+                if (deThi == null) { // ! Đề thi không tồn tại
+                    return ResponseEntity.badRequest().body("Đề thi không tồn tại!");
+                } else {
+                    return ResponseEntity.ok(new ThiDTO(boCauHoiDaLam));
+                }
             } else {
-                return ResponseEntity.ok(new ThiDTO(boCauHoiDaLam));
+                return ResponseEntity.badRequest().body("Bạn đã hết thời gian làm bài!");
             }
-            // } else {
-            // return ResponseEntity.badRequest().body("Bạn đã hết thời gian làm bài!");
-            // }
         }
 
+    }
+
+    @PostMapping("/boCauHoiDaLam/nopBai")
+    public ResponseEntity<?> nopBai(@RequestBody ThiResponeDTO thiResponeDTO) {
+        BoCauHoiDaLam boCauHoiDaLam = boCauHoiDaLamDAO.findById(thiResponeDTO.getBoCauHoiDaLam().getMaBoCauHoiDaLam())
+                .get();
+        Date now = new Date();
+        boCauHoiDaLam.setThoiGianKetThuc(now);
+        boCauHoiDaLamDAO.save(boCauHoiDaLam);
+        return ResponseEntity.ok(null);
     }
 
     // ! API chọn đáp án của học sinh
@@ -93,131 +103,153 @@ public class ThiRestController {
         } catch (Exception e) {
         }
 
-        if (cauHoiNhieuDapAn) {
+        if (cauHoiNhieuDapAn) { // ! Xử lý câu hỏi nhiều đáp án
             boolean xoaDapAn = thiResponeDTO.isXoa();
-
-            // ! Xử lý câu hỏi nhiều đáp án
-            if (xoaDapAn) {
-                if (lichSuThis != null && !lichSuThis.isEmpty()) {
-                    if (lichSuThis.size() > 0) {
-                        for (int i = 0; i < lichSuThis.size(); i++) {
-                            LichSuThi lichSuThi = lichSuThis.get(i);
-                            DapAn dapAnXoa = thiResponeDTO.getDapAn();
-                            if (lichSuThi.getDapAn().getMaDapAn() == dapAnXoa.getMaDapAn()) {
-                                lichSuThiDAO.delete(lichSuThi);
-                                lichSuThis.remove(i);
-                                break;
-                            }
+            if (xoaDapAn) { // ! xóa đáp án của câu hỏi nhiều đáp án
+                if (lichSuThis != null && !lichSuThis.isEmpty() && lichSuThis.size() > 0) {
+                    for (int i = 0; i < lichSuThis.size(); i++) {
+                        LichSuThi lichSuThi = lichSuThis.get(i);
+                        DapAn dapAnXoa = thiResponeDTO.getDapAn();
+                        if (lichSuThi.getDapAn().getMaDapAn() == dapAnXoa.getMaDapAn()) {
+                            lichSuThiDAO.delete(lichSuThi);
+                            lichSuThis.remove(i);
+                            break;
                         }
                     }
                 }
-            } else {
-                LichSuThi lichSuThi = new LichSuThi();
-                lichSuThi.setBoCauHoiDaLam(boCauHoiDaLam);
-                lichSuThi.setDapAn(dapAn);
-                lichSuThi = lichSuThiDAO.save(lichSuThi);
-                lichSuThis.add(lichSuThi);
+            } else { // ! Chọn đáp án mới của câu hỏi nhiều đáp án
+                List<CauHoi> listCauHoi = boCauHoiDaLam.getDeThi().getCauHois();
+                if (listCauHoi != null && !listCauHoi.isEmpty() && listCauHoi.size() > 0) {
+                    for (int i = 0; i < listCauHoi.size(); i++) {
+                        CauHoi cauHoi = listCauHoi.get(i);
+                        Integer cauHoiTraLoi = thiResponeDTO.getCauHoi().getMaCauHoi();
+                        if (cauHoiTraLoi == cauHoi.getMaCauHoi()) {
+                            DapAn dapAnNew = new DapAn();
+                            for (DapAn dapAnCauHoi : cauHoi.getDapAns()) {
+                                if (dapAnCauHoi.getMaDapAn() == dapAn.getMaDapAn()) {
+                                    dapAnNew = dapAnCauHoi;
+                                    dapAnNew.setDaChon(true);
+                                }
+                                System.out.println();
+                            }
+                            LichSuThi lichSuThi = new LichSuThi();
+                            lichSuThi.setBoCauHoiDaLam(boCauHoiDaLam);
+                            lichSuThi.setDapAn(dapAnNew);
+                            lichSuThi = lichSuThiDAO.save(lichSuThi);
+                            lichSuThis.add(lichSuThi);
+                            break;
+                        }
+                    }
+                }
             }
 
         } else { // !xử lý câu hỏi 1 đáp án
-
-            boolean check = true; // kiểm tra xem đáp án vừa mới chọn có thuộc câu hỏi đã chọn đáp án chưa
-
-            if (lichSuThis != null && !lichSuThis.isEmpty()) {
-                // kiểm tra xem đáp án có tồn tại trong db hay chưa
+            boolean check = true; // ! kiểm tra xem đáp án vừa mới chọn có thuộc câu hỏi đã chọn đáp án chư
+            if (lichSuThis != null && !lichSuThis.isEmpty() && lichSuThis.size() > 0) {
                 for (int i = 0; i < lichSuThis.size(); i++) {
                     LichSuThi lichSuThi = lichSuThis.get(i);
                     Integer maCauHoi = lichSuThi.getDapAn().getCauHoi().getMaCauHoi();
                     CauHoi cauHoi = thiResponeDTO.getCauHoi();
-                    cauHoi.setDeThi(deThiDAO.findById(thiResponeDTO.getBoCauHoiDaLam().getDeThi().getMaDeThi()).get());
                     if (cauHoi.getMaCauHoi() == maCauHoi) {
                         check = false;
-                        if (!lichSuThi.getDapAn().getCauHoi().getNhieuDapAn()) {
-                            dapAn.setCauHoi(cauHoi);
-                            lichSuThi.setDapAn(dapAn);
-                            lichSuThi = lichSuThiDAO.save(lichSuThi);
-                            lichSuThis.set(i, lichSuThi);
+                        CauHoi cauHoiDB = lichSuThi.getDapAn().getCauHoi();
+                        for (DapAn dapAnCauHoi : cauHoiDB.getDapAns()) {
+                            if (dapAnCauHoi.getMaDapAn() == dapAn.getMaDapAn()) {
+                                dapAn = dapAnCauHoi;
+                            }
                         }
+                        dapAn.setCauHoi(cauHoiDB);
+                        lichSuThi.setDapAn(dapAn);
+                        lichSuThi = lichSuThiDAO.save(lichSuThi);
+                        lichSuThis.set(i, lichSuThi);
                         break;
                     }
                 }
-
                 boCauHoiDaLam.setList_LichSuThi(lichSuThis);
             }
 
-            if (check) {
-                LichSuThi lichSuThi = new LichSuThi();
-                lichSuThi.setBoCauHoiDaLam(boCauHoiDaLam);
-                lichSuThi.setDapAn(dapAn);
-                lichSuThi = lichSuThiDAO.save(lichSuThi);
-                lichSuThis.add(lichSuThi);
+            if (check) {// ! Đáp án mới hoàn toàn
+                List<CauHoi> listCauHoi = boCauHoiDaLam.getDeThi().getCauHois();
+                if (listCauHoi != null && !listCauHoi.isEmpty() && listCauHoi.size() > 0) {
+                    for (int i = 0; i < listCauHoi.size(); i++) {
+                        CauHoi cauHoi = listCauHoi.get(i);
+                        Integer cauHoiTraLoi = thiResponeDTO.getCauHoi().getMaCauHoi();
+                        if (cauHoiTraLoi == cauHoi.getMaCauHoi()) {
+                            for (DapAn dapAnCauHoi : cauHoi.getDapAns()) {
+                                if (dapAnCauHoi.getMaDapAn() == dapAn.getMaDapAn()) {
+                                    dapAn = dapAnCauHoi;
+                                    dapAn.setDaChon(true);
+                                }
+                            }
+                            LichSuThi lichSuThi = new LichSuThi();
+                            lichSuThi.setBoCauHoiDaLam(boCauHoiDaLam);
+                            lichSuThi.setDapAn(dapAn);
+                            lichSuThi = lichSuThiDAO.save(lichSuThi);
+                            lichSuThis.add(lichSuThi);
+                            break;
+                        }
+                    }
+                }
             }
 
         }
         boCauHoiDaLam.setList_LichSuThi(lichSuThis);
-        Date now = new Date();
-        boCauHoiDaLam.setThoiGianKetThuc(now);
         List<CauHoi> cauHois = null;
         try {
-            // cauHois = getDeThiDaLam(boCauHoiDaLam).getDeThi().getCauHois();
-            BoCauHoiDaLam boCauHoiDaLamNew = boCauHoiDaLamDAO
-                    .findById(thiResponeDTO.getBoCauHoiDaLam().getMaBoCauHoiDaLam())
-                    .get();
-            boCauHoiDaLam = getDeThiDaLam(boCauHoiDaLamNew);
+            boCauHoiDaLam = getDeThiDaLam(boCauHoiDaLam);
             cauHois = boCauHoiDaLam.getDeThi().getCauHois();
-
         } catch (Exception e) {
         }
 
         Float tongDiem = 0f;
-        // for (CauHoi cauHoi : cauHois) {
-        //     if (cauHoi.isDaChon()) {
-        //         tongDiem += getDiemCauHoi(cauHoi);
-        //     }
-        // }
-        for(LichSuThi lichSuThi : lichSuThis) {
-            lichSuThi.getDapAn().getDiemDapAn();
+        for (CauHoi cauHoi : cauHois) {
+            if (cauHoi.isDaChon()) {
+                Float diemCauHoi = getDiemCauHoi(cauHoi);
+                tongDiem += diemCauHoi;
+                System.out.println();
+            }
         }
+        Date date = new Date();
+        boCauHoiDaLam.setThoiGianKetThuc(date);
         boCauHoiDaLam.setDiemSo(tongDiem);
         boCauHoiDaLamDAO.save(boCauHoiDaLam);
-
         return ResponseEntity.ok(null);
     }
 
+    // ! Tính điểm của câu hỏi truyền vào
     private Float getDiemCauHoi(CauHoi cauHoi) {
+        Float diem = 0f;
         if (cauHoi != null) {
-            if (cauHoi.getNhieuDapAn()) {
+            if (cauHoi.getNhieuDapAn()) { // ! Câu hỏi nhiều đáp án
                 Float diemDapAn = 0f;
+                Integer cauDung = 0;
+                Integer cauSai = 0;
                 for (DapAn dapAn : cauHoi.getDapAns()) {
+                    if (diemDapAn == 0 && dapAn.getDapAnDung()) {
+                        diemDapAn = dapAn.getDiemDapAn();
+                    }
                     if (dapAn.isDaChon()) {
                         if (dapAn.getDapAnDung()) {
-                            diemDapAn += dapAn.getDiemDapAn();
+                            cauDung++;
                         } else {
-                            diemDapAn -= dapAn.getDiemDapAn();
+                            cauSai++;
                         }
                     }
                 }
-                if (diemDapAn > 0) {
-                    return diemDapAn;
-                } else {
-                    return 0f;
+                if (cauDung > cauSai) {
+                    diem = (cauDung - cauSai) * diemDapAn;
                 }
-            } else {
+            } else { // ! Câu hỏi 1 đáp án
                 for (DapAn dapAn : cauHoi.getDapAns()) {
                     if (dapAn.isDaChon()) {
                         if (dapAn.getDapAnDung()) {
-                            return dapAn.getDiemDapAn();
+                            diem = dapAn.getDiemDapAn();
                         }
                     }
                 }
             }
         }
-        return 0f;
-    }
-
-    private Float a(LichSuThi lichSuThi) {
-
-        return null;
+        return diem;
     }
 
     // ! sàn lọc và chọn vào những đáp án đúng của boCauHoiDaLam

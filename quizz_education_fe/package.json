@@ -53,9 +53,10 @@
     "ngx-bootstrap": "^11.0.2",
     "ngx-scrollbar": "^13.0.3",
     "primeicons": "^6.0.1",
-    "primeng": "^16.6.0",
+    "primeng": "^16.7.0",
     "qrcode": "^1.5.3",
     "rxjs": "~7.8.1",
+    "sweetalert2": "^11.9.0",
     "tslib": "^2.3.0",
     "xlsx": "^0.18.5",
     "zone.js": "~0.13.1"

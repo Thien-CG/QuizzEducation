@@ -55,10 +55,11 @@ public class BoCauHoiDaLam implements Serializable {
 
     public boolean getVaoThi() {
         Integer thoiGianLamBai = null;
+        Date date = new Date();
         try {
             thoiGianLamBai = this.getDeThi().getThoiGianLamBai();
             long thoiGianThi = Math
-                    .abs((this.getThoiGianKetThuc().getTime() - this.getThoiGianBatDau().getTime()) / 1000);
+                    .abs((date.getTime() - this.getThoiGianBatDau().getTime()) / 1000);
             if (thoiGianLamBai - thoiGianThi > 0) {
                 return true;
             }
