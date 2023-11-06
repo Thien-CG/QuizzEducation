@@ -33,6 +33,7 @@ export class DashboardComponent implements OnInit {
   resultList: any[] = []
   resultFilterList: any[]
   eventFilterList: any[]
+  testList: any[] = []
   studentResultList: KetQuaTrungBinh[] = []
   avgAbove: number[] = []
   avgBelow: number[] = []
@@ -90,6 +91,14 @@ export class DashboardComponent implements OnInit {
       }
     )
 
+    this.httpClient.get<[]>(`http://localhost:8080/quizzeducation/api/dethi`).subscribe(
+      (response) => {
+        this.testList = response
+      },
+      (error) => {
+        console.error(error.message)
+      }
+    )
   }
 
   setData() {
@@ -213,7 +222,7 @@ export class DashboardComponent implements OnInit {
     this.resultFilterList.filter(result => result.taiKhoan.tenDangNhap == username && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear())
       .forEach((result) => { total += result.diemSo; count++ })
     if (count > 0) {
-      return total / count;
+      return Math.round((total / count) * 100) / 100;
     } else {
       return null;
     }
@@ -225,7 +234,7 @@ export class DashboardComponent implements OnInit {
     this.resultFilterList.filter(result => result.taiKhoan.tenDangNhap == username && result.deThi.chiTietKyThi.monThi.maMon == subjectId && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear())
       .forEach((result) => { total += result.diemSo; count++ })
     if (count > 0) {
-      return total / count;
+      return Math.round((total / count) * 100) / 100;
     } else {
       return null
     }
