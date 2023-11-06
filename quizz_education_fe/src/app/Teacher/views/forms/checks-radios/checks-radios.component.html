@@ -1,44 +1,193 @@
 <c-row ngPreserveWhitespaces>
 
-  <form [formGroup]="formGroup" cForm>
-   
-    <c-col xs="12">
-      <c-card class="mb-4">
-        <div class="tabs">
-          <nav>
-              <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                  <button class="nav-link active text-dark" id="nav-danh-sach-tab" data-bs-toggle="tab"
-                      data-bs-target="#nav-danh-sach" type="button" role="tab" aria-controls="nav-danh-sach"
-                      aria-selected="true">Lịch phân công</button>
-                  <button class="nav-link text-dark" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
-                      type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Tạo đề Thi</button>
-              </div>
-          </nav>
-          <div class="tab-content" id="nav-tabContent">
-              <div class="tab-pane fade show active mt-4" id="nav-danh-sach" role="tabpanel"
-                  aria-labelledby="nav-danh-sach-tab">
-      
-                  <!-- start table -->
-                  <div class="group-header-table ">
-            
-                     
-                  </div>
-      
-                  <div class="list-body">
-                      
-      
-                  </div>
-                  <!-- end table -->
-      
-              </div>
-              
-      
+
+  <c-col xs="12">
+    <c-card class="mb-4">
+
+
+      <div class="tabs">
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button (click)="editTabs()" class="nav-link active text-dark" id="nav-danh-sach-tab" [ngClass]="{'active': activeTab === 'danh-sach'}" data-bs-toggle="tab"
+            data-bs-target="#nav-danh-sach" type="button" role="tab" aria-controls="nav-danh-sach"
+            aria-selected="true">Lịch phân công</button>
+          <button  (click)="switchToEditTab()" class="nav-link text-dark" id="nav-tao-de-thi-tab" [ngClass]="{'active': activeTab === 'tao-de-thi'}" data-bs-toggle="tab"
+            data-bs-target="#nav-tao-de-thi" type="button" role="tab" aria-controls="nav-tao-de-thi"
+            aria-selected="false">Tạo đề Thi</button>
+          
           </div>
+        </nav>
+
+        <div class="tab-content" id="nav-tabContent">
+
+          <div class="tab-pane fade show  mt-4" [ngClass]="{ 'show active': showLichPhanCong }" id="nav-danh-sach" role="tabpanel" aria-labelledby="nav-danh-sach-tab">
+
+            <!-- start table -->
+            <div class="group-header-table ">
+              <p-table [value]="listContest" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" #dt1
+                dataKey="maKyThi" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]"
+                [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [globalFilterFields]="['kyThi.tenKyThi', 'monThi.tenMon','kyThi.thoiGianBatDau','kyThi.thoiGianKetThuc']">
+
+                <ng-template pTemplate="header" class="theader">
+                  <tr>
+                    <th style="min-width:200px; text-align: center" pSortableColumn="kyThi.tenKyThi">Tên kỳ thi
+                      <p-sortIcon field="kyThi.tenKyThi"></p-sortIcon>
+                    </th>
+                    <th style="min-width:200px; text-align: center" pSortableColumn="monThi.tenMon">Tên môn thi
+                      <p-sortIcon field="monThi.tenMon"></p-sortIcon>
+                    </th>
+                    <th style="min-width:200px; text-align: center" pSortableColumn="daTaoDe">Trạng thái tạo đề
+                      <p-sortIcon field="daTaoDe"></p-sortIcon>
+                    </th>
+                    <th style="min-width:200px; text-align: center" pSortableColumn="kyThi.thoiGianBatDau">Thời gian bắt
+                      đầu
+                      <p-sortIcon field="kyThi.thoiGianBatDau"></p-sortIcon>
+                    </th>
+                    <th style="min-width:200px; text-align: center" pSortableColumn="kyThi.thoiGianKetThuc">Thời gian
+                      kết thúc
+                      <p-sortIcon field="kyThi.thoiGianKetThuc"></p-sortIcon>
+                    </th>
+                    <th style="min-width:200px; text-align: center">Thao tác</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" class="tbody" let-list let-rowIndex="rowIndex">
+                  <tr>
+                    <td class="text-center">{{list.kyThi.tenKyThi}}</td>
+                    <td class="text-center">{{list.monThi.tenMon}}</td>
+                    <td class="text-center"
+                      [ngClass]="{'text-success': list.daTaoDe == true, 'text-danger': list.daTaoDe == false }">
+                      {{list.daTaoDe ? 'Đã tạo đề' : 'Chưa tạo đề'}}</td>
+                    <td class="text-center">{{list.kyThi.thoiGianBatDau| date: 'HH:mm | dd-MM-yyyy'}}</td>
+                    <td class="text-center">{{list.kyThi.thoiGianKetThuc| date: 'HH:mm | dd-MM-yyyy'}}</td>
+                    <td class="text-center" class="text-center">
+                      <button  *ngIf="list.daTaoDe == false" class="btn btn-primary"(click)=" editTeacher(list.maPhanCong)" (click)="switchToEditTab()">Tạo đề thi</button>
+                    </td>
+
+                  </tr>
+                </ng-template>
+
+              </p-table>
+
+            </div>
+
+
+            <!-- end table -->
+
+          </div>
+
+
+          <div class="tab-pane fade" id="nav-tao-de-thi"  [ngClass]="{ 'show active': showTaoDeThi }" role="tabpanel" aria-labelledby="nav-tao-de-thi-tab">
+
+            <div class="tab-header-tao-de-thi">
+              <h3>Thông Tin Đề Thi</h3>
+              <form [formGroup]="myForm">
+
+                <div class="modal-body">
+                  <div class="row">
+                    
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label for="tenDeThi" class="form-label">Tên đề thi</label>
+                        <input type="text" class="form-control" id="tenDeThi" name="tenDeThi"
+                          placeholder="Nhập tên đề thi" required formControlName="tenDeThi" [(ngModel)]="tenDeThi">
+                      </div>
+                    </div>
+                   
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label for="ngayTao" class="form-label">Ngày tạo đề</label>
+                        <input type="text" class="form-control" id="ngayTao" formControlName="ngayTao"
+                          name="ngayTao" required readonly>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label for="formattedStartTime" class="form-label">Môn thi</label>
+
+                        <input formControlName="selectedMonThi"  type="text" class="form-control" id="tenDeThi" name="tenDeThi"
+                          readonly required>
+
+
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label for="tenKyThi" class="form-label">Tên kỳ thi</label>
+                        <input formControlName="selectedKyThi" type="text" class="form-control" id="tenKyThi" name="tenKyThi" readonly required>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="modal-footer ">
+                  <button class="btn btn-secondary m-lg-2" type="submit">Làm mới</button>
+                  <button type="submit" class="btn btn-primary" (click)="addToExam()">Tạo đề thi</button>
+                </div>
+
+              </form>
+
+              
+            </div>
+
+            <div class="list-body">
+              <p-panel header="Danh sách câu hỏi" [toggleable]="true"
+                class="table-responsive table-responsive-sub col-md-12">
+                <ng-template pTemplate="icons">
+
+                  <button type="button" class="btn btn-info">Thêm mới câu hỏi</button>
+                  <button class="btn btn-light">Chọn câu hỏi</button>
+                  <p-menu #menu id="config_menu" [popup]="true"></p-menu>
+                </ng-template>
+                <p-table responsiveLayout="scroll">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Mã câu hỏi</th>
+                      <th scope="col" class="colum-header" style="text-align: left;">
+                       Nội dung câu hỏi
+                        <i class="bi bi-arrow-down"></i>
+                      </th>
+                      <th scope="col" class="d-none d-md-table-cell">Điểm</th>
+                      
+                      <th scope="col">Chi tiết</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body">
+                    <tr>
+                      <td scope="row" class="colum-header" style="display: flex; align-items: center;">
+                        <div class="text-group">
+                          <h4 class="text-title text-title"></h4>
+                          <h6 class="text-id text-title"></h6>
+                        </div>
+                      </td>
+                      <td class="d-none d-md-table-cell"></td>
+                      <td></td>
+                      <td></td>
+                      <td>
+                        <button class="btn btn-delete -none d-sm-table-cell" style="color: var(--gray_600);"><i
+                            class="bi bi-trash"></i></button>
+                        <button class="btn btn-edit" style="color: var(--gray_600);"><i class="bi bi-pen"></i></button>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </p-panel>
+            </div>
+
+            
+
+
+          </div>
+
+        </div>
+
+
       </div>
-     
-      
-    
-      </c-card>
-    </c-col>
-  </form>
+
+
+
+    </c-card>
+  </c-col>
 </c-row>

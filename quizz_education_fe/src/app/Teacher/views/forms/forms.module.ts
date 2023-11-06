@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import {
   ButtonGroupModule,
   ButtonModule,
@@ -26,6 +25,9 @@ import { LayoutComponent } from './layout/layout.component';
 import { ValidationComponent } from './validation/validation.component';
 
 
+import { TableModule } from 'primeng/table';
+import { PanelModule } from 'primeng/panel';
+import { MenuModule } from 'primeng/menu';
 @NgModule({
   declarations: [
     RangesComponent,
@@ -52,7 +54,11 @@ import { ValidationComponent } from './validation/validation.component';
     ButtonGroupModule,
     DropdownModule,
     SharedModule,
-    ListGroupModule
+    ListGroupModule,
+    TableModule,
+    PanelModule,
+    MenuModule,
+    
   ]
 })
 export class CoreUIFormsModule {

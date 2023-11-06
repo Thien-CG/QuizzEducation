@@ -18,14 +18,14 @@ const routes: Routes = [
     },
     children: [
       {
-        path: 'checks-radios',
+        path: 'assignment-schedule-&-exam-creation',
         component: ChecksRadiosComponent,
         data: {
           title: 'Lịch phân công'
         }
       },
       {
-        path: 'floating-labels',
+        path: 'exam-list',
         component: FloatingLabelsComponent,
         data: {
           title: 'Danh sách đề thi'

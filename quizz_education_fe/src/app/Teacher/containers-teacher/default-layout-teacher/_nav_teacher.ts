@@ -10,11 +10,11 @@ export const navTeacherItems: INavData[] = [
     children: [
       {
         name: 'Lịch phân công',
-        url: 'exam-management/checks-radios'
+        url: 'exam-management/assignment-schedule-&-exam-creation'
       },
       {
         name: 'Danh sách đề thi',
-        url: 'exam-management/floating-labels'
+        url: 'exam-management/exam-list'
       }
     ]
   },

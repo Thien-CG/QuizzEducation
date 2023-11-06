@@ -171,7 +171,7 @@ export class TableContestComponent implements OnInit {
 
   @ViewChild('confirmButton', { static: false }) confirmButton: ElementRef;
   // chi tiết kì thi
-  itemChiTietKiThi: any;
+  itemChiTietKiThi: any; 
   tenKyThi: number;
   getItemChiTietKyThi(id: number) {
     this.httpService.getItem("chitietkythi/kythi", id).subscribe((response: any) => {
