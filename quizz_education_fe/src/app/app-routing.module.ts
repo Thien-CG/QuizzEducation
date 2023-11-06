@@ -87,7 +87,7 @@ const routes: Routes = [
         }
       },
     ],
-    // canActivate: [InterceptorUrlGuard],
+    canActivate: [InterceptorUrlGuard],
   },
   {
     path: 'teacher',
