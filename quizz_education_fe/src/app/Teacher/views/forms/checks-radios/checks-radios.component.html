@@ -193,7 +193,7 @@
 
       <p-dialog header="Thông tin câu hỏi" [position]="'top'" [modal]="true" [(visible)]="displayModalGrnDetail"
         [breakpoints]="{'960px': '75vw'}" [style]="{width: '40vw'}" [draggable]="false" [resizable]="false">
-        <form  [formGroup]="myFormCauHoi" class="row g-3 grid p-fluid materialForm">
+        <form [formGroup]="myFormCauHoi" class="row g-3 grid p-fluid materialForm">
 
           <div class="modal-body">
             <div class="row">
@@ -201,9 +201,8 @@
               <div class="col-md-12">
                 <div class="mb-6">
                   <label for="noiDungCauHoi" class="form-label">Nội dung câu hỏi</label>
-                  <!-- <input type="text" class="form-control" id="noiDungCauHoi" name="noiDungCauHoi"
-                    placeholder="Nhập nội dung câu hỏi" required> -->
-                    <textarea rows="5" cols="30" pInputTextarea formControlName="noiDungCauHoi" [(ngModel)]="noiDungCauHoi"></textarea>
+                  <textarea rows="5" cols="30" pInputTextarea formControlName="noiDungCauHoi"
+                    [(ngModel)]="noiDungCauHoi"></textarea>
                 </div>
               </div>
 
@@ -218,63 +217,88 @@
                 <div class="mb-6">
                   <label for="nhieuDapAn" class="form-label">Câu hỏi nhiều đáp án</label>
                   <div class="form-checkbox flex align-items-center">
-                    <p-checkbox value="true" inputId="true" formControlName="nhieuDapAn" [(ngModel)]="nhieuDapAn"></p-checkbox>
-                    <label for="ny">Nhiều câu hỏi</label>
+                    <input type="checkbox" value="true" name="ny" id="ny" formControlName="nhieuDapAn"
+                      [(ngModel)]="nhieuDapAn">
+
+                    <label for="ny">Nhiều đáp án</label>
                   </div>
                 </div>
               </div>
 
+              <!-- nút tạo câu hỏi -->
+              <div class="modal-footer ">
+                <button class="btn btn-secondary m-lg-2" type="submit">Làm mới</button>
+                <button type="submit" class="btn btn-primary" (click)=" addToQuestion()">Tạo câu hỏi</button>
+              </div>
+
               <div class="col-md-12 bg-light mt-3 pt-1 pb-1">
                 <label for="diemCauHoi" class="form-label">Nội dung câu trả lời</label>
+
+
                 <div class="mb-6">
-                  <div class="d-flex mt-3">
-                    <div class="col-md-6">
-                      <div class="mb-6">
-                        <label for="diemCauHoi" class="form-label">Câu A</label>
+                  <form [formGroup]="myFormDapAn1">
+                    <div class="d-flex mt-3">
+                      <div class="col-md-6">
+                        <div class="mb-6">
+                          <label for="diemCauHoi" class="form-label">Câu A</label>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="mb-6">
+                          <label for="dapAnDung">Đáp án đúng</label>
+                          <input name="dapAnDung" id="dapAnDung" type="checkbox" value="true"
+                            formControlName="dapAnDung1" [(ngModel)]="dapAnDung1">
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-6">
-                      <div class="mb-6">
-                        <label for="">Đáp án đúng</label>
-                        <p-checkbox  value="true" inputId="ny"></p-checkbox>
-                      </div>
-                    </div>
-                  </div>
-                  <textarea rows="2" cols="10" pInputTextarea></textarea>
+                    <textarea rows="2" cols="10" pInputTextarea formControlName="noiDungDapAn1"
+                      [(ngModel)]="noiDungDapAn1"></textarea>
+                  </form>
                 </div>
+
                 <div class="mb-6">
-                  <div class="d-flex mt-3">
-                    <div class="col-md-6">
-                      <div class="mb-6">
-                        <label for="diemCauHoi" class="form-label">Câu B</label>
+                  <form [formGroup]="myFormDapAn2">
+                    <div class="d-flex mt-3">
+                      <div class="col-md-6">
+                        <div class="mb-6">
+                          <label for="diemCauHoi" class="form-label">Câu B</label>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="mb-6">
+                          <label for="">Đáp án đúng</label>
+                          <input name="dapAnDung" id="dapAnDung" type="checkbox" value="true"
+                            formControlName="dapAnDung2" [(ngModel)]="dapAnDung2">
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-6">
-                      <div class="mb-6">
-                        <label for="">Đáp án đúng</label>
-                        <p-checkbox  value="true" inputId="ny"></p-checkbox>
-                      </div>
-                    </div>
-                  </div>
-                  <textarea rows="2" cols="10" pInputTextarea></textarea>
+                    <textarea rows="2" cols="10" pInputTextarea formControlName="noiDungDapAn2"
+                      [(ngModel)]="noiDungDapAn2"></textarea>
+                  </form>
                 </div>
                 <div class="mb-6 mt-3">
-                  <div class="d-flex">
-                    <div class="col-md-6">
-                      <div class="mb-6">
-                        <label for="diemCauHoi" class="form-label">Câu C</label>
+                  <form [formGroup]="myFormDapAn3">
+                    <div class="d-flex">
+                      <div class="col-md-6">
+                        <div class="mb-6">
+                          <label for="diemCauHoi" class="form-label">Câu C</label>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+
+                        <div class="mb-6">
+                          <label for="">Đáp án đúng</label>
+                          <input name="dapAnDung" id="dapAnDung" type="checkbox" value="true"
+                            formControlName="dapAnDung3" [(ngModel)]="dapAnDung3">
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-6">
-                      <div class="mb-6">
-                        <label for="">Đáp án đúng</label>
-                        <p-checkbox  value="true" inputId="ny"></p-checkbox>
-                      </div>
-                    </div>
-                  </div>
-                  <textarea rows="2" cols="10" pInputTextarea></textarea>
+                    <textarea rows="2" cols="10" pInputTextarea formControlName="noiDungDapAn3"
+                      [(ngModel)]="noiDungDapAn3"></textarea>
+                  </form>
                 </div>
                 <div class="mb-6 mt-3">
+                   <form [formGroup]="myFormDapAn4">
                   <div class="d-flex">
                     <div class="col-md-6">
                       <div class="mb-6">
@@ -284,21 +308,26 @@
                     <div class="col-md-6">
                       <div class="mb-6">
                         <label for="">Đáp án đúng</label>
-                        <p-checkbox  value="true" inputId="ny"></p-checkbox>
+                        <input name="dapAnDung" id="dapAnDung" type="checkbox" value="true"
+                            formControlName="dapAnDung4" [(ngModel)]="dapAnDung4">
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <textarea rows="2" cols="10" pInputTextarea></textarea>
+                    <textarea rows="2" cols="10" pInputTextarea formControlName="noiDungDapAn4"
+                      [(ngModel)]="noiDungDapAn4"></textarea>
+                    </form>
                 </div>
+
+
               </div>
 
             </div>
           </div>
 
-          <div class="modal-footer ">
-            <button class="btn btn-secondary m-lg-2" type="submit">Làm mới</button>
-            <button type="submit" class="btn btn-primary" (click)=" addToQuestion()">Tạo câu hỏi</button>
-          </div>
+          <!-- Nút tạo đáp án -->
+          <button type="submit" class="btn btn-primary" (click)=" addToAnswer()">Tạo đáp án</button>
+          <button type="submit" class="btn btn-primary" (click)=" addToQA()">Tạo</button>
+
 
         </form>
       </p-dialog>

@@ -67,7 +67,7 @@ export class HomeContentComponent {
     }
     return ''; // Hoặc lớp mặc định nếu không khớp
   }
-  
+   
  // Chuyển đổi thời gian từ chuỗi sang đối tượng Date
 convertToTime(thoiGian: string): string {
   const date = new Date(thoiGian);

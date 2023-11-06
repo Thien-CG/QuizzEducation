@@ -418,6 +418,7 @@ export class TableContestComponent implements OnInit {
 
   // edit chi tiết kỳ thi
   updateChiTietKiThi() {
+    console.log("oke capnhat chitietkythi")
     if (this.myForm.invalid) {
       for (const control in this.myForm.controls) {
         if (this.myForm.controls.hasOwnProperty(control)) {

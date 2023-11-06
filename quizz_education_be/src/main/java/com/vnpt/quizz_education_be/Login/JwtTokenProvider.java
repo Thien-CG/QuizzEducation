@@ -19,7 +19,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtTokenProvider {
 
   private static final String SECRET_KEY = "quizzeducation2023";
-  // private static final long EXPIRATION_TIME = 60 * 60 * 1000; // 60 minutes
+  private static final long EXPIRATION_TIME = 60 * 60 * 1000; // 60 minutes
 
   // Phương thức create token với thời gian được set tùy ý
   public String createToken(TaiKhoan account_Confim,int i) throws JsonProcessingException {

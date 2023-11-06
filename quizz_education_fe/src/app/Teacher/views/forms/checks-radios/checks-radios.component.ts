@@ -22,7 +22,12 @@ import { MessageService } from 'primeng/api';
 })
 export class ChecksRadiosComponent implements OnInit {
   myForm: FormGroup; // Khai báo FormGroup
-  myFormCauHoi: FormGroup; 
+  myFormCauHoi: FormGroup;
+  myFormDapAn1: FormGroup;
+  myFormDapAn2: FormGroup;
+  myFormDapAn3: FormGroup;
+  myFormDapAn4: FormGroup;
+  myFormDapAn: FormGroup;
   constructor(
     private renderer: Renderer2,
     private httpService: HttpSvService,
@@ -48,8 +53,39 @@ export class ChecksRadiosComponent implements OnInit {
       noiDungCauHoi: ['', [Validators.required]],
       diemCauHoi: ['', [Validators.required]],
       nhieuDapAn: [''],
-      maDeThi:[''],
+      maDeThi: [''],
+    });
 
+    this.myFormDapAn1= this.fb.group({
+      maDapAn1: ['', [Validators.required]],
+      noiDungDapAn1: ['', [Validators.required]],
+      dapAnDung1: [''],
+      maCauHoi1: [''],
+      diemDapAn1: ['', [Validators.required]],
+    });
+
+    this.myFormDapAn2= this.fb.group({
+      maDapAn2: ['', [Validators.required]],
+      noiDungDapAn2: ['', [Validators.required]],
+      dapAnDung2: [''],
+      maCauHoi2: [''],
+      diemDapAn2: ['', [Validators.required]],
+    });
+
+    this.myFormDapAn3= this.fb.group({
+      maDapAn3: ['', [Validators.required]],
+      noiDungDapAn3: ['', [Validators.required]],
+      dapAnDung3: [''],
+      maCauHoi3: [''],
+      diemDapAn3: ['', [Validators.required]],
+    });
+
+    this.myFormDapAn4= this.fb.group({
+      maDapAn4: ['', [Validators.required]],
+      noiDungDapAn4: ['', [Validators.required]],
+      dapAnDung4: [''],
+      maCauHoi4: [''],
+      diemDapAn4: ['', [Validators.required]],
     });
   }
 
@@ -59,15 +95,15 @@ export class ChecksRadiosComponent implements OnInit {
     this.getDeThi();
     this.getListChiTietKyThi();
 
-     // Lấy ngày hiện tại
-     const currentDate = new Date();
+    // Lấy ngày hiện tại
+    const currentDate = new Date();
 
-     // Định dạng ngày hiện tại thành chuỗi (VD: 'YYYY-MM-DDTHH:mm')
-     // Định dạng ngày hiện tại thành chuỗi "dd/mm/yyyy"
-     const formattedDate = format(currentDate, 'dd/MM/yyyy');
- 
-     // Đặt giá trị của trường ngày tạo thành ngày hiện tại
-     this.myForm.get('ngayTao').setValue(formattedDate);
+    // Định dạng ngày hiện tại thành chuỗi (VD: 'YYYY-MM-DDTHH:mm')
+    // Định dạng ngày hiện tại thành chuỗi "dd/mm/yyyy"
+    const formattedDate = format(currentDate, 'dd/MM/yyyy');
+
+    // Đặt giá trị của trường ngày tạo thành ngày hiện tại
+    this.myForm.get('ngayTao').setValue(formattedDate);
   }
   formatDateTime(dateTime: string): string {
     const currentDate = new Date(dateTime);
@@ -82,106 +118,205 @@ export class ChecksRadiosComponent implements OnInit {
   tinhThoiGianChenhLech(itemChiTietKiThi: any): number {
     const thoiGianKetThuc = new Date(itemChiTietKiThi.thoiGianKetThuc);
     const thoiGianBatDau = new Date(itemChiTietKiThi.thoiGianBatDau);
-    const thoiGianChenhLech = thoiGianKetThuc.getTime() - thoiGianBatDau.getTime();
+    const thoiGianChenhLech =
+      thoiGianKetThuc.getTime() - thoiGianBatDau.getTime();
     return thoiGianChenhLech / 60000;
   }
   listContest: any;
   listChiTietKyThi: any;
-  itemPhanCong:any;
+  itemPhanCong: any;
   user: any;
   maphancong: number;
   formattedStartTime: string = '';
   formattedEndTime: string = '';
-  ngayTaoDe: Date= new Date();
+  ngayTaoDe: Date = new Date();
   editTeacher(maphancong: number) {
-
     this.httpService.getItem('phancong', maphancong).subscribe((response) => {
       this.itemPhanCong = response;
-     
-    this.myForm.get('selectedKyThi').setValue(response.kyThi.tenKyThi);
-    this.myForm.get('selectedMonThi').setValue(response.monThi.tenMon);
-    this.myForm.get('maMon').setValue(response.monThi.maMon);
-    
+
+      this.myForm.get('selectedKyThi').setValue(response.kyThi.tenKyThi);
+      this.myForm.get('selectedMonThi').setValue(response.monThi.tenMon);
+      this.myForm.get('maMon').setValue(response.monThi.maMon);
     });
   }
 
-
-  noiDungCauHoi:string ='';
-  diemCauHoi:number;
-  nhieuDapAn:boolean=false;
-  addToQuestion(){
-    
+  noiDungCauHoi: string = '';
+  diemCauHoi: number;
+  nhieuDapAn: boolean = false;
+  addToQuestion() {
     const data = {
-      maCauHoi:"",
+      maCauHoi: '',
       noiDungCauHoi: this.myFormCauHoi.get('noiDungCauHoi').value,
       diemCauHoi: this.myFormCauHoi.get('diemCauHoi').value,
       nhieuDapAn: this.myFormCauHoi.get('nhieuDapAn').value,
-      deThi: {
-        maDeThi: this.maDeThi,
-      },
+      deThi:this.itemDeThi,
     };
-    console.log(data)
+  
+    this.httpService.postItem('cauhoi', data).subscribe(
+      (response) => {
+        this.itemCauHoi=response;
+        this.diemCauHoi=response.diemCauHoi;
+        console.log('DataCauHoi: ', response);
+       
+      },
+      (error) => {
+        console.log('Lỗi tạo câu hỏi', error);
+      }
+    );
+
+    console.log(data);
   }
 
+  
+  maDapAn1:number;
+  noiDungDapAn1:string='';
+  dapAnDung1:boolean=false;
+  diemDapAn1:number;
+
+  maDapAn2:number;
+  noiDungDapAn2:string='';
+  dapAnDung2:boolean=false;
+  diemDapAn2:number;
+  
+  maDapAn3:number;
+  noiDungDapAn3:string='';
+  dapAnDung3:boolean=false;
+  diemDapAn3:number;
+
+  maDapAn4:number;
+  noiDungDapAn4:string='';
+  dapAnDung4:boolean=false;
+  diemDapAn4:number;
+
+  itemDapAn:any;
+  addToAnswer(){
+    const data1 = {
+      maDapAn: '',
+      noiDungDapAn: this.myFormDapAn1.get('noiDungDapAn1').value,
+      dapAnDung: this.myFormDapAn1.get('dapAnDung1').value,
+      cauHoi: this.itemCauHoi,
+      diemDapAn: this.diemCauHoi,
+    };
+    this.httpService.postItem('dapan', data1).subscribe(
+      (response) => {
+        this.itemDapAn=response;
+        console.log('DataA: ', response);
+       
+      },
+      (error) => {
+        console.log('Lỗi tạo dap an', error);
+      }
+    );
+    const data2 = {
+      maDapAn: '',
+      noiDungDapAn: this.myFormDapAn2.get('noiDungDapAn2').value,
+      dapAnDung: this.myFormDapAn2.get('dapAnDung2').value,
+      cauHoi:this.itemCauHoi,
+      diemDapAn:  this.diemCauHoi,
+    };
+    this.httpService.postItem('dapan', data2).subscribe(
+      (response) => {
+        this.itemDapAn=response;
+        console.log('DataB: ', response);
+       
+      },
+      (error) => {
+        console.log('Lỗi tạo dap an', error);
+      }
+    );
+    const data3 = {
+      maDapAn: '',
+      noiDungDapAn: this.myFormDapAn3.get('noiDungDapAn3').value,
+      dapAnDung: this.myFormDapAn3.get('dapAnDung3').value,
+      cauHoi:this.itemCauHoi,
+      diemDapAn:  this.diemCauHoi,
+    };
+    this.httpService.postItem('dapan', data3).subscribe(
+      (response) => {
+        this.itemDapAn=response;
+        console.log('DataC: ', response);
+       
+      },
+      (error) => {
+        console.log('Lỗi tạo dap an', error);
+      }
+    );
+    const data4 = {
+      maDapAn: '',
+      noiDungDapAn: this.myFormDapAn4.get('noiDungDapAn4').value,
+      dapAnDung: this.myFormDapAn4.get('dapAnDung4').value,
+      cauHoi:this.itemCauHoi,
+      diemDapAn:  this.diemCauHoi,
+    };
+    this.httpService.postItem('dapan', data4).subscribe(
+      (response) => {
+        this.itemDapAn=response;
+        console.log('DataD: ', response);
+       
+      },
+      (error) => {
+        console.log('Lỗi tạo dap an', error);
+      }
+    );
+  }
 
   tenDeThi: string = '';
-  maChiTietKyThi:number;
-  maDeThi:number;
-  
+  maChiTietKyThi: number;
+  maDeThi: number;
 
-  addToExam(){
-
-    const targetMaKyThi = 'your-maKyThi'; // Thay thế 'your-maKyThi' bằng maKyThi bạn muốn so sánh
-      this.listChiTietKyThi.forEach((chiTiet) => {
-        
-        if(chiTiet.kyThi.maKyThi === this.itemPhanCong.kyThi.maKyThi && chiTiet.monThi.maMon === this.itemPhanCong.monThi.maMon){
-          console.log("Mã chi tiết kỳ thi: ",chiTiet.maChiTietKyThi)
-          this.maChiTietKyThi = chiTiet.maChiTietKyThi;
-          
-        }
-       
-      });
-
+addToQA(){
+  this.addToQuestion;
+  this.addToAnswer;
+  console.log(this.addToQuestion);
+  console.log(this.addToAnswer);
+}
+  addToExam() {
+    
+    this.listChiTietKyThi.forEach((chiTiet) => {
+      if (
+        chiTiet.kyThi.maKyThi === this.itemPhanCong.kyThi.maKyThi &&
+        chiTiet.monThi.maMon === this.itemPhanCong.monThi.maMon
+      ) {
+        console.log('Mã chi tiết kỳ thi: ', chiTiet.maChiTietKyThi);
+        this.maChiTietKyThi = chiTiet.maChiTietKyThi;
+      }
+    });
 
     const data = {
-      maDeThi:"",
-      tenDeThi:this.tenDeThi,
+      maDeThi: '',
+      tenDeThi: this.tenDeThi,
       taiKhoan: {
         tenDangNhap: this.user.tenDangNhap,
       },
-      chiTietKyThi:{
-        maChiTietKyThi:this.maChiTietKyThi
+      chiTietKyThi: {
+        maChiTietKyThi: this.maChiTietKyThi,
       },
       ngayTao: new Date(),
-      monThi:{
-        maMon:this.itemPhanCong.monThi.maMon
+      monThi: {
+        maMon: this.itemPhanCong.monThi.maMon,
       },
-      daSuDung:false
-      
-     
+      daSuDung: false,
     };
-    console.log("Mã phaan coong: ",this.itemPhanCong)
+    console.log('Mã phaan coong: ', this.itemPhanCong);
     this.httpService.postItem('dethi', data).subscribe(
       (response) => {
+        this.itemDeThi=response;
         this.itemPhanCong.daTaoDe = true;
-        this.maDeThi=response.maDeThi;
-        console.log("DataDeThi: ",response)
-        this.httpService.putItem('phancong', this.itemPhanCong.maPhanCong,this.itemPhanCong).subscribe(
-      (response) => {
-        // window.location.reload();
-        
-      });
+        this.maDeThi = response.maDeThi;
+        console.log('DataDeThi: ', response);
+        this.httpService
+          .putItem('phancong', this.itemPhanCong.maPhanCong, this.itemPhanCong)
+          .subscribe((response) => {
+            // window.location.reload();
+          });
       },
       (error) => {
         console.log('Lỗi tạo mới', error);
       }
     );
-    
   }
-
-
-  
-  itemDeThi:any;
+  itemCauHoi:any;
+  itemDeThi: any;
   updataThongTin() {
     const data = {
       maPhanCong: this.maphancong,
@@ -231,11 +366,9 @@ export class ChecksRadiosComponent implements OnInit {
       });
   }
   getListChiTietKyThi() {
-    this.httpService
-      .getList(`chitietkythi`)
-      .subscribe((response) => {
-        this.listChiTietKyThi = response;
-      });
+    this.httpService.getList(`chitietkythi`).subscribe((response) => {
+      this.listChiTietKyThi = response;
+    });
   }
 
   getTokenFromLocalStorage() {
@@ -274,36 +407,33 @@ export class ChecksRadiosComponent implements OnInit {
     });
   }
 
-
   monThi: any[] = [];
-dethi: any[] = [];
+  dethi: any[] = [];
 
-getDeThi() {
-  this.httpService.getList('dethi').subscribe(data => {
-    this.dethi = data;
-  });
-}
-
-activeTab: string = 'danh-sach';
-showLichPhanCong: boolean = true; // Mặc định hiển thị tab "Lịch phân công"
-showTaoDeThi: boolean = false; // Ẩn tab "Tạo đề thi" ban đầu
-//Chuyển tab khi edit
-switchToEditTab() {
-  this.activeTab = 'tao-de-thi'; // Chuyển sang tab "Tạo đề thi"
-  this.showLichPhanCong = false; // Ẩn tab "Lịch phân công"
-  this.showTaoDeThi = true; // Hiển thị tab "Tạo đề thi"
-}
-
-editTabs(){
-   this.activeTab = 'danh-sach';
-    this.showLichPhanCong = true; 
-    this.showTaoDeThi = false; 
-  
-}
-
-public displayModalGrnDetail: boolean = false;
-public showDialogModalGrnDetail() {
-  this.displayModalGrnDetail = true;
+  getDeThi() {
+    this.httpService.getList('dethi').subscribe((data) => {
+      this.dethi = data;
+    });
   }
 
+  activeTab: string = 'danh-sach';
+  showLichPhanCong: boolean = true; // Mặc định hiển thị tab "Lịch phân công"
+  showTaoDeThi: boolean = false; // Ẩn tab "Tạo đề thi" ban đầu
+  //Chuyển tab khi edit
+  switchToEditTab() {
+    this.activeTab = 'tao-de-thi'; // Chuyển sang tab "Tạo đề thi"
+    this.showLichPhanCong = false; // Ẩn tab "Lịch phân công"
+    this.showTaoDeThi = true; // Hiển thị tab "Tạo đề thi"
+  }
+
+  editTabs() {
+    this.activeTab = 'danh-sach';
+    this.showLichPhanCong = true;
+    this.showTaoDeThi = false;
+  }
+
+  public displayModalGrnDetail: boolean = false;
+  public showDialogModalGrnDetail() {
+    this.displayModalGrnDetail = true;
+  }
 }
