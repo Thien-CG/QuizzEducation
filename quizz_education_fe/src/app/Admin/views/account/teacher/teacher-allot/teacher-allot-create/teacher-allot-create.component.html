@@ -6,7 +6,7 @@
                 <div class="mb-3">
                     <label for="tenDangNhap" class="form-label">Tên kỳ thi</label><br>
                     <p-treeSelect class="selectClass" [options]="tenkythi" formControlName="tenkythi"
-                        placeholder="Chọn kỳ thi"
+                        placeholder="Chọn kỳ thi" (ngModelChange)="onSelectChange($event)"
                         [ngClass]="{'error-input-select': errorMesssage || myForm.get('tenkythi').invalid && myForm.get('tenkythi').touched}"></p-treeSelect>
                     <small *ngIf="myForm.get('tenkythi').hasError('required') && myForm.get('tenkythi').touched"
                         class="error-message">Vui lòng chọn tên kỳ thi !</small>
@@ -15,12 +15,14 @@
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="tenDangNhap" class="form-label">Tên môn thi</label><br>
-                    <p-treeSelect class="selectClass" [options]="tenMonthi" formControlName="tenmonthi"
+                    <p-treeSelect class="selectClass" [options]="monThiOptions" formControlName="tenmonthi"
                         placeholder="Chọn môn thi"
                         [ngClass]="{'error-input-select': errorMesssage || myForm.get('tenmonthi').invalid && myForm.get('tenmonthi').touched}"></p-treeSelect>
-                    <small *ngIf="myForm.get('tenmonthi').hasError('required') && myForm.get('tenmonthi').touched"
+                    <!-- <small *ngIf="myForm.get('tenmonthi').hasError('required') && myForm.get('tenmonthi').touched"
                         class="error-message">Vui lòng chọn tên môn thi !</small>
-                    <small *ngIf="errorMesssage" class="error-message">{{ errorMesssage }}</small>
+                    <small *ngIf="errorMesssage" class="error-message">{{ errorMesssage }}</small> -->
+
+
                 </div>
             </div>
             <div class="col-md-6">

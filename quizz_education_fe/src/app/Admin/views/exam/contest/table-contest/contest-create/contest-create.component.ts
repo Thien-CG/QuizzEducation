@@ -1,11 +1,9 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
-import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import * as moment from 'moment';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { HttpSvService } from 'src/app/service/API.service';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { MessageService } from 'primeng/api';
+import { HttpSvService } from 'src/app/service/API.service';
 @Component({
   selector: 'app-contest-create',
   templateUrl: './contest-create.component.html',
@@ -14,7 +12,7 @@ import { MessageService } from 'primeng/api';
 })
 export class ContestCreateComponent implements OnInit {
   myFormKyThi: FormGroup;
-  constructor(private messageService: MessageService,private renderer: Renderer2, private fb: FormBuilder, private http: HttpClient, private httpService: HttpSvService) {
+  constructor(private messageService: MessageService, private renderer: Renderer2, private fb: FormBuilder, private http: HttpClient, private httpService: HttpSvService) {
     this.myFormKyThi = this.fb.group({
       tenKyThi: ['', [Validators.required]],
       thoiGianBatDau: ['', [Validators.required]],
@@ -61,10 +59,13 @@ export class ContestCreateComponent implements OnInit {
       },
     };
 
+    
     this.httpService.postItem("kythi", data)
       .subscribe((response: any) => {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
-        window.location.reload();
+        this.messageService.add({ severity: 'success', summary: 'Thông báo kỳ thi', detail: 'Tạo kỳ thi thành công ' }); 
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
       }, (error: any) => {
         console.error('Lỗi khi gửi dữ liệu:', error);
       });
@@ -108,4 +109,5 @@ export class ContestCreateComponent implements OnInit {
     }
     return null; // Không tìm thấy token trong localStorage
   }
+
 }

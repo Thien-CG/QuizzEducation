@@ -152,9 +152,11 @@ export class ContestDetailComponent implements OnInit {
 			});
 		});
 		this.messageService.add({ severity: 'success', summary: 'Thông báo thêm môn thi vào kỳ thi', detail: 'Thông báo thêm môn thi vào kỳ thi thành công' });
-		setTimeout(() => {
-			location.reload();
-		}, 2000);
+		// setTimeout(() => {
+		// 	location.reload();
+		// }, 2000);
+
+		this.getData()
 	}
 
 
@@ -173,7 +175,9 @@ export class ContestDetailComponent implements OnInit {
 
 	cancelOrSave() {
 		this.isEditing = false;
-		this.myForm.get('tenMonThi').setValue('');
+		this.myFormMonThi.reset();
+
+
 	}
 
 	createMonThi() {
@@ -193,7 +197,7 @@ export class ContestDetailComponent implements OnInit {
 		this.HttpSvService.postItem('monthi', DataMonThi).subscribe(data => {
 			this.messageService.add({ severity: 'success', summary: 'Thông báo tạo mới môn thi', detail: 'Tạo mới môn thi thành công' });
 
-			this.myFormMonThi.get('tenMonThi').setValue('');
+			this.myFormMonThi.reset();
 			this.getData();
 			this.initializeMonThiOptions()
 		},
@@ -215,7 +219,8 @@ export class ContestDetailComponent implements OnInit {
 			tenMon: this.myFormMonThi.get('tenMonThi').value,
 		}
 		this.HttpSvService.putItem('monthi', this.idMonThi, DataMonThi).subscribe(data => {
-			this.myFormMonThi.get('tenMonThi').setValue('');
+
+			this.myFormMonThi.reset();
 			this.messageService.add({ severity: 'success', summary: 'Thông báo cập nhật môn thi', detail: 'Cập nhật môn thi thành công' });
 			this.getData();
 			this.initializeMonThiOptions()

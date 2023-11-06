@@ -156,19 +156,39 @@ export class TeacherAllotCreateComponent implements OnInit {
         );
       }
     });
-
-
-
   }
 
+  idKyThi: number;
+  listChiTietKy_KyThi: any;
+  monThiOptions: any[] = [];
+  onSelectChange(event: any) {
+    this.idKyThi = event.value;
+    this.httpService.getItem('chitietkythi/kythi/create', this.idKyThi).subscribe((response) => {
+      this.listChiTietKy_KyThi = response;
+      this.initializeMonThiOptions();
+      console.log(this.monThiOptions);
+      
+    });
+  }
+  
+  initializeMonThiOptions() {
+    // Lấy danh sách mã môn học từ dữ liệu `listChiTietKy_KyThi`
+    const usedMonCodes = this.listChiTietKy_KyThi.map((chitiet) => chitiet.monThi.maMon);
+  
+    // Lọc ra các môn học từ API `monthi` có mã môn nằm trong danh sách `usedMonCodes`
+    this.httpService.getList('monthi').subscribe((response) => {
+      this.monThiOptions = response
+        .filter((mon) => usedMonCodes.includes(mon.maMon))
+        .map((mon) => ({ label: mon.tenMon, value: mon.maMon }));
+    });
+  }
+  
 
 
   // reset form
   resetForm() {
     this.myForm.reset();
   }
-
-
 
   showSussce() {
     this.messageService.add({ severity: 'success', summary: 'Tạo thành công', detail: 'Tạo tài khoản thành công' });

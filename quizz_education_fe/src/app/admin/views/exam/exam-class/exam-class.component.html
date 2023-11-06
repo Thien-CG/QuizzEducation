@@ -16,8 +16,8 @@
             <!-- start table -->
             <div class="group-header-table ">
                 <div class="inport">
-                    <button type="button" pButton pRipple (click)="exportExcel()"
-                    class="btn btn-success mr-2 text-light" pTooltip="XLS" tooltipPosition="bottom">Xuất file Excel</button>
+                    <!-- <button type="button" pButton pRipple (click)="exportExcel()"
+                    class="btn btn-success mr-2 text-light" pTooltip="XLS" tooltipPosition="bottom">Xuất file Excel</button> -->
                 </div>
                 <div class="form-search">
                     <form class="w-100" [formGroup]="formFilter">
@@ -40,9 +40,9 @@
             </div>
 
             <div class="list-body">
-                <p-table [value]="listLopHoc" [paginator]="true" [rows]="5" #dt1
-                    dataKey="maKyThi" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]"
-                    [paginator]="true" currentPageReportTemplate="Đang xem {first} đến {last} trong tổng số {totalRecords} mục"
+                <p-table [value]="listLopHoc" [paginator]="true" [rows]="5" #dt1 dataKey="maKyThi" [rows]="10"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+                    currentPageReportTemplate="Đang xem {first} đến {last} trong tổng số {totalRecords} mục"
                     [globalFilterFields]="['maLopThi', 'tenLop', 'soLuongToiDa']">
 
                     <ng-template pTemplate="header" class="theader">
@@ -62,24 +62,24 @@
                             <td>{{lopThi.maLopThi}}</td>
                             <td>{{lopThi.tenLop}}</td>
                             <td class="text-center">{{lopThi.soLuongToiDa}}</td>
-                            <td class="text-center">
-                                <button type="button" class="btn btn-info " data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" (click)="editLopThi(lopThi.maLopThi)">
-                                    <i class="pi pi-pencil" style="color: aliceblue;"></i>
+                            <td class="text-center thaotac">
+                                <button type="button" icon="pi pi-pencil" pButton class="btn btn-outline-primary mx-2"
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                    (click)="editLopThi(lopThi.maLopThi)">
                                 </button>
-                                <p-button type="button" class="btn btn-delete"
+                                <button icon="pi pi-trash" pButton class="btn btn-outline-danger"
                                     (click)="checkIfMonThiIsReferenced(lopThi.maLopThi)">
-                                    <i class="pi pi-trash" style="color: aliceblue;"></i>
-                                </p-button>
+                                </button>
+
                             </td>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="paginatorleft">
+                    <!-- <ng-template pTemplate="paginatorleft">
                         <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
                     </ng-template>
                     <ng-template pTemplate="paginatorright">
                         <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-                    </ng-template>
+                    </ng-template> -->
                 </p-table>
 
             </div>
@@ -102,14 +102,18 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa lớp thi</h5>
             </div>
-            <form>
+            <form [formGroup]="myFormLopThi">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="input1" class="form-label">Tên lớp thi</label>
                                 <input type="text" class="form-control" id="tenLopThi" name="tenLopThi"
-                                    [(ngModel)]="tenLopThi" placeholder="Nhập tên môn thi">
+                                    formControlName="tenLop" placeholder="Nhập tên môn thi"
+                                    [ngClass]="{'error-input': myFormLopThi.get('tenLop').invalid && myFormLopThi.get('tenLop').touched}">
+                                <small
+                                    *ngIf="myFormLopThi.get('tenLop').hasError('required') && myFormLopThi.get('tenLop').touched"
+                                    class="error-message">Vui lòng nhập tên lớp !</small>
                             </div>
                         </div>
 
@@ -117,13 +121,16 @@
                             <div class="mb-3">
                                 <label for="input1" class="form-label">Số lượng học sinh</label>
 
-                                <div class="p-inputgroup">
-                                    <input class="form-control" id="soLuongHocSinh" name="soLuongHocSinh"
-                                        [(ngModel)]="soLuongHocSinh" pInputText placeholder="Nhập thời gian làm bài"
-                                        required>
-
+                                <div class="flex justify-content-center">
+                                    <p-inputMask mask="99" formControlName="soLuong"
+                                        [ngClass]="{'error-input-ng': myFormLopThi.get('soLuong').invalid && myFormLopThi.get('soLuong').touched}"
+                                        placeholder="Nhập số điện thoại"></p-inputMask>
                                 </div>
+                                <small
+                                    *ngIf="myFormLopThi.get('soLuong').hasError('required') && myFormLopThi.get('soLuong').touched"
+                                    class="error-message">Vui lòng nhập số lượng !</small>
                             </div>
+
 
 
                         </div>
