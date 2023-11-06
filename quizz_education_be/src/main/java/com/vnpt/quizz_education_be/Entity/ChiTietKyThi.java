@@ -2,6 +2,7 @@ package com.vnpt.quizz_education_be.Entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,9 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.vnpt.quizz_education_be.DTO.Time;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -47,13 +49,18 @@ public class ChiTietKyThi implements Serializable {
     @JoinColumn(name = "ma_lop")
     LopThi lopThi;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "chiTietKyThi")
+    List<DeThi> deThis;
+
     // Tính thời gian làm bài
-    public Time getTime() {
-        if (this.getThoiGianBatDau() == null || this.getThoiGianBatDau() == null) {
-            return null;
+    public long getTime() {
+        long m = 0;
+        try {
+            m = this.getDeThis().get(0).getThoiGianLamBai() / 60;
+        } catch (Exception e) {
         }
-        long differenceInMillis = Math.abs(this.getThoiGianKetThuc().getTime() - this.getThoiGianBatDau().getTime());
-        return new Time(differenceInMillis);
+        return m;
     }
 
     public String getTrangThai() {
@@ -82,5 +89,14 @@ public class ChiTietKyThi implements Serializable {
         } else {
             return 2;// Đã kết thúc
         }
+    }
+
+    public int getMaDeThi() {
+        int maDeThi = 0;
+        try {
+            maDeThi = this.getDeThis().get(0).getMaDeThi();
+        } catch (Exception e) {
+        }
+        return maDeThi;
     }
 }

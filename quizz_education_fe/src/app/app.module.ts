@@ -65,13 +65,14 @@ import {
   SidebarModule,
   TabsModule,
   UtilitiesModule,
-  
+
 } from '@coreui/angular';
 
 import { ExamComponent } from './User/pages/exam/exam.component';
 import { ForgotPasswordComponent } from './Admin/views/pages/forgot-password/forgot-password.component';
 import { ProfileTeacherComponent } from './Teacher/views/profile-teacher/profile-teacher.component';
 import { ProfileAdminComponent } from './admin/views/profile-admin/profile-admin.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -144,6 +145,7 @@ const APP_CONTAINERS = [
     PasswordModule,
     CalendarModule,
     InputMaskModule,
+    ConfirmDialogModule
   ],
   providers: [
     {

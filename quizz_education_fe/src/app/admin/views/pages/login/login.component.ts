@@ -14,12 +14,12 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
     private router: Router,
-    private httpSvService: HttpSvService
-  ) {}
+    private httpSvService: HttpSvService,
+  ) { }
 
   public formLogin = this.formBuilder.group({
-    tenDangNhap: new FormControl('', [Validators.required]),
-    matKhau: new FormControl('', [Validators.required]),
+    tenDangNhap: new FormControl('ChauManhTan', [Validators.required]),
+    matKhau: new FormControl('123', [Validators.required]),
     remember: new FormControl(false, [Validators.required]),
   });
 
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  public data:any[];
+  public data: any[];
   public loginMethod() {
     if (this.formLogin.valid) {
       const API_LOGIN = 'http://localhost:8080/quizzeducation/api/login';

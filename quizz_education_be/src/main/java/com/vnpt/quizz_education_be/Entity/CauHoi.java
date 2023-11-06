@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -42,6 +43,9 @@ public class CauHoi implements Serializable {
     @ManyToOne
     @JoinColumn(name = "ma_de_thi")
     DeThi deThi;
+
+    @Transient
+    private boolean daChon = false;
 
     @OneToMany(mappedBy = "cauHoi")
     List<DapAn> dapAns;

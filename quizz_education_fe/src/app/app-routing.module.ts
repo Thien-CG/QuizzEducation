@@ -28,7 +28,7 @@ const routes: Routes = [
     path: 'user',
     component: MainUserComponent,
     children: [
-      { path: 'exam', component: ExamComponent },
+      { path: 'exam/:id', component: ExamComponent },
       { path: 'home', component: HomeComponent },
       { path: 'score', component: ScoreComponent },
       { path: 'history', component: HistoryComponent }
@@ -124,7 +124,7 @@ const routes: Routes = [
       },
       {
         path: 'profile-teacher',
-       
+
         component: ProfileTeacherComponent,
         data: {
           title: 'Thông tin tài khoản',

@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-QuizzEducationBeApplication<quizz_education_be>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.vnpt.quizz_education_be.QuizzEducationBeApplication",
+            "projectName": "quizz_education_be",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

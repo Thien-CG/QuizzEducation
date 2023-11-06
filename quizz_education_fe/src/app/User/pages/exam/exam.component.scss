@@ -1,39 +1,47 @@
-*{
+* {
     font-family: "Handlee", cursive;
     text-decoration: none;
     margin: 0 auto;
     padding: 0;
 }
 
- /* Thiết lập CSS cho hộp vuông */
- .question-container {
+/* Thiết lập CSS cho hộp vuông */
+.question-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Chia thành 4 cột */
-    gap: 7px; /* Khoảng cách giữa các câu hỏi */
+    grid-template-columns: repeat(4, 1fr);
+    /* Chia thành 4 cột */
+    gap: 7px;
+    /* Khoảng cách giữa các câu hỏi */
     background-color: #f7f7f7;
-   
+
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
-.router{
+
+.router {
     margin-top: 10px;
 }
-.col-md-9{
+
+.col-md-9 {
     margin-top: 15px;
 }
-.question-footer{
+
+.question-footer {
     border-top: 1px solid black;
     padding: 10px;
     margin-top: 20px;
 }
-.question-footer button{
+
+.question-footer button {
     padding: 3px 10px;
     border-radius: 5px;
     margin: 2px;
 }
-.btn-next{
+
+.btn-next {
     right: 0;
     float: right;
 }
+
 /* CSS cho mỗi câu hỏi */
 .question {
     padding: 10px 20px;
@@ -43,15 +51,17 @@
     text-align: center;
     width: 60px;
 }
-.question-header{
+
+.question-header {
     text-align: center;
     margin: 20px 0px;
 }
 
-.question-footer1{
+.question-footer1 {
     margin: 15px 0px;
 }
-.btn-nop-bai{
+
+.btn-nop-bai {
     border-radius: 5px;
     font-size: 14px;
     border: none;
@@ -59,25 +69,37 @@
     color: white;
     padding: 10px 20px;
 }
+
 /* CSS cho biểu tượng cờ */
 .flag-icon {
-    font-size: 16px; /* Kích thước của biểu tượng */
-    margin-left: 5px; /* Khoảng cách từ biểu tượng đến nội dung */
+    font-size: 16px;
+    /* Kích thước của biểu tượng */
+    margin-left: 5px;
+    /* Khoảng cách từ biểu tượng đến nội dung */
     position: absolute;
     top: 0;
     right: 0;
-    font-size: 16px; /* Kích thước của biểu tượng */
-    margin-left: 5px; /* Khoảng cách từ biểu tượng đến nội dung */
-    color: rgb(252, 73, 73); /* Màu của biểu tượng cờ (màu đỏ) */
+    font-size: 16px;
+    /* Kích thước của biểu tượng */
+    margin-left: 5px;
+    /* Khoảng cách từ biểu tượng đến nội dung */
+    color: rgb(252, 73, 73);
+    /* Màu của biểu tượng cờ (màu đỏ) */
 
 }
 
 /* CSS cho ô câu hỏi */
 .question {
-    position: relative; /* Để có thể sử dụng position: absolute cho biểu tượng */
+    position: relative;
+    /* Để có thể sử dụng position: absolute cho biểu tượng */
 }
 
-.timer{
+.bg-warning:focus {
+    background-color: #ffc107 !important
+}
+
+
+.timer {
     font-size: 14px;
     background-color: #d7d7d7;
     padding: 10px;
@@ -92,6 +114,7 @@
     border-radius: 5px;
     background-color: #f9f9f9;
 }
+
 .question1 {
     font-size: 18px;
     margin-bottom: 10px;
@@ -102,9 +125,11 @@
     text-align: center;
     font-family: 'Times New Roman', Times, serif;
 }
-.options{
+
+.options {
     margin-bottom: 20px;
 }
+
 .options label {
     display: block;
     margin-bottom: 5px;
@@ -112,13 +137,14 @@
     font-size: 16px;
 }
 
-.question-content-footer{
+.question-content-footer {
     font-size: 12px;
     font-family: 'Times New Roman', Times, serif;
     padding: 0px 0px 0px 5px;
     background-color: #f9f9f9;
 }
-.btn-dat-co{
+
+.btn-dat-co {
     font-family: 'Times New Roman', Times, serif;
     font-size: 12px;
     color: white;
@@ -127,3 +153,16 @@
     text-align: right;
 }
 
+a:hover {
+    text-decoration: none;
+    /* Loại bỏ gạch chân */
+}
+
+.btn-info:disabled {
+    opacity: 0.5;
+}
+
+.hehe,
+.hehe:focus {
+    outline: 2px solid rgb(122, 122, 122);
+}

@@ -7,19 +7,19 @@ import { HttpSvService } from 'src/app/service/API.service';
   selector: 'app-home-content',
   templateUrl: './home-content.component.html',
   styleUrls: ['./home-content.component.scss']
-}) 
+})
 export class HomeContentComponent {
-    constructor(
-      private router: Router,
-      private httpSvService : HttpSvService,
-    ){}
-    
-    public user : any;
-    ngOnInit(): void {
-      this.getTokenFromLocalStorage();
-      this.getData();
-      }
-    // Lấy dữ liệu người dùng từ Local Storage
+  constructor(
+    private router: Router,
+    private httpSvService: HttpSvService,
+  ) { }
+
+  public user: any;
+  ngOnInit(): void {
+    this.getTokenFromLocalStorage();
+    this.getData();
+  }
+  // Lấy dữ liệu người dùng từ Local Storage
   public getTokenFromLocalStorage(): any {
     const token = localStorage.getItem('token'); // Lấy token từ localStorage
     if (token) {
@@ -27,18 +27,18 @@ export class HomeContentComponent {
       try {
         const decodedToken = helper.decodeToken(token);
         // Trích xuất dữ liệu từ trường 'sub'
-       
-      if (decodedToken.sub) {
-        
-        // Lấy dữ liệu từ Local Storage và gán cho biến user
-        this.user = JSON.parse(decodedToken.sub);
-         
-        //Đi tìm trong DB lấy ra đối tượng
-        this.httpSvService.getItem('taikhoan',this.user.tenDangNhap).subscribe((userData) => {
-          this.user = userData;
-         });
-      }
-      
+
+        if (decodedToken.sub) {
+
+          // Lấy dữ liệu từ Local Storage và gán cho biến user
+          this.user = JSON.parse(decodedToken.sub);
+
+          //Đi tìm trong DB lấy ra đối tượng
+          this.httpSvService.getItem('taikhoan', this.user.tenDangNhap).subscribe((userData) => {
+            this.user = userData;
+          });
+        }
+
         return decodedToken; // Trả về đối tượng JSON
       } catch (error) {
         console.error('Lỗi giải mã token:', error);
@@ -47,9 +47,12 @@ export class HomeContentComponent {
     }
     return null; // Không tìm thấy token trong localStorage
   }
+  public a(maDeThi: number) {
+    this.router.navigate(['/user/exam/' + maDeThi]);
+  }
 
-    //Khai báo các biến ở đây
-    ListLichThi: any;
+  //Khai báo các biến ở đây
+  ListLichThi: any;
   //Lấy data về từ API
   public getData() {
     this.httpSvService.getList(`lichthi/${this.user.tenDangNhap}`).subscribe(response => {
@@ -60,7 +63,7 @@ export class HomeContentComponent {
   getBadgeClass(trangThai: string): string {
     if (trangThai === 'Đang diễn ra') {
       return 'badge-green';
-    }else if (trangThai === 'Chưa diễn ra') {
+    } else if (trangThai === 'Chưa diễn ra') {
       return 'badge-orange';
     } else if (trangThai === 'Đã kết thúc') {
       return 'badge-red';
@@ -76,9 +79,9 @@ convertToTime(thoiGian: string): string {
   return `${hours}:${minutes}`;
 }
 
-// Hàm hỗ trợ thêm số 0 nếu cần
-addLeadingZero(value: number): string {
-  return value < 10 ? `0${value}` : value.toString();
-}
+  // Hàm hỗ trợ thêm số 0 nếu cần
+  addLeadingZero(value: number): string {
+    return value < 10 ? `0${value}` : value.toString();
+  }
 
 }
