@@ -22,7 +22,7 @@ import { MessageService } from 'primeng/api';
 })
 export class ChecksRadiosComponent implements OnInit {
   myForm: FormGroup; // Khai báo FormGroup
-
+  myFormCauHoi: FormGroup; 
   constructor(
     private renderer: Renderer2,
     private httpService: HttpSvService,
@@ -41,6 +41,15 @@ export class ChecksRadiosComponent implements OnInit {
       tenDeThi: ['', [Validators.required]],
       ngayTao: ['', [Validators.required]],
       maMon: ['', [Validators.required]],
+    });
+
+    this.myFormCauHoi = this.fb.group({
+      maCauHoi: ['', [Validators.required]],
+      noiDungCauHoi: ['', [Validators.required]],
+      diemCauHoi: ['', [Validators.required]],
+      nhieuDapAn: [''],
+      maDeThi:[''],
+
     });
   }
 
@@ -95,14 +104,37 @@ export class ChecksRadiosComponent implements OnInit {
     
     });
   }
+
+
+  noiDungCauHoi:string ='';
+  diemCauHoi:number;
+  nhieuDapAn:boolean=false;
+  addToQuestion(){
+    
+    const data = {
+      maCauHoi:"",
+      noiDungCauHoi: this.myFormCauHoi.get('noiDungCauHoi').value,
+      diemCauHoi: this.myFormCauHoi.get('diemCauHoi').value,
+      nhieuDapAn: this.myFormCauHoi.get('nhieuDapAn').value,
+      deThi: {
+        maDeThi: this.maDeThi,
+      },
+    };
+    console.log(data)
+  }
+
+
   tenDeThi: string = '';
   maChiTietKyThi:number;
+  maDeThi:number;
+  
+
   addToExam(){
 
     const targetMaKyThi = 'your-maKyThi'; // Thay thế 'your-maKyThi' bằng maKyThi bạn muốn so sánh
       this.listChiTietKyThi.forEach((chiTiet) => {
         
-        if(chiTiet.kyThi.maKyThi === this.itemPhanCong.kyThi.maKyThi && chiTiet.maChiTietKyThi === this.itemPhanCong.maPhanCong){
+        if(chiTiet.kyThi.maKyThi === this.itemPhanCong.kyThi.maKyThi && chiTiet.monThi.maMon === this.itemPhanCong.monThi.maMon){
           console.log("Mã chi tiết kỳ thi: ",chiTiet.maChiTietKyThi)
           this.maChiTietKyThi = chiTiet.maChiTietKyThi;
           
@@ -132,9 +164,11 @@ export class ChecksRadiosComponent implements OnInit {
     this.httpService.postItem('dethi', data).subscribe(
       (response) => {
         this.itemPhanCong.daTaoDe = true;
+        this.maDeThi=response.maDeThi;
+        console.log("DataDeThi: ",response)
         this.httpService.putItem('phancong', this.itemPhanCong.maPhanCong,this.itemPhanCong).subscribe(
       (response) => {
-        window.location.reload();
+        // window.location.reload();
         
       });
       },
@@ -142,9 +176,11 @@ export class ChecksRadiosComponent implements OnInit {
         console.log('Lỗi tạo mới', error);
       }
     );
-    console.log("DataDeThi: ",data)
+    
   }
 
+
+  
   itemDeThi:any;
   updataThongTin() {
     const data = {

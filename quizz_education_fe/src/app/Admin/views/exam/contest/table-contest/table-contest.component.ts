@@ -321,7 +321,9 @@ export class TableContestComponent implements OnInit {
   ngayBatDau: Date;
   ngayKetThuc: Date;
   editchitietkythi(id: number) {
+    console.log("Da chay")
     this.httpService.getItem('chitietkythi', id).subscribe(response => {
+      
       this.idChiTietKyThi = id;
       this.itemChiTietKyThi = response;
       this.idMonThi = this.itemChiTietKyThi.monThi.maMon

@@ -193,7 +193,7 @@
 
       <p-dialog header="Thông tin câu hỏi" [position]="'top'" [modal]="true" [(visible)]="displayModalGrnDetail"
         [breakpoints]="{'960px': '75vw'}" [style]="{width: '40vw'}" [draggable]="false" [resizable]="false">
-        <form class="row g-3 grid p-fluid materialForm">
+        <form  [formGroup]="myFormCauHoi" class="row g-3 grid p-fluid materialForm">
 
           <div class="modal-body">
             <div class="row">
@@ -203,7 +203,7 @@
                   <label for="noiDungCauHoi" class="form-label">Nội dung câu hỏi</label>
                   <!-- <input type="text" class="form-control" id="noiDungCauHoi" name="noiDungCauHoi"
                     placeholder="Nhập nội dung câu hỏi" required> -->
-                    <textarea rows="5" cols="30" pInputTextarea></textarea>
+                    <textarea rows="5" cols="30" pInputTextarea formControlName="noiDungCauHoi" [(ngModel)]="noiDungCauHoi"></textarea>
                 </div>
               </div>
 
@@ -211,14 +211,14 @@
                 <div class="mb-6">
                   <label for="diemCauHoi" class="form-label">Điểm câu hỏi</label>
                   <input type="number" min="0" max="10" class="form-control" id="diemCauHoi" name="diemCauHoi"
-                    placeholder="Nhập điểm câu hỏi" required>
+                    placeholder="Nhập điểm câu hỏi" required formControlName="diemCauHoi" [(ngModel)]="diemCauHoi">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="mb-6">
                   <label for="nhieuDapAn" class="form-label">Câu hỏi nhiều đáp án</label>
                   <div class="form-checkbox flex align-items-center">
-                    <p-checkbox  value="true" inputId="ny"></p-checkbox>
+                    <p-checkbox value="true" inputId="true" formControlName="nhieuDapAn" [(ngModel)]="nhieuDapAn"></p-checkbox>
                     <label for="ny">Nhiều câu hỏi</label>
                   </div>
                 </div>
@@ -297,7 +297,7 @@
 
           <div class="modal-footer ">
             <button class="btn btn-secondary m-lg-2" type="submit">Làm mới</button>
-            <button type="submit" class="btn btn-primary">Tạo câu hỏi</button>
+            <button type="submit" class="btn btn-primary" (click)=" addToQuestion()">Tạo câu hỏi</button>
           </div>
 
         </form>

@@ -221,7 +221,7 @@
                 </p-columnFilter>
               </div>
 
-              <div class="addClass" *ngFor="let item of itemChiTietKiThi">
+              <div class="addClass">
                 <button class="btn btn-outline-primary" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal"
                   data-bs-dismiss="modal" [disabled]="getStatus() !== 'Chưa thi' ">
 
@@ -273,7 +273,7 @@
               </td>
               <td class="text-center d-flex thaotac">
 
-                <button icon="pi pi-pencil" pButton class="btn btn-outline-primary mx-2"
+                <button data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" icon="pi pi-pencil" pButton class="btn btn-outline-primary mx-2"
                   (click)="editchitietkythi(itemChiTietKiThi.maChiTietKyThi)"
                   [disabled]="getStatus() !== 'Chưa thi' ||  !(itemChiTietKiThi.lopThi) "></button>
 
@@ -419,7 +419,7 @@
               <div class="mb-3 input-edit-chitiet">
                 <label for="tenLop" class="form-label">Lớp Thi</label> <br>
 
-                <p-multiSelect [options]="selectLopThi" placeholder="Chọn môn thi" optionLabel="name"
+                <p-multiSelect [options]="selectLopThi" placeholder="Chọn lớp thi" optionLabel="name"
                   formControlName="tenLop2" display="chip" [showClear]="true"
                   [ngClass]="{'error-input-select': myFormMonThi.get('tenLop2').invalid && myFormMonThi.get('tenLop2').touched}"></p-multiSelect>
                 <small *ngIf="myFormMonThi.get('tenLop2').hasError('required') && myFormMonThi.get('tenLop2').touched"
