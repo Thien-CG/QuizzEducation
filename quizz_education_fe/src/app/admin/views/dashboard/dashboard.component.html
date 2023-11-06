@@ -22,7 +22,7 @@
                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{studentList.length}}</div>
                   </div>
                   <div class="col-auto">
-                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    <i class="fas fa-book fa-2x text-gray-300"></i>
                   </div>
                 </div>
               </div>
@@ -60,7 +60,7 @@
                     </div>
                   </div>
                   <div class="col-auto">
-                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    <i class="fas fa-network-wired fa-2x text-gray-300"></i>
                   </div>
                 </div>
               </div>
@@ -73,11 +73,11 @@
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                      Pending Requests</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                      Tổng số đề thi</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{testList.length}}</div>
                   </div>
                   <div class="col-auto">
-                    <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    <i class="fas fa-pencil fa-2x text-gray-300"></i>
                   </div>
                 </div>
               </div>
@@ -131,11 +131,20 @@
               <h6 class="m-0 font-weight-bold text-primary">Bảng xếp hạng học sinh</h6>
             </div>
             <div class="card-body">
-              <p-table [columns]="selectedColumns" [value]="studentResultList" [paginator]="true" [rows]="5"
+              <p-table #dt [columns]="selectedColumns" [value]="studentResultList" [paginator]="true" [rows]="5"
                 [showCurrentPageReport]="true"
                 currentPageReportTemplate="Hiển {first} đến {last} trong tổng {totalRecords} dữ liệu"
-                [rowsPerPageOptions]="[10, 25, 50]" sortField="diemTB" [sortOrder]="-1">
+                [rowsPerPageOptions]="[5, 10, 15, 20]" sortField="diemTB" [sortOrder]="-1"
+                [globalFilterFields]="['hoVaTen']">
                 <ng-template pTemplate="caption">
+                  <div class="float-right">
+                    <form [formGroup]="formFilter">
+                      <span class="p-input-icon-left ml-auto">
+                        <input pInputText type="text" (change)="dt.filterGlobal(getValueSearch(), 'contains')"
+                          formControlName="search" class="form-control box-shadow-none" placeholder="Tìm Kiếm Học Sinh">
+                      </span>
+                    </form>
+                  </div>
                   <p-multiSelect [options]="subjectList" [(ngModel)]="selectedColumns" optionLabel="tenMon"
                     selectedItemsLabel="{0} môn được chọn" [style]="{'min-width': '200px'}"
                     placeholder="Choose Columns"></p-multiSelect>

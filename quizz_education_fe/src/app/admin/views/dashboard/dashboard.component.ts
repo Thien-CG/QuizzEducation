@@ -1,17 +1,13 @@
-import { KetQuaTrungBinh } from './../../../models/KetQuaTrungBinh.entity';
-import { TaiKhoan } from './../../../models/TaiKhoan.entity';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartjsModule } from '@coreui/angular-chartjs';
-import { data } from 'jquery';
-import { forEach, multiply } from 'lodash-es';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { log } from 'console';
+import { TableModule } from 'primeng/table';
+import { KetQuaTrungBinh } from './../../../models/KetQuaTrungBinh.entity';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,7 +21,8 @@ import { log } from 'console';
     FormsModule,
     InputTextModule,
     TableModule,
-    MultiSelectModule
+    MultiSelectModule,
+    ReactiveFormsModule
   ]
 })
 export class DashboardComponent implements OnInit {
@@ -37,6 +34,7 @@ export class DashboardComponent implements OnInit {
   resultList: any[] = []
   resultFilterList: any[]
   eventFilterList: any[]
+  testList: any[] = []
   studentResultList: KetQuaTrungBinh[] = []
   avgAbove: number[] = []
   avgBelow: number[] = []
@@ -47,10 +45,9 @@ export class DashboardComponent implements OnInit {
   changeDate: Date = this.currentDate
   _selectedColumns: any[];
 
-
-
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private formBuilder: FormBuilder,
   ) { }
 
   @Input() get selectedColumns(): any[] {
@@ -96,44 +93,27 @@ export class DashboardComponent implements OnInit {
       }
     )
 
+    this.httpClient.get<[]>(`http://localhost:8080/quizzeducation/api/dethi`).subscribe(
+      (response) => {
+        this.testList = response
+      },
+      (error) => {
+        console.error(error.message)
+      }
+    )
   }
 
   setData() {
     this.data = {
-      labels: ['Thg 1', 'Thg 2', 'Thg 3', 'Thg 4', 'Thg 5', 'Th 6', 'Thg 7', 'Thg 8', 'Thg 9', 'Thg 10', 'Thg 11', 'Thg 12'],
+      labels: [],
       datasets: [
         {
-          label: 'Số bài trên trung bình',
+          label: 'Số bài trung bình trở lên',
           backgroundColor: 'rgba(220, 220, 220, 0.2)',
           borderColor: 'rgba(220, 220, 220, 1)',
           pointBackgroundColor: 'rgba(220, 220, 220, 1)',
           pointBorderColor: '#fff',
-          data: [
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 1 && result.diemSo >= 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 2 && result.diemSo >= 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 3 && result.diemSo >= 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 4 && result.diemSo >= 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 5 && result.diemSo >= 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 6 && result.diemSo >= 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 7 && result.diemSo >= 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 8 && result.diemSo >= 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 9 && result.diemSo >= 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 10 && result.diemSo >= 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 11 && result.diemSo >= 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 12 && result.diemSo >= 5).length
-          ]
+          data: []
         },
         {
           label: 'Số bài dưới trung bình',
@@ -141,35 +121,17 @@ export class DashboardComponent implements OnInit {
           borderColor: 'rgba(151, 187, 205, 1)',
           pointBackgroundColor: 'rgba(151, 187, 205, 1)',
           pointBorderColor: '#fff',
-          data: [
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 1 && result.diemSo < 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 2 && result.diemSo < 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 3 && result.diemSo < 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 4 && result.diemSo < 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 5 && result.diemSo < 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 6 && result.diemSo < 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 7 && result.diemSo < 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 8 && result.diemSo < 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 9 && result.diemSo < 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 10 && result.diemSo < 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 11 && result.diemSo < 5).length,
-            this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
-              && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == 12 && result.diemSo < 5).length
-          ]
+          data: []
         }
       ]
     };
+    for (let i = 1; i <= 12; i++) {
+      this.data.labels.push('Thg ' + i)
+      this.data.datasets[0].data.push(this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
+        && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == i && result.diemSo >= 5).length)
+      this.data.datasets[1].data.push(this.resultFilterList.filter(result => new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear()
+        && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getMonth() == i && result.diemSo < 5).length)
+    }
 
     this.data2 = {
       labels: ['Giỏi', 'Khá', 'Trung Bình', 'Yếu'],
@@ -191,7 +153,6 @@ export class DashboardComponent implements OnInit {
       labels: this.subjectList.map(labels => {
         return labels.tenMon
       }),
-
       datasets: [
         {
           label: 'Tỉ lệ % qua môn',
@@ -263,7 +224,7 @@ export class DashboardComponent implements OnInit {
     this.resultFilterList.filter(result => result.taiKhoan.tenDangNhap == username && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear())
       .forEach((result) => { total += result.diemSo; count++ })
     if (count > 0) {
-      return total / count;
+      return Math.round((total / count) * 100) / 100;
     } else {
       return null;
     }
@@ -275,7 +236,7 @@ export class DashboardComponent implements OnInit {
     this.resultFilterList.filter(result => result.taiKhoan.tenDangNhap == username && result.deThi.chiTietKyThi.monThi.maMon == subjectId && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear())
       .forEach((result) => { total += result.diemSo; count++ })
     if (count > 0) {
-      return total / count;
+      return Math.round((total / count) * 100) / 100;
     } else {
       return null
     }
@@ -288,4 +249,14 @@ export class DashboardComponent implements OnInit {
       }, 2000);
     }
   }
+
+  public getValueSearch() {
+    return this.formFilter.get('search')?.value;
+  }
+
+  public formFilter = this.formBuilder.group({
+    setRows: new FormControl(5),
+    search: new FormControl('')
+  })
+
 }

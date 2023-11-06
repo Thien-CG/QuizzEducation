@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./manage-student-subject.component.scss']
 })
 export class ManageStudentSubjectComponent implements OnInit {
-  public listMonThi: any[];
+  public listMonThi: any[] = [];
   public currentEvent: number;
   constructor(
     private httpClient: HttpClient,
