@@ -11,3 +11,20 @@ h3{
 .modal-footer{
     margin: 30px 50px 10px 0px;
 }
+.form-checkbox {
+    display: flex;
+    justify-content: left;
+    margin-top: 5px;
+}
+
+.form-checkbox label {
+    margin-left: 10px;
+}
+
+.form-checkbox .checkbox {
+    margin-left: 15px;
+}
+
+.dapAnDung{
+    // margin-left: 20%;
+}

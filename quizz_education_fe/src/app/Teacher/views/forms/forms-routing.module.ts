@@ -21,7 +21,7 @@ const routes: Routes = [
         path: 'assignment-schedule-&-exam-creation',
         component: ChecksRadiosComponent,
         data: {
-          title: 'Lịch phân công'
+          title: 'Lịch phân công & Tạo đề'
         }
       },
       {

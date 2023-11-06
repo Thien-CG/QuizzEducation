@@ -265,6 +265,9 @@ editTabs(){
   
 }
 
-
+public displayModalGrnDetail: boolean = false;
+public showDialogModalGrnDetail() {
+  this.displayModalGrnDetail = true;
+  }
 
 }

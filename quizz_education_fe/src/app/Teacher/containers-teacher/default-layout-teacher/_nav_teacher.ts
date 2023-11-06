@@ -9,7 +9,7 @@ export const navTeacherItems: INavData[] = [
     iconComponent: { name: 'cil-notes' },
     children: [
       {
-        name: 'Lịch phân công',
+        name: 'Lịch phân công & Tạo đề',
         url: 'exam-management/assignment-schedule-&-exam-creation'
       },
       {
