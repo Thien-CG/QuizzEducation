@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vnpt.quizz_education_be.DAO.DeThiDAO;
 import com.vnpt.quizz_education_be.Entity.DeThi;
+import com.vnpt.quizz_education_be.Entity.PhanCong;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -39,6 +40,16 @@ public class DeThiRestController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(optional.get());
+    }
+
+    // tìm kiếm đề thi theo username của giáo viên tạo đề
+    @GetMapping("dethi/taikhoan/{id}")
+    public ResponseEntity<List<DeThi>> getByUsername(@PathVariable("id") String username) {
+        List<DeThi> resultList = deThiDAO.getByUsername(username);
+        if (resultList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(resultList);
     }
 
     @PostMapping("dethi")

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import {
   ButtonGroupModule,
   ButtonModule,
@@ -24,8 +23,14 @@ import { ChecksRadiosComponent } from './checks-radios/checks-radios.component';
 import { InputGroupsComponent } from './input-groups/input-groups.component';
 import { LayoutComponent } from './layout/layout.component';
 import { ValidationComponent } from './validation/validation.component';
-
-
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+import { PanelModule } from 'primeng/panel';
+import { MenuModule } from 'primeng/menu';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 @NgModule({
   declarations: [
     RangesComponent,
@@ -52,7 +57,15 @@ import { ValidationComponent } from './validation/validation.component';
     ButtonGroupModule,
     DropdownModule,
     SharedModule,
-    ListGroupModule
+    ListGroupModule,
+    TableModule,
+    PanelModule,
+    MenuModule,
+    DialogModule,
+    RadioButtonModule,
+    InputSwitchModule,
+    CheckboxModule,
+    InputTextareaModule,
   ]
 })
 export class CoreUIFormsModule {

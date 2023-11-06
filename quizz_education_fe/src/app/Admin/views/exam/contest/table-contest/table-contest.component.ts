@@ -183,7 +183,7 @@ export class TableContestComponent implements OnInit {
 
   @ViewChild('confirmButton', { static: false }) confirmButton: ElementRef;
   // chi tiết kì thi
-  itemChiTietKiThi: any;
+  itemChiTietKiThi: any; 
   tenKyThi: number;
   idItemKyThi: number;
   TimeStart: Date

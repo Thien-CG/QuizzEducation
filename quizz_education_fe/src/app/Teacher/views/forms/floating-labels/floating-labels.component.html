@@ -1,157 +1,121 @@
 <c-row ngPreserveWhitespaces>
-  <c-col xs="12">
-    <app-docs-callout href="forms/floating-labels" name="Floating Label directive"></app-docs-callout>
-  </c-col>
-  <c-col xs="12">
-    <c-card class="mb-4">
-      <c-card-header>
-        <strong>Angular Floating labels</strong>
-      </c-card-header>
-      <c-card-body>
-        <p class="text-medium-emphasis small">
-          Wrap a pair of <code>&lt;cFormControl&gt;</code> and <code>&lt;label&gt;</code>
-          elements in <code>cFormControl</code> to enable floating labels with textual form
-          fields. A <code>placeholder</code> is required on each <code>&lt;input&gt;</code>
-          as our method of CSS-only floating labels uses the <code>:placeholder-shown</code>
-          pseudo-element. Also note that the <code>&lt;cFormControl&gt;</code> must come first so
-          we can utilize a sibling selector (e.g., <code>~</code>).
-        </p>
-        <app-docs-example href="forms/floating-labels">
-          <div [cFormFloating]="true" class="mb-3">
-            <input cFormControl id="floatingInput" placeholder="name@example.com" type="email" />
-            <label cLabel for="floatingInput">Email address</label>
-          </div>
-          <div cFormFloating>
-            <input cFormControl id="floatingPassword" placeholder="Password" type="password" />
-            <label cLabel for="floatingPassword">Password</label>
-          </div>
-        </app-docs-example>
-        <p class="text-medium-emphasis small">
-          When there&#39;s a <code>value</code> already defined, <code>&lt;label&gt;</code>
-          s will automatically adjust to their floated position.
-        </p>
-        <app-docs-example href="forms/floating-labels">
-          <form cForm cFormFloating>
-            <input
-              cFormControl
-              id="floatingInputValue"
-              placeholder="name@example.com"
-              type="email"
-              value="test@example.com"
-            />
-            <label cLabel for="floatingInputValue">Input with value</label>
-          </form>
-        </app-docs-example>
-      </c-card-body>
-    </c-card>
-  </c-col>
+
+
   <c-col xs="12">
     <c-card class="mb-4">
-      <c-card-header>
-        <strong>Angular Floating labels</strong> <small>Textareas</small>
-      </c-card-header>
-      <c-card-body>
-        <p class="text-medium-emphasis small">
-          By default, <code>&lt;CFormTextarea&gt;</code>s will be the same height as
-          <code>&lt;input&gt;</code>s.
-        </p>
-        <app-docs-example href="forms/floating-labels#textareas">
-          <div cFormFloating>
-            <input
-              cFormControl
-              id="floatingTextarea"
-              placeholder="Leave a comment here"
-              type="text"
-            >
-            <label cLabel for="floatingTextarea">Comments</label>
+
+
+      <div class="tabs">
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button (click)="editTabs()" class="nav-link active text-dark" id="nav-danh-sach-tab" [ngClass]="{'active': activeTab === 'danh-sach'}" data-bs-toggle="tab"
+            data-bs-target="#nav-danh-sach" type="button" role="tab" aria-controls="nav-danh-sach"
+            aria-selected="true">Danh sách đề thi</button>
+          <button  (click)="switchToEditTab()" class="nav-link text-dark" id="nav-tao-de-thi-tab" [ngClass]="{'active': activeTab === 'tao-de-thi'}" data-bs-toggle="tab"
+            data-bs-target="#nav-tao-de-thi" type="button" role="tab" aria-controls="nav-tao-de-thi"
+            aria-selected="false">Chi tiết đề thi</button>
+          
           </div>
-        </app-docs-example>
-        <p class="text-medium-emphasis small">
-          To set a custom height on your <code>&lt;CFormTextarea;&gt;</code>, do not use the
-          <code>rows</code> attribute. Instead, set an explicit <code>height</code> (either
-          inline or via custom CSS).
-        </p>
-        <app-docs-example href="forms/floating-labels#textareas">
-          <div cFormFloating>
-            <textarea [ngStyle]="{ 'height.px': 100 }"
-                      cFormControl
-                      id="floatingTextarea2"
-                      placeholder="Leave a comment here"
-            ></textarea>
-            <label cLabel for="floatingTextarea2">Comments</label>
+        </nav>
+
+        <div class="tab-content" id="nav-tabContent">
+
+          <div class="tab-pane fade show  mt-4" [ngClass]="{ 'show active': showLichPhanCong }" id="nav-danh-sach" role="tabpanel" aria-labelledby="nav-danh-sach-tab">
+
+            <!-- start table -->
+            <div class="group-header-table ">
+              <p-table [value]="listContest" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" #dt1
+                dataKey="maDeThi" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]"
+                [paginator]="true" currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} đối tượng"
+                [globalFilterFields]="['maDeThi', 'tenDeThi','chiTietKyThi.trangThai','chiTietKyThi.thoiGianBatDau','chiTietKyThi.thoiGianKetThuc','chiTietKyThi.monThi.tenMon','chiTietKyThi.lopThi.tenLop','chiTietKyThi.kyThi.tenKyThi']">
+
+                <ng-template pTemplate="header" class="theader">
+                  <tr>
+                    <th style="min-width:200px; text-align: center" pSortableColumn="maDeThi">Mã đề thi
+                      <p-sortIcon field="maDeThi"></p-sortIcon>
+                    </th>
+                    <th style="min-width:200px; text-align: center" pSortableColumn="tenDeThi">Tên đề thi
+                      <p-sortIcon field="tenDeThi"></p-sortIcon>
+                    </th>
+                    
+                    <th style="min-width:200px; text-align: center" pSortableColumn="chiTietKyThi.thoiGianBatDau">Thời gian bắt
+                      đầu
+                      <p-sortIcon field="chiTietKyThi.thoiGianBatDau"></p-sortIcon>
+                    </th>
+                    <th style="min-width:200px; text-align: center" pSortableColumn="chiTietKyThi.thoiGianKetThuc">Thời gian
+                      kết thúc
+                      <p-sortIcon field="chiTietKyThi.thoiGianKetThuc"></p-sortIcon>
+                    </th>
+                    <th style="min-width:200px; text-align: center" pSortableColumn="chiTietKyThi.monThi.tenMon">Môn thi
+                      <p-sortIcon field="chiTietKyThi.monThi.tenMon"></p-sortIcon></th>
+
+                    <th style="min-width:200px; text-align: center" pSortableColumn="chiTietKyThi.lopThi.tenLop">Lớp thi
+                      <p-sortIcon field="chiTietKyThi.lopThi.tenLop"></p-sortIcon></th>
+                      <th style="min-width:200px; text-align: center" pSortableColumn="chiTietKyThi.trangThai">Trạng thái đề thi
+                        <p-sortIcon field="chiTietKyThi.trangThai"></p-sortIcon>
+                      </th>
+                    <th style="min-width:200px; text-align: center"  pSortableColumn="chiTietKyThi.kyThi.tenKyThi">Tên kỳ thi
+                      <p-sortIcon field="chiTietKyThi.kyThi.tenKyThi"></p-sortIcon></th>
+                    
+                    <th style="min-width:200px; text-align: center">Thao tác</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" class="tbody" let-list let-rowIndex="rowIndex">
+                  <tr>
+                    <td class="text-center">{{list.maDeThi}}</td>
+                    <td class="text-center">{{list.tenDeThi}}</td>
+                    
+                    <td class="text-center">{{list.chiTietKyThi.thoiGianBatDau| date: 'HH:mm | dd-MM-yyyy'}}</td>
+                    <td class="text-center">{{list.chiTietKyThi.thoiGianKetThuc| date: 'HH:mm | dd-MM-yyyy'}}</td>
+                    <td class="text-center">{{list.chiTietKyThi.monThi.tenMon}}</td>
+                    <td class="text-center">{{list.chiTietKyThi.lopThi.tenLop}}</td>
+                    <td class="text-center"
+                      [ngClass]="{'text-success': list.chiTietKyThi.trangThai == 'Đang diễn ra', 'text-danger': list.chiTietKyThi.trangThai == 'Đã kết thúc' }">
+                      {{list.chiTietKyThi.trangThai}}</td>
+                    <td class="text-center">{{list.chiTietKyThi.kyThi.tenKyThi}}</td>
+                    <td class="text-center">
+                      <button class="btn btn-light"(click)="switchToEditTab()" style="color: blue;">Chi tiết</button>
+                    </td>
+
+                  </tr>
+                </ng-template>
+
+              </p-table>
+
+            </div>
+
+
+            <!-- end table -->
+
           </div>
-        </app-docs-example>
-      </c-card-body>
-    </c-card>
-  </c-col>
-  <c-col xs="12">
-    <c-card class="mb-4">
-      <c-card-header>
-        <strong>Angular Floating labels</strong> <small>Selects</small>
-      </c-card-header>
-      <c-card-body>
-        <p class="text-medium-emphasis small">
-          Other than <code>&lt;input&gt;</code>, floating labels are only available on
-          <code>&lt;cSelect&gt;</code>s. They work in the same way, but unlike
-          <code>&lt;input&gt;</code>s, they&#39;ll always show the
-          <code>&lt;label&gt;</code> in its floated state.
-          <strong>
-            Selects with <code>size</code> and <code>multiple</code> are not supported.
-          </strong>
-        </p>
-        <app-docs-example href="forms/floating-labels#selects">
-          <div cFormFloating>
-            <select aria-label="Floating label select example" cSelect id="floatingSelect">
-              <option>Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-            <label cLabel for="floatingSelect">Works with selects</label>
+
+
+          <div class="tab-pane fade" id="nav-tao-de-thi"  [ngClass]="{ 'show active': showTaoDeThi }" role="tabpanel" aria-labelledby="nav-tao-de-thi-tab">
+
+            
+
+
           </div>
-        </app-docs-example>
-      </c-card-body>
-    </c-card>
-  </c-col>
-  <c-col xs="12">
-    <c-card class="mb-4">
-      <c-card-header>
-        <strong>Angular Floating labels</strong> <small>Layout</small>
-      </c-card-header>
-      <c-card-body>
-        <p class="text-medium-emphasis small">
-          When working with the CoreUI for Bootstrap grid system, be sure to place form elements
-          within column classes.
-        </p>
-        <app-docs-example href="forms/floating-labels#layout">
-          <c-row [gutter]="{g: 2}">
-            <c-col md>
-              <div cFormFloating>
-                <input
-                  cFormControl
-                  id="floatingInputGrid"
-                  placeholder="name@example.com"
-                  type="email"
-                  value="email@example.com"
-                />
-                <label cLabel for="floatingInputGrid">Email address</label>
-              </div>
-            </c-col>
-            <c-col md>
-              <div cFormFloating>
-                <select aria-label="Floating label select example" cSelect id="floatingSelectGrid">
-                  <option>Open this select menu</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select>
-                <label cLabel for="floatingSelectGrid">Works with selects</label>
-              </div>
-            </c-col>
-          </c-row>
-        </app-docs-example>
-      </c-card-body>
+
+        </div>
+
+
+      </div>
+
+
+
+      <p-dialog header="Thông tin câu hỏi" [position]="'top'" [modal]="true"
+      [(visible)]="displayModalGrnDetail" [breakpoints]="{'960px': '75vw'}" [style]="{width: '40vw'}"
+      [draggable]="false" [resizable]="false">
+      <form class="row g-3 grid p-fluid materialForm">
+          
+         <h1>Cau hoi đi nè!!!</h1>
+
+          
+          
+      </form>
+  </p-dialog>
+  
     </c-card>
   </c-col>
 </c-row>
-
