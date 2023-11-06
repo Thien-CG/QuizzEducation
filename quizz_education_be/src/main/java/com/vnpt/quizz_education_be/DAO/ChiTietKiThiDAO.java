@@ -20,6 +20,9 @@ public interface ChiTietKiThiDAO extends JpaRepository<ChiTietKyThi, Integer> {
     @Query("SELECT ct FROM ChiTietKyThi ct WHERE ct.kyThi.maKyThi = :maKyThi")
     List<ChiTietKyThi> findByMaKyThi(@Param("maKyThi") int maKyThi);
 
+    @Query("SELECT ct FROM ChiTietKyThi ct WHERE ct.kyThi.maKyThi = :maKyThi")
+    List<ChiTietKyThi> findByIdKyThi(@Param("maKyThi") int maKyThi);
+
     @Query("SELECT ct FROM ChiTietKyThi ct WHERE ct.monThi.maMon = :maMon")
     List<ChiTietKyThi> findByMaMon(@Param("maMon") int maMon);
 
@@ -28,9 +31,13 @@ public interface ChiTietKiThiDAO extends JpaRepository<ChiTietKyThi, Integer> {
 
     @Query("SELECT ct FROM ChiTietKyThi ct WHERE ct.kyThi.daDienRa = false AND ct.lopThi.maLopThi = :maLop")
     List<ChiTietKyThi> getAll(int maLop);
+
     @Query("SELECT p.monThi FROM ChiTietKyThi p WHERE p.kyThi.maKyThi = ?1")
     List<MonThi> getMonThiInKiThi(Integer maKyThi);
 
     @Query("SELECT p.lopThi FROM ChiTietKyThi p WHERE p.kyThi.maKyThi = ?1 AND p.monThi.maMon=?2")
     List<LopThi> getLopThiByKiThiAndMonThi(Optional<Integer> maKyThi, Optional<Integer> maMonThi);
+
+    @Query("SELECT p FROM ChiTietKyThi p WHERE p.kyThi.maKyThi = ?1 AND p.monThi.maMon=?2")
+    List<ChiTietKyThi> getLopThiByKyThiAndMonThi(int maKyThi, int maMonThi);
 }

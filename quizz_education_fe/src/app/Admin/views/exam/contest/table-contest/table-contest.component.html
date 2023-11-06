@@ -18,8 +18,8 @@
       <!-- test -->
       <div class="group-header-table ">
         <div class="inport">
-          <button type="button" pButton pRipple class="btn btn-success mr-2 text-light" pTooltip="XLS"
-            tooltipPosition="bottom">Xuất file Excel</button>
+          <!-- <button type="button" pButton pRipple class="btn btn-success mr-2 text-light" pTooltip="XLS"
+            tooltipPosition="bottom">Xuất file Excel</button> -->
         </div>
         <div class="form-search">
           <form class="w-100" [formGroup]="formFilter">
@@ -48,11 +48,11 @@
           <ng-template pTemplate="header" class="theader">
             <tr>
               <th pSortableColumn="maKyThi" style="width:14%">Mã kỳ thi <p-sortIcon field="maKyThi"></p-sortIcon> </th>
-              <th pSortableColumn="tenKyThi" style="width:28% ">Tên kỳ thi <p-sortIcon field="tenKyThi"></p-sortIcon>
+              <th pSortableColumn="tenKyThi" style="width:26% ">Tên kỳ thi <p-sortIcon field="tenKyThi"></p-sortIcon>
               </th>
               <th style="width:15%; text-align: center;">Trạng thái
               </th>
-              <th pSortableColumn="thoiGianBatDau" style="width:15%;  text-align: center;">Thời gian bắt đầu <p-sortIcon
+              <th pSortableColumn="thoiGianBatDau" style="width:17%;  text-align: center;">Thời gian bắt đầu <p-sortIcon
                   field="thoiGianBatDau"></p-sortIcon></th>
               <th pSortableColumn="thoiGianKetThuc" style="width:17%;text-align: center;">Thời gian kết thúc <p-sortIcon
                   field="thoiGianKetThuc"></p-sortIcon>
@@ -74,15 +74,15 @@
                 {{ getContestStatus(listContest.thoiGianBatDau, listContest.thoiGianKetThuc) }}
               </td>
               <td class="d-none d-lg-table-cell moPhai text-center">
-                {{listContest.thoiGianBatDau | date: 'dd/MM/yyyy'}}</td>
+                {{listContest.thoiGianBatDau | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
               <td class="d-none d-lg-table-cell moPhai text-center">
-                {{listContest.thoiGianKetThuc | date: 'dd/MM/yyyy'}}</td>
+                {{listContest.thoiGianKetThuc | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
               <td class="text-center d-flex"><button class="btn btn-info text-light mx-2" data-bs-toggle="modal"
-                  data-bs-target="#exampleModal" (click)="getEditKyThi(listContest.maKyThi)">Sửa</button>
-                <button class="btn btn-info text-light" (click)="getItemChiTietKyThi(listContest.maKyThi)" style="width: 100px;">Chi
+                  data-bs-target="#suakythi" (click)="getEditKyThi(listContest.maKyThi)">Sửa</button>
+                <button class="btn btn-info text-light"
+                  (click)="getItemChiTietKyThi(listContest.maKyThi, listContest.thoiGianBatDau, listContest.thoiGianKetThuc)"
+                  style="width: 100px;">Chi
                   tiết</button>
-
-                <!-- <button type="button"  pButton icon="pi pi-info-circle" label="Show"></button> -->
               </td>
             </tr>
           </ng-template>
@@ -96,9 +96,12 @@
 
       </div>
 
-      <button #confirmButton class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#chitiet" hidden>Xác
+
+      <button #confirmButton class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalToggle"
+        hidden>Xác
         nhận</button>
-      <p-toast></p-toast>
+
+
     </div>
     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 
@@ -109,212 +112,360 @@
       <app-contest-detail></app-contest-detail>
     </div>
   </div>
+</div>
 
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa kỳ thi</h5>
-        </div>
-        <form>
-          <div class="modal-body">
-
-            <div class="row">
-              <div class="col-md-12">
-                <div class="mb-3">
-                  <label for="input1" class="form-label">Tên kỳ thi</label>
-                  <input type="text" class="form-control" id="tenKyThi" name="tenKyThi" [(ngModel)]="name">
-                </div>
+<!-- Modal edit kì thi -->
+<div class="modal fade" id="suakythi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa kỳ thi</h5>
+      </div>
+      <form [formGroup]="myFormKyThi">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label for="input1" class="form-label">Tên kỳ thi</label>
+                <input type="text" class="form-control" formControlName="tenKyThi"
+                  [ngClass]="{'error-input': myFormKyThi.get('tenKyThi').invalid && myFormKyThi.get('tenKyThi').touched}">
+                <small *ngIf="myFormKyThi.get('tenKyThi').hasError('required') && myFormKyThi.get('tenKyThi').touched"
+                  class="error-message">Vui lòng nhập tên kỳ thi !</small>
               </div>
-
-              <div class="col-md-6">
-                <div class="mb-3">
-                  <label for="input2" class="form-label">Thời gian bất đầu</label>
-                  <input type="datetime-local" class="form-control" id="formattedStartTime" name="formattedStartTime"
-                    [(ngModel)]="formattedStartTime">
-
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="input2" class="form-label">Thời gian bất đầu</label>
+                <div class="flex justify-content-center ngaySinh">
+                  <p-calendar formControlName="thoiGianBatDau" placeholder="Chọn thời gian bất đầu"
+                    dateFormat="dd/mm/yy" [showTime]="true" [showSeconds]="true" [showIcon]="true"
+                    [ngClass]="{'error-input-date': messageEdit||myFormKyThi.get('thoiGianBatDau').invalid && myFormKyThi.get('thoiGianBatDau').touched}"></p-calendar>
                 </div>
-                <span class="text-danger" *ngIf="messageEdit">{{messageEdit}}</span>
+                <small
+                  *ngIf="myFormKyThi.get('thoiGianBatDau').hasError('required') && myFormKyThi.get('thoiGianBatDau').touched"
+                  class="error-message">Vui lòng chọn thời gian bất đầu !</small>
+                <small *ngIf="messageEdit" class="error-message">{{ messageEdit }}</small>
               </div>
-              <div class="col-md-6">
-                <div class="mb-3">
-                  <label for="input2" class="form-label">Thời gian kết thúc</label>
-                  <input type="datetime-local" class="form-control" id="formattedEndTime" name="formattedEndTime"
-                    [(ngModel)]="formattedEndTime">
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="input2" class="form-label">Thời gian kết thúc</label>
+                <div class="flex justify-content-center ngaySinh">
+                  <p-calendar formControlName="thoiGianKetThuc" placeholder="Chọn thời gian bất đầu"
+                    dateFormat="dd/mm/yy" [showTime]="true" [showSeconds]="true" [showIcon]="true"
+                    [ngClass]="{'error-input-date': myFormKyThi.get('thoiGianKetThuc').invalid && myFormKyThi.get('thoiGianKetThuc').touched}"></p-calendar>
                 </div>
-              </div>
+                <small
+                  *ngIf="myFormKyThi.get('thoiGianKetThuc').hasError('required') && myFormKyThi.get('thoiGianKetThuc').touched"
+                  class="error-message">Vui lòng chọn thời gian bất đầu !</small>
 
+              </div>
             </div>
           </div>
 
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
             <form (ngSubmit)="onSubmit()">
-              <button class="btn btn-primary">Save changes</button>
+              <button class="btn btn-info text-light" style="width: 100px;">Cập nhật</button>
             </form>
           </div>
-        </form>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal hiển thị id chi tiết kỳ thi -->
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+  tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">{{tenKyThi}}</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p-table [value]="itemChiTietKiThi" editMode="row" dataKey="maChiTietKyThi" [paginator]="true"
+          [showCurrentPageReport]="true" #dt1 [rows]="10" [showCurrentPageReport]="true"
+          [rowsPerPageOptions]="[10, 25, 50]"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [globalFilterFields]="['monThi.maMon', 'lopThi.maLopThi']">
+
+          <ng-template pTemplate="caption">
+            <div class="group-header-table ">
+              <div class="inport modal-filter">
+                <p-columnFilter class="columnFilterLopThi" field="lopThi.maLopThi" matchMode="equals"
+                  [showMenu]="false">
+                  <ng-template pTemplate="filter" let-label let-filter="filterCallback">
+                    <p-dropdown [ngModel]="label" [options]="lopThi" (onChange)="filter($event.value)"
+                      placeholder="Lớp thi" [showClear]="true">
+                      <ng-template let-option pTemplate="item">
+                        <span class="ml-1 mt-1">{{ option.label }}</span>
+                      </ng-template>
+                    </p-dropdown>
+                  </ng-template>
+                </p-columnFilter>
+
+                <p-columnFilter class="columnFilterLopThi" field="monThi.maMon" matchMode="equals" [showMenu]="false">
+                  <ng-template pTemplate="filter" let-label let-filter="filterCallback">
+                    <p-dropdown [ngModel]="label" [options]="monThi" (onChange)="filter($event.value)"
+                      placeholder="Môn thi" [showClear]="true">
+                      <ng-template let-option pTemplate="item">
+                        <span class="ml-1 mt-1">{{ option.label }}</span>
+                      </ng-template>
+                    </p-dropdown>
+                  </ng-template>
+                </p-columnFilter>
+              </div>
+
+              <div class="addClass" *ngFor="let item of itemChiTietKiThi">
+                <button class="btn btn-outline-primary" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal"
+                  data-bs-dismiss="modal" [disabled]="getStatus() !== 'Chưa thi' ">
+
+                  Thêm lớp</button>
+
+              </div>
+            </div>
+          </ng-template>
+
+
+          <ng-template pTemplate="header" class="theader">
+            <tr>
+
+              <th pSortableColumn="monThi.maMon" style="width:18%;">Tên môn thi<p-sortIcon
+                  field="monThi.maMon"></p-sortIcon>
+              </th>
+              <th pSortableColumn="lopThi.maLopThi" style="width:18%; text-align: center;">Tên lớp thi<p-sortIcon
+                  field="lopThi.maLopThi"></p-sortIcon>
+              </th>
+              <th style="width:15%; text-align: center;">Thời gian làm bài
+              </th>
+              <th pSortableColumn="thoiGianBatDau" style="width:20%;  text-align: center;">Thời gian bắt đầu
+
+              </th>
+              <th pSortableColumn="thoiGianKetThuc" style="width:20%;text-align: center;">Thời gian kết thúc
+
+              </th>
+              <th style="width:10%">Thao tác</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" class="tbody" let-itemChiTietKiThi let-ri="rowIndex">
+            <tr>
+              <td>
+                {{itemChiTietKiThi.monThi.tenMon}}
+              </td>
+              <td class="text-center">
+                {{ itemChiTietKiThi.lopThi ? itemChiTietKiThi.lopThi.tenLop : 'Chưa có' }}
+              </td>
+              <td class="text-center">
+                {{ itemChiTietKiThi ? tinhThoiGianChenhLech(itemChiTietKiThi) : 'Chưa có' }} phút
+              </td>
+              <td class="text-center">
+                {{ itemChiTietKiThi.thoiGianBatDau ? (itemChiTietKiThi.thoiGianBatDau | date: 'dd/MM/yyyy HH:mm:ss') :
+                'Chưa có' }}
+              </td>
+              <td class="text-center">
+                {{ itemChiTietKiThi.thoiGianKetThuc ? (itemChiTietKiThi.thoiGianKetThuc | date: 'dd/MM/yyyy HH:mm:ss') :
+                'Chưa có' }}
+              </td>
+              <td class="text-center d-flex thaotac">
+
+                <button icon="pi pi-pencil" pButton class="btn btn-outline-primary mx-2"
+                  (click)="editchitietkythi(itemChiTietKiThi.maChiTietKyThi)"
+                  [disabled]="getStatus() !== 'Chưa thi' ||  !(itemChiTietKiThi.lopThi) "></button>
+
+                <button icon="pi pi-trash" pButton class="btn btn-outline-primary"
+                  (click)="deleteChiTietKyThi(itemChiTietKiThi.maChiTietKyThi)"
+                  [disabled]="getStatus() !== 'Chưa thi'"></button>
+              </td>
+
+            </tr>
+
+          </ng-template>
+          <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+          </ng-template>
+          <ng-template pTemplate="paginatorright">
+            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+          </ng-template>
+        </p-table>
+
       </div>
     </div>
   </div>
+</div>
+
+<!-- Modal edit chi tiết kỳ thi -->
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
+  tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h4 class="modal-title" id="exampleModalLabel">Sửa lớp và môn trong kỳ thi</h4>
+        <button #confirmButtondismiss type="button" class="btn-close" data-bs-target="#exampleModalToggle"
+          data-bs-toggle="modal" data-bs-dismiss="modal"></button>
+      </div>
+      <form [formGroup]="myForm">
+        <div class="modal-body">
+          <h4 class="my-3">Thông tin của chi tiết kì thi</h4>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3 input-edit-chitiet">
+                <label for="tenMon" class="form-label">Môn thi</label> <br>
+                <input type="text" class="form-control" formControlName="tenMon" placeholder="Nhập tên môn thi" required
+                  [readonly]="true">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="mb-3 input-edit-chitiet">
+                <label for="tenLop" class="form-label">Lớp thi</label> <br>
+                <input type="text" class="form-control" placeholder="Nhập tên môn thi" required formControlName="tenLop"
+                  [readonly]="true">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="tenLop" class="form-label">Thời gian bắt đầu</label> <br>
 
 
-  <div class="modal fade" id="chitiet" tabindex="-1" editMode="row" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+                <input class="form-control" type="datetime" formControlName="thoiGianBatDau" [readonly]="true">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="tenLop" class="form-label">Thời gian kết thúc</label> <br>
+                <input class="form-control" type="datetime" formControlName="thoiGianKetThuc" [readonly]="true">
+              </div>
+            </div>
+          </div>
+
+          <h4 class="my-3">Chỉnh sửa</h4>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3 input-edit-chitiet">
+                <label for="tenMon" class="form-label">Môn thi</label> <br>
+                <p-dropdown [options]="selecttenmon" formControlName="tenMon" optionLabel="name"></p-dropdown>
+
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="mb-3 input-edit-chitiet">
+                <label for="tenLop" class="form-label">Lớp thi</label> <br>
+                <p-dropdown [options]="selecttenlop" formControlName="tenLop" optionLabel="name"></p-dropdown>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="tenLop" class="form-label">Thời gian bắt đầu</label> <br>
+
+                <p-calendar formControlName="thoiGianBatDau1" placeholder="Chọn thời gian bất đầu" dateFormat="mm/dd/yy"
+                  [showTime]="true" [showSeconds]="true" [showIcon]="true"></p-calendar>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="tenLop" class="form-label">Thời gian kết thúc</label> <br>
+
+                <p-calendar formControlName="thoiGianKetThuc1" placeholder="Chọn thời gian kết thúc"
+                  dateFormat="mm/dd/yy" [showTime]="true" [showSeconds]="true" [showIcon]="true"></p-calendar>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" pButton pRipple (click)="updateChiTietKiThi()">Cập nhật</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- modal thêm lớp vào môn -->
+<div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
+  tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+
+    <form [formGroup]="myFormMonThi">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="exampleModalLabel">{{tenKyThi}}</h4>
+          <h4 class="modal-title" id="exampleModalLabel">Thêm lớp vào môn</h4>
+          <button #confirmButtondismiss type="button" class="btn-close" data-bs-target="#exampleModalToggle"
+            data-bs-toggle="modal" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3 input-edit-chitiet">
+                <label for="tenMon" class="form-label">Môn Thi</label> <br>
+                <p-dropdown [options]="selecttenmon_kythi" optionLabel="name" formControlName="tenMon2"
+                  (ngModelChange)="onSelectChange($event)"></p-dropdown>
 
-          <p-table [value]="itemChiTietKiThi" editMode="row" dataKey="maChiTietKyThi" [paginator]="true"
-            [showCurrentPageReport]="true" #dt1 [rows]="10" [showCurrentPageReport]="true"
-            [rowsPerPageOptions]="[10, 25, 50]"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [globalFilterFields]="['monThi.maMon', 'lopThi.maLopThi']">
-
-            <ng-template pTemplate="caption">
-              <div class="group-header-table ">
-                <div class="inport modal-filter">
-                  <p-columnFilter class="columnFilterLopThi" field="lopThi.maLopThi" matchMode="equals"
-                    [showMenu]="false">
-                    <ng-template pTemplate="filter" let-label let-filter="filterCallback">
-                      <p-dropdown [ngModel]="label" [options]="lopThi" (onChange)="filter($event.value)"
-                        placeholder="Lớp thi" [showClear]="true">
-                        <ng-template let-option pTemplate="item">
-                          <span class="ml-1 mt-1">{{ option.label }}</span>
-                        </ng-template>
-                      </p-dropdown>
-                    </ng-template>
-                  </p-columnFilter>
-
-                  <p-columnFilter class="columnFilterLopThi" field="monThi.maMon" matchMode="equals" [showMenu]="false">
-                    <ng-template pTemplate="filter" let-label let-filter="filterCallback">
-                      <p-dropdown [ngModel]="label" [options]="monThi" (onChange)="filter($event.value)"
-                        placeholder="Môn thi" [showClear]="true">
-                        <ng-template let-option pTemplate="item">
-                          <span class="ml-1 mt-1">{{ option.label }}</span>
-                        </ng-template>
-                      </p-dropdown>
-                    </ng-template>
-                  </p-columnFilter>
-                </div>
               </div>
-            </ng-template>
+            </div>
+
+            <div class="col-md-6">
+              <div class="mb-3 input-edit-chitiet">
+                <label for="tenLop" class="form-label">Lớp Thi</label> <br>
+
+                <p-multiSelect [options]="selectLopThi" placeholder="Chọn môn thi" optionLabel="name"
+                  formControlName="tenLop2" display="chip" [showClear]="true"
+                  [ngClass]="{'error-input-select': myFormMonThi.get('tenLop2').invalid && myFormMonThi.get('tenLop2').touched}"></p-multiSelect>
+                <small *ngIf="myFormMonThi.get('tenLop2').hasError('required') && myFormMonThi.get('tenLop2').touched"
+                  class="error-message">Vui lòng chọn lớp thi !</small>
+              </div>
+            </div>
 
 
-            <ng-template pTemplate="header" class="theader">
-              <tr>
+            <div class="col-md-6">
+              <div class="mb-3 input-edit-chitiet">
+                <label for="tenLop" class="form-label">Thời gian bất đầu</label> <br>
+                <p-calendar [minDate]="toDay" formControlName="thoiGianBatDau2" placeholder="Chọn thời gian bất đầu"
+                  dateFormat="dd/mm/yy" [showTime]="true" [showSeconds]="true" [showIcon]="true"
+                  [ngClass]="{'error-input-date': myFormMonThi.get('thoiGianBatDau2').invalid && myFormMonThi.get('thoiGianBatDau2').touched}"></p-calendar>
+                <small
+                  *ngIf="myFormMonThi.get('thoiGianBatDau2').hasError('required') && myFormMonThi.get('thoiGianBatDau2').touched"
+                  class="error-message">Vui lòng chọn thời gian bất đầu !</small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3 input-edit-chitiet">
+                <label for="tenLop" class="form-label">Thời gian kết thúc</label> <br>
+                <p-calendar [minDate]="toDay" formControlName="thoiGianKetThuc2" placeholder="Chọn thời gian bất đầu"
+                  dateFormat="dd/mm/yy" [showTime]="true" [showSeconds]="true" [showIcon]="true"
+                  [ngClass]="{'error-input-date': errorMesssage ||  myFormMonThi.get('thoiGianKetThuc2').invalid && myFormMonThi.get('thoiGianKetThuc2').touched}"></p-calendar>
+                <small
+                  *ngIf="myFormMonThi.get('thoiGianKetThuc2').hasError('required') && myFormMonThi.get('thoiGianKetThuc2').touched"
+                  class="error-message">Vui lòng chọn thời gian kết thúc !</small>
+                <small *ngIf="errorMesssage" class="error-message">{{ errorMesssage }}</small>
 
-                <th pSortableColumn="monThi.maMon" style="width:18%;">Tên môn thi<p-sortIcon
-                    field="monThi.maMon"></p-sortIcon>
-                </th>
-                <th pSortableColumn="lopThi.maLopThi" style="width:18%; text-align: center;">Tên lớp thi<p-sortIcon
-                    field="lopThi.maLopThi"></p-sortIcon>
-                </th>
-                <th style="width:15%; text-align: center;">Thời gian làm bài
-                </th>
-                <th pSortableColumn="thoiGianBatDau" style="width:20%;  text-align: center;">Thời gian bắt đầu
-
-                </th>
-                <th pSortableColumn="thoiGianKetThuc" style="width:20%;text-align: center;">Thời gian kết thúc
-
-                </th>
-                <th style="width:8%">Thao tác</th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" class="tbody" let-itemChiTietKiThi let-editing="editing" let-ri="rowIndex">
-
-              <tr [pEditableRow]="itemChiTietKiThi">
-
-                <td>
-
-                  <p-cellEditor>
-                    <ng-template pTemplate="input">
+              </div>
+            </div>
 
 
 
-                    </ng-template>
-                    <ng-template pTemplate="output">
-                      {{itemChiTietKiThi.monThi.tenMon}}
-                    </ng-template>
-                  </p-cellEditor>
-                </td>
-
-                <td class="text-center">
-                  <p-cellEditor>
-                    <ng-template pTemplate="input">
-                      <input pInputText type="text" [(ngModel)]="itemChiTietKiThi.lopThi.tenLop">
-                    </ng-template>
-                    <ng-template pTemplate="output">
-                      {{itemChiTietKiThi.lopThi.tenLop}}
-                    </ng-template>
-                  </p-cellEditor>
-                </td>
-
-                <td class="text-center">{{ tinhThoiGianChenhLech(itemChiTietKiThi) }} phút</td>
-                <td>
-                  <p-cellEditor>
-                    <ng-template pTemplate="input">
-                      <input pInputText type="text"
-                        [ngModel]="itemChiTietKiThi.thoiGianBatDau | date: 'yyyy-MM-dd HH:mm:ss'"
-                        (ngModelChange)="itemChiTietKiThi.thoiGianBatDau = $event">
-                    </ng-template>
-                    <ng-template pTemplate="output">
-                      {{itemChiTietKiThi.thoiGianBatDau | date: 'dd/MM/yyyy HH:mm:ss'}}
-                    </ng-template>
-                  </p-cellEditor>
-                </td>
-
-                <td class="text-center">
-                  <p-cellEditor>
-                    <ng-template pTemplate="input">
-                      <input pInputText type="text" [(ngModel)]="itemChiTietKiThi.thoiGianKetThuc">
-                    </ng-template>
-                    <ng-template pTemplate="output">
-                      {{itemChiTietKiThi.thoiGianKetThuc | date: 'dd/MM/yyyy HH:mm:ss'}}
-                    </ng-template>
-                  </p-cellEditor>
-                </td>
-
-                <td>
-                  <div class="flex align-items-center justify-content-center gap-2">
-                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-                      (click)="onRowEditInit(itemChiTietKiThi)" class="p-button-rounded p-button-text"></button>
-                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-                      (click)="onRowEditSave(itemChiTietKiThi)"
-                      class="p-button-rounded p-button-text p-button-success mr-2"></button>
-                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
-                      (click)="onRowEditCancel(itemChiTietKiThi, ri)"
-                      class="p-button-rounded p-button-text p-button-danger"></button>
-                  </div>
-                </td>
-              </tr>
-
-            </ng-template>
-            <ng-template pTemplate="paginatorleft">
-              <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-            </ng-template>
-            <ng-template pTemplate="paginatorright">
-              <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-            </ng-template>
-          </p-table>
-
+          </div>
 
         </div>
-
         <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <form (ngSubmit)="onSubmit()">
-            <button class="btn btn-primary">Save changes</button>
-          </form>
+          <button class="btn btn-primary" (click)="UpdateLopvaoMon()" pButton pRipple>Thêm lớp vào môn</button>
         </div>
       </div>
-    </div>
+    </form>
   </div>
-
-
 </div>
+
+
+
+<p-toast></p-toast>

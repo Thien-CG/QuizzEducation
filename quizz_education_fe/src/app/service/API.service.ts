@@ -30,6 +30,11 @@ export class HttpSvService {
     return this.httpClient.get<any>(url);
   }
 
+  public getItemss(nameApi: string, idItem: string | number, khoaNgoai: string, idkhoaNgoai: string | number): Observable<any> {
+    const url = `${this.REST_API_ED}/${nameApi}/${idItem}/${khoaNgoai}/${idkhoaNgoai}`;
+    return this.httpClient.get<any>(url);
+  }
+
   public postItem(nameApi: string, dataItem: any): Observable<any> {
     const url = `${this.REST_API_ED}/${nameApi}`;
     return this.httpClient.post<any>(url, dataItem);
@@ -46,5 +51,5 @@ export class HttpSvService {
     return this.httpClient.delete<any>(url);
   }
 
- 
+
 }

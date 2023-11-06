@@ -4,64 +4,66 @@ import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpSvService } from 'src/app/service/API.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-contest-create',
   templateUrl: './contest-create.component.html',
-  styleUrls: ['./contest-create.component.scss']
+  styleUrls: ['./contest-create.component.scss'],
+  providers: [MessageService]
 })
 export class ContestCreateComponent implements OnInit {
-  constructor(private renderer: Renderer2, private http: HttpClient,private httpService: HttpSvService) { }
+  myFormKyThi: FormGroup;
+  constructor(private messageService: MessageService,private renderer: Renderer2, private fb: FormBuilder, private http: HttpClient, private httpService: HttpSvService) {
+    this.myFormKyThi = this.fb.group({
+      tenKyThi: ['', [Validators.required]],
+      thoiGianBatDau: ['', [Validators.required]],
+      thoiGianKetThuc: ['', [Validators.required]]
+
+    });
+  }
+
 
   ngOnInit(): void {
     this.getTokenFromLocalStorage();
   }
 
-  name: string = '';
-  formattedStartTime: string = '';
-  formattedEndTime: string = '';
-  errorMessage: string | null = null;
+  errorMessage: string;
 
   onSubmitCreate() {
-    const dateTimeRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
-    if (this.name == "") {
-      this.errorMessage = 'Không được để trống tên kì thi';
-      return
-    }
-    if (this.formattedEndTime == "" || this.formattedEndTime == "") {
-      this.errorMessage = 'Không được để trống thời gian';
-      return
-    }
-    if (!dateTimeRegex.test(this.formattedStartTime) || !dateTimeRegex.test(this.formattedEndTime)) {
-      this.errorMessage = 'Ngày giờ không hợp lệ';
+
+    if (this.myFormKyThi.invalid) {
+      for (const control in this.myFormKyThi.controls) {
+        if (this.myFormKyThi.controls.hasOwnProperty(control)) {
+          this.myFormKyThi.controls[control].markAsTouched();
+        }
+      }
       return;
     }
-    const startTime = new Date(this.formattedStartTime).getTime();
-    const endTime = new Date(this.formattedEndTime).getTime();
+
+
+    const startTime = this.myFormKyThi.get('thoiGianBatDau').value;
+    const endTime = this.myFormKyThi.get('thoiGianKetThuc').value;
 
     if (startTime >= endTime) {
       this.errorMessage = 'Ngày bắt đầu phải nhỏ hơn ngày kết thúc';
       return;
     }
-    this.errorMessage = null;
-
     // Định dạng lại thời gian sử dụng moment
-    const formattedStartTime = moment(this.formattedStartTime).format("YYYY-MM-DD HH:mm:ss.S");
-    const formattedEndTime = moment(this.formattedEndTime).format("YYYY-MM-DD HH:mm:ss.S");
 
     const data = {
-      tenKyThi: this.name,
-      thoiGianBatDau: formattedStartTime, // Sử dụng thời gian đã định dạng
-      thoiGianKetThuc: formattedEndTime, // Sử dụng thời gian đã định dạng
+      tenKyThi: this.myFormKyThi.get('tenKyThi').value,
+      thoiGianBatDau: this.myFormKyThi.get('thoiGianBatDau').value,
+      thoiGianKetThuc: this.myFormKyThi.get('thoiGianKetThuc').value,
       daDienRa: true,
       taiKhoan: {
         tenDangNhap: this.username,
       },
     };
 
-    const apiUrl = `http://localhost:8080/quizzeducation/api/kythi`;
-    this.http.post(apiUrl, data)
+    this.httpService.postItem("kythi", data)
       .subscribe((response: any) => {
-        console.log('Dữ liệu đã được gửi thành công:', response);
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
         window.location.reload();
       }, (error: any) => {
         console.error('Lỗi khi gửi dữ liệu:', error);
@@ -70,10 +72,7 @@ export class ContestCreateComponent implements OnInit {
 
   }
   onSubmitNew() {
-    this.name = '';
-    this.formattedStartTime = '';
-    this.formattedEndTime = '';
-    this.errorMessage = null;
+    this.myFormKyThi.reset();
   }
 
 

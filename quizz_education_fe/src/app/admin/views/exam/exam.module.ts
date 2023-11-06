@@ -20,8 +20,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TableContestComponent } from './contest/table-contest/table-contest.component';
 import { ExamClassComponent } from './exam-class/exam-class.component';
 import { FormsRoutingModule } from './exam-routing.module';
-import { ExamSubjectsComponent } from './exam-subjects/exam-subjects.component';
-
+import { TooltipModule } from 'primeng/tooltip';
 import { ContestComponent } from './contest/contest.component';
 import { ContestCreateComponent } from './contest/table-contest/contest-create/contest-create.component';
 
@@ -33,17 +32,15 @@ import { PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { ContestDetailComponent } from './contest/table-contest/contest-detail/contest-detail.component';
 import { ExamClassCreateComponent } from './exam-class/exam-class-create/exam-class-create.component';
-import { ExamSubjectCreateComponent } from './exam-subjects/exam-subject-create/exam-subject-create.component';
 @NgModule({
   declarations: [
     TableContestComponent,
-    ExamSubjectsComponent,
     ContestComponent,
     ContestCreateComponent,
     ExamClassComponent,
-    ExamSubjectCreateComponent,
     ExamClassCreateComponent,
     ContestDetailComponent,
   ],
@@ -71,7 +68,9 @@ import { ExamSubjectCreateComponent } from './exam-subjects/exam-subject-create/
     InputTextModule,
     ToastModule,
     ConfirmDialogModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    MultiSelectModule,
+    TooltipModule
   ]
 })
 export class CoreUIExamModule {

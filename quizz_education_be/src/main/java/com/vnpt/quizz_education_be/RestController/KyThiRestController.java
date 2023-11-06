@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vnpt.quizz_education_be.DAO.KiThiDAO;
 import com.vnpt.quizz_education_be.DAO.PhanCongDAO;
 import com.vnpt.quizz_education_be.Entity.KyThi;
+import com.vnpt.quizz_education_be.Entity.PhanCong;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200") // Cho phép yêu cầu từ origin http://localhost:4200
@@ -31,12 +32,14 @@ public class KyThiRestController {
     PhanCongDAO phanCongDAO;
 
     @GetMapping("kythi")
-    public ResponseEntity<List<KyThi>> findAll(@RequestParam("tenDangNhap") Optional<String> tenDangNhap) {
-        if (tenDangNhap.isPresent()) {
-            return ResponseEntity.ok(phanCongDAO.getKiThiPhanCongTaiKhoan(tenDangNhap));
-        }
+    public ResponseEntity<List<KyThi>> findAll() {
         return ResponseEntity.ok(kyThiDAO.findAll());
     }
+
+    //     @GetMapping("phancong")
+    // public ResponseEntity<List<PhanCong>> findAll() {
+    //     return ResponseEntity.ok(phanCongDAO.findAll());
+    // }
 
     // Get 1 đối tượng thông qua id
     @GetMapping("kythi/{id}")

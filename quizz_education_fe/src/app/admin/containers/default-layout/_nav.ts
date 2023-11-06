@@ -16,10 +16,10 @@ export const navItems: INavData[] = [
         name: 'Quản lý đợt thi',
         url: '/admin/exam/contest'
       },
-      {
-        name: 'Quản lý môn thi',
-        url: '/admin/exam/exam-subjects'
-      },
+      // {
+      //   name: 'Quản lý môn thi',
+      //   url: '/admin/exam/exam-subjects'
+      // },
       {
         name: 'Quản lý lớp thi',
         url: '/admin/exam/exam-class'

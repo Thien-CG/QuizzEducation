@@ -1,33 +1,100 @@
-  <!-- <div class="list-body">
-        <p-table [value]="listChiTietKyThi" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" #dt1
-          dataKey="maKyThi" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]"
-          [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-          [globalFilterFields]="['maKyThi', 'tenKyThi']">
+<h3>Thêm lớp và môn vào kì thi </h3>
 
-          <ng-template pTemplate="header" class="theader">
-            <tr>
-              <th pSortableColumn="maKyThi" style="width:14%">Mã kỳ thi <p-sortIcon field="maKyThi"></p-sortIcon> </th>
-              <th pSortableColumn="tenKyThi" style="width:30% ">Tên kỳ thi <p-sortIcon field="tenKyThi"></p-sortIcon>
-              </th>
-              <th style="width:15%; text-align: center;">Trạng thái
-              </th>
-              <th pSortableColumn="thoiGianBatDau" style="width:15%;  text-align: center;">Thời gian bắt đầu <p-sortIcon
-                  field="thoiGianBatDau"></p-sortIcon></th>
-              <th pSortableColumn="thoiGianKetThuc" style="width:17%;text-align: center;">Thời gian kết thúc <p-sortIcon
-                  field="thoiGianKetThuc"></p-sortIcon>
-              </th>
-              <th style="width:8%">Thao tác</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" class="tbody" let-listContest let-rowIndex="rowIndex">
-              
-          </ng-template>
-          <ng-template pTemplate="paginatorleft">
-            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-          </ng-template>
-          <ng-template pTemplate="paginatorright">
-            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-          </ng-template>
-        </p-table>
+<form [formGroup]="myForm">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="mb-3 input-edit-chitiet">
+				<label for="tenMon" class="form-label">Kỳ Thi</label> <br>
+				<p-dropdown [options]="kyThiOptions" formControlName="tenKyThi" (ngModelChange)="onSelectChange($event)"
+					optionLabel="name"></p-dropdown>
+			</div>
+		</div>
 
-      </div> -->
+		<div class="col-md-6">
+			<div class="mb-3 input-edit-chitiet">
+				<label for="tenLop" class="form-label">Môn Thi</label> <br>
+				<div class="p-inputgroup">
+					<p-multiSelect [options]="monThiOptions" formControlName="tenMon" placeholder="Chọn môn thi"
+						optionLabel="name" display="chip" [showClear]="true"
+						[ngClass]="{'error-input-select': myForm.get('tenMon').invalid && myForm.get('tenMon').touched}"></p-multiSelect>
+					<button pTooltip="Tạo mới môn thi" type="button" pButton icon="pi pi-plus"
+						styleClass="p-button-warn" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+				</div>
+				<small *ngIf="myForm.get('tenMon').hasError('required') && myForm.get('tenMon').touched"
+					class="error-message">Vui lòng chọn môn thi !</small>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button pTooltip="Thêm môn vào kỳ thi" class="btn btn-info text-light" pButton pRipple
+			(click)="createChiTietKyThi()">Thêm môn thi vào</button>
+	</div>
+</form>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog ">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Thêm môn thi</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+
+			<form [formGroup]="myFormMonThi">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="mb-3 input-edit-chitiet">
+								<label for="tenMon" class="form-label">Tên môn thi</label> <br>
+								<input class="form-control"  formControlName="tenMonThi"
+								[ngClass]="{'error-input': myFormMonThi.get('tenMonThi').invalid && myFormMonThi.get('tenMonThi').touched}">
+								<small *ngIf="myFormMonThi.get('tenMonThi').hasError('required') && myFormMonThi.get('tenMonThi').touched"
+								  class="error-message">Vui lòng nhập môn thi !</small>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</form>
+
+
+			<p-table [value]="listMonThi" editMode="row" dataKey="maMon" [paginator]="true" #dt1 [rows]="10"
+				[rowsPerPageOptions]="[10, 25, 50]">
+				<ng-template pTemplate="header" class="theader">
+					<tr>
+						<th pSortableColumn="tenMon" style="width:18%;">Tên môn thi<p-sortIcon
+								field="tenMon"></p-sortIcon></th>
+						<th style="width:10%; text-align: center;">Thao tác</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" class="tbody" let-monthi let-ri="rowIndex">
+					<tr>
+						<td>
+							{{monthi.tenMon}}
+						</td>
+						<td class="thaotac text-center">
+							<button pButton icon="pi pi-pencil" class="btn btn-outline-primary mx-2"
+								(click)="editMonThi(monthi.maMon)"></button>
+							<button pButton icon="pi pi-trash" (click)="deleteMonThi(monthi.maMon)"
+								class="btn btn-outline-danger"></button>
+						</td>
+					</tr>
+				</ng-template>
+			</p-table>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" (click)="cancelOrSave()">{{
+					isEditing ? 'Hủy' : 'Làm mới' }}</button>
+				<button pButton pRipple *ngIf="isEditing" type="button" class="btn btn-primary"
+					(click)="updataMonThi()">Cập nhật</button>
+				<button pButton pRipple *ngIf="!isEditing" type="button" class="btn btn-primary"
+					(click)="createMonThi()">Tạo môn thi</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<p-toast></p-toast>

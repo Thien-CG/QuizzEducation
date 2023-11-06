@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ContestComponent } from './contest/contest.component';
 import { ExamClassComponent } from './exam-class/exam-class.component';
-import { ExamSubjectsComponent } from './exam-subjects/exam-subjects.component';
 
 
 const routes: Routes = [
@@ -17,16 +16,8 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'exam-subjects'
+        redirectTo: 'contest'
       },
-      {
-        path: 'exam-subjects',
-        component: ExamSubjectsComponent,
-        data: {
-          title: 'Môn thi'
-        }
-      },
-
       {
         path: 'contest',
         component: ContestComponent,
