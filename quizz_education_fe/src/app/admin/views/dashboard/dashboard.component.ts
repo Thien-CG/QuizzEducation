@@ -1,11 +1,15 @@
+import { KetQuaTrungBinh } from './../../../models/KetQuaTrungBinh.entity';
+import { TaiKhoan } from './../../../models/TaiKhoan.entity';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChartjsModule } from '@coreui/angular-chartjs';
 import { data } from 'jquery';
+import { forEach } from 'lodash-es';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
+import { TableModule } from 'primeng/table';
 
 
 @Component({
@@ -18,21 +22,22 @@ import { InputTextModule } from 'primeng/inputtext';
     ChartjsModule,
     CalendarModule,
     FormsModule,
-    InputTextModule
+    InputTextModule,
+    TableModule
   ]
 })
 export class DashboardComponent implements OnInit {
-  accList: any[]
-  eventList: any[]
-  studentList: any[]
-  teacherList: any[]
-  subjectList: any[]
-  resultList: any[]
+  accList: any[] = []
+  eventList: any[] = []
+  studentList: any[] = []
+  teacherList: any[] = []
+  subjectList: any[] = []
+  resultList: any[] = []
   resultFilterList: any[]
   eventFilterList: any[]
-  avgMark: number
-  avgAbove: number[]
-  avgBelow: number[]
+  studentResultList: KetQuaTrungBinh[] = []
+  avgAbove: number[] = []
+  avgBelow: number[] = []
   data: any
   data2: any
   data3: any
@@ -45,21 +50,14 @@ export class DashboardComponent implements OnInit {
   ) { }
   ngOnInit() {
     this.getData();
+    this.getStudentResult()
   }
 
   getData() {
-
     this.httpClient.get<[]>(`http://localhost:8080/quizzeducation/api/bocauhoidalam`).subscribe(
       (response) => {
         this.resultList = response
         this.resultFilterList = this.resultList
-        var total = 0;
-        var count = 0;
-        this.resultList.forEach((item) => {
-          total += item.diemSo;
-          count++;
-        })
-        this.avgMark = total / count
         this.httpClient.get<[]>(`http://localhost:8080/quizzeducation/api/monthi`).subscribe(
           (response) => {
             this.subjectList = response
@@ -75,16 +73,7 @@ export class DashboardComponent implements OnInit {
       }
     )
 
-    this.httpClient.get<[]>(`http://localhost:8080/quizzeducation/api/taikhoan`).subscribe(
-      (response) => {
-        this.accList = response
-        this.studentList = this.accList.filter(acc => acc.vaiTro.maVaiTro == 1)
-        this.teacherList = this.accList.filter(acc => acc.vaiTro.maVaiTro == 2)
-      },
-      (error) => {
-        console.error(error.message)
-      }
-    )
+
 
     this.httpClient.get<[]>(`http://localhost:8080/quizzeducation/api/kythi`).subscribe(
       (response) => {
@@ -203,6 +192,31 @@ export class DashboardComponent implements OnInit {
       ]
     };
 
+    this.getStudentResult()
+  }
+
+  getStudentResult() {
+    this.studentResultList = []
+    this.httpClient.get<[]>(`http://localhost:8080/quizzeducation/api/taikhoan`).subscribe(
+      (response) => {
+        this.accList = response
+        this.studentList = this.accList.filter(acc => acc.vaiTro.maVaiTro == 1)
+        this.teacherList = this.accList.filter(acc => acc.vaiTro.maVaiTro == 2)
+        var result: KetQuaTrungBinh[] = []
+        this.studentList.forEach(student => {
+          var object: KetQuaTrungBinh = {
+            tenDangNhap: student.tenDangNhap,
+            hoVaTen: student.hoVaTen,
+            diemTB: this.getStudentAvgMark(student.tenDangNhap)
+          }
+          result.push(object)
+        })
+        this.studentResultList = result
+      },
+      (error) => {
+        console.error(error.message)
+      }
+    )
   }
 
   changeYear(date: Date) {
@@ -229,6 +243,30 @@ export class DashboardComponent implements OnInit {
       return resultAboveAvgList.length / resultList.length * 100
     } else {
       return 0;
+    }
+  }
+
+  getStudentAvgMark(username: string): number {
+    var total = 0;
+    var count = 0;
+    this.resultFilterList.filter(result => result.taiKhoan.tenDangNhap == username && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear())
+      .forEach((result) => { total += result.diemSo; count++ })
+    if (count > 0) {
+      return total / count;
+    } else {
+      return null;
+    }
+  }
+
+  getStudentAvgMarkOfEachSubject(username: string, subjectId: number): number {
+    var total = 0;
+    var count = 0;
+    this.resultFilterList.filter(result => result.taiKhoan.tenDangNhap == username && result.deThi.chiTietKyThi.monThi.maMon == subjectId && new Date(result.deThi.chiTietKyThi.kyThi.thoiGianBatDau).getFullYear() == this.changeDate.getFullYear())
+      .forEach((result) => { total += result.diemSo; count++ })
+    if (count > 0) {
+      return total / count;
+    } else {
+      return null
     }
   }
 

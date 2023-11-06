@@ -18,6 +18,7 @@ export class ManageStudentClassComponent implements OnInit {
   public currentEvent: number;
   public currentSubject: number
   public classList: any[];
+  public studentList: any[]
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -30,11 +31,20 @@ export class ManageStudentClassComponent implements OnInit {
       .subscribe(data => {
         this.classList = data
       });
+    this.httpClient.get<[]>(`http://localhost:8080/quizzeducation/api/taikhoan/hocsinh`)
+      .subscribe(data => {
+        this.studentList = data
+      })
+  }
+
+  public getClassLength(classId: number) {
+    return this.studentList.filter(s => s.lopThi && s.lopThi.maLopThi == classId).length
   }
 
   public getValueSearch() {
     return this.formFilter.get('search')?.value;
   }
+
   public formFilter = this.formBuilder.group({
     setRows: new FormControl(5),
     search: new FormControl('')

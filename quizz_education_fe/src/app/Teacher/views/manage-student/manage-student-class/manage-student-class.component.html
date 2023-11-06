@@ -1,8 +1,7 @@
 <div class="card" *ngIf="classList && classList.length > 0">
-  <p-table #dt1 [value]="classList" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
-    [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+  <p-table #dt1 [value]="classList" dataKey="id" [rows]="10" [showCurrentPageReport]="true" [paginator]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [globalFilterFields]="['maLopThi', 'tenLop', 'soLuongToiDa']" [rowsPerPageOptions]="[10, 25, 50]">
+    [globalFilterFields]="['maLopThi', 'tenLop', 'soLuongToiDa']">
     <ng-template pTemplate="caption">
       <div class="flex">
         <form [formGroup]="formFilter">
@@ -18,7 +17,7 @@
       <tr>
         <th pSortableColumn="maLopThi" style="width:25%">Mã lớp<p-sortIcon field="maLopThi"></p-sortIcon></th>
         <th pSortableColumn="tenLop" style="width:25%">Tên lớp<p-sortIcon field="tenLop"></p-sortIcon></th>
-        <th pSortableColumn="soLuongToiDa" style="width:25%">Số lượng tối đa<p-sortIcon
+        <th pSortableColumn="soLuongToiDa" style="width:25%" class="text-center">Số lượng<p-sortIcon
             field="soLuongToiDa"></p-sortIcon></th>
         <th></th>
       </tr>
@@ -27,7 +26,7 @@
       <tr>
         <td>{{ classList.maLopThi }}</td>
         <td>{{ classList.tenLop }}</td>
-        <td>{{ classList.soLuongToiDa }}</td>
+        <td class="text-center">{{ getClassLength(classList.maLopThi)+'/'+classList.soLuongToiDa }}</td>
         <td><button class="btn btn-primary"
             [routerLink]="['/teacher/manage-student/event/' + currentEvent + '/subject/' + currentSubject +'/class/' + classList.maLopThi + '/student']">Chi
             tiết</button></td>

@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { KyThi } from 'src/app/models/KyThi.entity';
 
 @Component({
@@ -22,6 +21,17 @@ export class ManageStudentHomeComponent implements OnInit {
 
   public getValueSearch() {
     return this.formFilter.get('search')?.value;
+  }
+
+  public checkStatus(starDate: Date, endDate: Date): string {
+    var currentDate = new Date();
+    if (currentDate < starDate) {
+      return "Chưa diễn ra"
+    } else if (currentDate > starDate && currentDate < endDate) {
+      return "Đang diễn ra"
+    } else {
+      return "Đã kết thúc"
+    }
   }
 
   public formFilter = this.formBuilder.group({
