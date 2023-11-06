@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartjsModule } from '@coreui/angular-chartjs';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -21,7 +21,8 @@ import { KetQuaTrungBinh } from './../../../models/KetQuaTrungBinh.entity';
     FormsModule,
     InputTextModule,
     TableModule,
-    MultiSelectModule
+    MultiSelectModule,
+    ReactiveFormsModule
   ]
 })
 export class DashboardComponent implements OnInit {
@@ -45,7 +46,8 @@ export class DashboardComponent implements OnInit {
   _selectedColumns: any[];
 
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private formBuilder: FormBuilder,
   ) { }
 
   @Input() get selectedColumns(): any[] {
@@ -247,4 +249,14 @@ export class DashboardComponent implements OnInit {
       }, 2000);
     }
   }
+
+  public getValueSearch() {
+    return this.formFilter.get('search')?.value;
+  }
+
+  public formFilter = this.formBuilder.group({
+    setRows: new FormControl(5),
+    search: new FormControl('')
+  })
+
 }

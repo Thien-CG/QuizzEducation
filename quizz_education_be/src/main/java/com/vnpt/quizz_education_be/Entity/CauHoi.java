@@ -39,11 +39,11 @@ public class CauHoi implements Serializable {
 
     // Relationship N - 1
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ma_de_thi")
     DeThi deThi;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cauHoi")
     List<DapAn> dapAns;
 }

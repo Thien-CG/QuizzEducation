@@ -20,9 +20,9 @@ export class ManageStudentResultComponent implements OnInit {
   public currentSubject: number;
   public currentStudent: string;
   public studentResult: any;
-  public questionList: any[];
-  public answerList: any[];
-  public selectedAnswer: any[];
+  public questionList: any[] = [];
+  public answerList: any[] = [];
+  public selectedAnswer: any[] = [];
   public maximumMark: number = 0;
 
   ngOnInit() {

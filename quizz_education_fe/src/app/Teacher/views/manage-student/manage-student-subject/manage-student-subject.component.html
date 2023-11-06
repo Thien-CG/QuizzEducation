@@ -16,10 +16,8 @@
     </ng-template>
     <ng-template pTemplate="header" class="theader">
       <tr>
-        <th pSortableColumn="maMon" style="width:25%">Mã Môn<p-sortIcon field="maKyThi"></p-sortIcon></th>
-        <th pSortableColumn="tenMon" style="width:25%">Tên Môn<p-sortIcon field="tenKyThi"></p-sortIcon></th>
-        <th pSortableColumn="thoiGianLamBai" style="width:25%" class="text-center">Thời gian làm bài<p-sortIcon field="moTa"></p-sortIcon>
-        </th>
+        <th pSortableColumn="maMon">Mã Môn<p-sortIcon field="maKyThi"></p-sortIcon></th>
+        <th pSortableColumn="tenMon">Tên Môn<p-sortIcon field="tenKyThi"></p-sortIcon></th>
         <th></th>
       </tr>
     </ng-template>
@@ -27,7 +25,6 @@
       <tr>
         <td>{{ event.maMon }}</td>
         <td>{{ event.tenMon }}</td>
-        <td class="text-center">{{ event.thoiGianLamBai }}</td>
         <td class="text-center"><button class="btn btn-primary"
             [routerLink]="['/teacher/manage-student/event/' + currentEvent + '/subject/'+ event.maMon+'/class']">Chi
             tiết</button></td>

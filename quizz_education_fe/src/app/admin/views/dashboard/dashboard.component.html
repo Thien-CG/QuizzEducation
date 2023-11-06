@@ -131,11 +131,20 @@
               <h6 class="m-0 font-weight-bold text-primary">Bảng xếp hạng học sinh</h6>
             </div>
             <div class="card-body">
-              <p-table [columns]="selectedColumns" [value]="studentResultList" [paginator]="true" [rows]="5"
+              <p-table #dt [columns]="selectedColumns" [value]="studentResultList" [paginator]="true" [rows]="5"
                 [showCurrentPageReport]="true"
                 currentPageReportTemplate="Hiển {first} đến {last} trong tổng {totalRecords} dữ liệu"
-                [rowsPerPageOptions]="[5, 10, 15, 20]" sortField="diemTB" [sortOrder]="-1">
+                [rowsPerPageOptions]="[5, 10, 15, 20]" sortField="diemTB" [sortOrder]="-1"
+                [globalFilterFields]="['hoVaTen']">
                 <ng-template pTemplate="caption">
+                  <div class="float-right">
+                    <form [formGroup]="formFilter">
+                      <span class="p-input-icon-left ml-auto">
+                        <input pInputText type="text" (change)="dt.filterGlobal(getValueSearch(), 'contains')"
+                          formControlName="search" class="form-control box-shadow-none" placeholder="Tìm Kiếm Học Sinh">
+                      </span>
+                    </form>
+                  </div>
                   <p-multiSelect [options]="subjectList" [(ngModel)]="selectedColumns" optionLabel="tenMon"
                     selectedItemsLabel="{0} môn được chọn" [style]="{'min-width': '200px'}"
                     placeholder="Choose Columns"></p-multiSelect>
