@@ -1,12 +1,15 @@
 <h3>Tạo Kỳ Thi</h3>
-<form>
+<form [formGroup]="myFormKyThi">
     <div class="modal-body">
         <div class="row">
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="tenKyThi" class="form-label">Tên kỳ thi</label>
-                    <input type="text" class="form-control" id="tenKyThi" name="tenKyThi" [(ngModel)]="name"
-                        placeholder="Nhập tên kỳ thi" required>
+                    <input type="text" class="form-control" formControlName="tenKyThi" placeholder="Nhập tên kỳ thi"
+                        [ngClass]="{'error-input': myFormKyThi.get('tenKyThi').invalid && myFormKyThi.get('tenKyThi').touched}">
+                    <small
+                        *ngIf="myFormKyThi.get('tenKyThi').hasError('required') && myFormKyThi.get('tenKyThi').touched"
+                        class="error-message">Vui lòng nhập kỳ thi !</small>
                 </div>
             </div>
             <div class="col-md-6">
@@ -19,23 +22,35 @@
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="formattedStartTime" class="form-label">Thời gian bắt đầu</label>
-                    <input type="datetime-local" class="form-control" id="formattedStartTime" name="formattedStartTime"
-                        [(ngModel)]="formattedStartTime" required>
+                    <div class="flex justify-content-center ngaySinh">
+                        <p-calendar formControlName="thoiGianBatDau" placeholder="Chọn thời gian bất đầu"
+                            dateFormat="dd/mm/yy" [showTime]="true" [showSeconds]="true" [showIcon]="true"
+                            [ngClass]="{'error-input-date': myFormKyThi.get('thoiGianBatDau').invalid && myFormKyThi.get('thoiGianBatDau').touched}"></p-calendar>
+                    </div>
+                    <small
+                        *ngIf="myFormKyThi.get('thoiGianBatDau').hasError('required') && myFormKyThi.get('thoiGianBatDau').touched"
+                        class="error-message">Vui lòng chọn thời gian bất đầu !</small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label for="formattedEndTime" class="form-label">Thời gian kết thúc</label>
-                    <input type="datetime-local" class="form-control" id="formattedEndTime" name="formattedEndTime"
-                        [(ngModel)]="formattedEndTime" required>
+                    <div class="flex justify-content-center ngaySinh">
+                        <label for="formattedEndTime" class="form-label">Thời gian kết thúc</label>
+                        <p-calendar formControlName="thoiGianKetThuc" placeholder="Chọn thời gian kết thúc"
+                            dateFormat="dd/mm/yy" [showTime]="true" [showSeconds]="true" [showIcon]="true"
+                            [ngClass]="{'error-input-date':errorMessage ||myFormKyThi.get('thoiGianKetThuc').invalid && myFormKyThi.get('thoiGianKetThuc').touched}"></p-calendar>
+                    </div>
+                    <small
+                        *ngIf="myFormKyThi.get('thoiGianKetThuc').hasError('required') && myFormKyThi.get('thoiGianKetThuc').touched"
+                        class="error-message">Vui lòng chọn thời gian bất đầu !</small>
+                    <small *ngIf="errorMessage" class="error-message">{{ errorMessage }}</small>
                 </div>
             </div>
         </div>
     </div>
-    <div class="error-message text-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
 
     <div class="modal-footer ">
-        <button class="btn btn-secondary m-lg-2" type="submit" (click)="onSubmitNew()">Làm mới</button>
-        <button type="submit" class="btn btn-primary" (click)="onSubmitCreate()">Tại kỳ thi</button>
+        <button class="btn btn-secondary m-lg-2" type="submit" pTooltip="Làm mới các ô" (click)="onSubmitNew()">Làm mới</button>
+        <button type="submit" class="btn btn-info text-light" pTooltip="Tạo mới kỳ thi" (click)="onSubmitCreate()">Tạo kỳ thi</button>
     </div>
 </form>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vnpt.quizz_education_be.DAO.ChiTietKiThiDAO;
 import com.vnpt.quizz_education_be.DAO.KiThiDAO;
 import com.vnpt.quizz_education_be.Entity.ChiTietKyThi;
+import com.vnpt.quizz_education_be.Entity.LopThi;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -34,7 +35,7 @@ public class ChiTietKyThiRestController {
         return ResponseEntity.ok(chiTietKyThiDAO.findAll());
     }
 
-    // Get 1 đối tượng thông qua id 
+    // Get 1 đối tượng thông qua id
     @GetMapping("chitietkythi/{id}")
     public ResponseEntity<ChiTietKyThi> findById(@PathVariable("id") Integer maChiTietKyThi) {
         Optional<ChiTietKyThi> optional = chiTietKyThiDAO.findById(maChiTietKyThi);
@@ -51,6 +52,12 @@ public class ChiTietKyThiRestController {
         if (resultList.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(resultList);
+    }
+
+    @GetMapping("chitietkythi/kythi/create/{id}")
+    public ResponseEntity<List<ChiTietKyThi>> findByIdKyThi(@PathVariable("id") int maKyThi) {
+        List<ChiTietKyThi> resultList = chiTietKyThiDAO.findByIdKyThi(maKyThi);
         return ResponseEntity.ok(resultList);
     }
 
@@ -85,7 +92,8 @@ public class ChiTietKyThiRestController {
     }
 
     @PutMapping("chitietkythi/{id}")
-    public ResponseEntity<ChiTietKyThi> put(@PathVariable("id") Integer maChiTietKyThi,@RequestBody ChiTietKyThi chitietkythi) {
+    public ResponseEntity<ChiTietKyThi> put(@PathVariable("id") Integer maChiTietKyThi,
+            @RequestBody ChiTietKyThi chitietkythi) {
         if (!chiTietKyThiDAO.existsById(maChiTietKyThi)) {
             return ResponseEntity.notFound().build();
         }
@@ -95,9 +103,6 @@ public class ChiTietKyThiRestController {
 
     @DeleteMapping("chitietkythi/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer maChiTietKyThi) {
-        if (!chiTietKyThiDAO.existsById(maChiTietKyThi)) {
-            return ResponseEntity.notFound().build();
-        }
 
         chiTietKyThiDAO.deleteById(maChiTietKyThi);
 
@@ -105,13 +110,24 @@ public class ChiTietKyThiRestController {
     }
 
     // @GetMapping("monthi")
-    // public ResponseEntity<List<MonThi>> findMonThiByKiThiId(@RequestParam("kithi") Integer kiThiId) {
-    //     return ResponseEntity.ok(chiTietKyThiDAO.getMonThiInKiThi(kiThiId));
+    // public ResponseEntity<List<MonThi>>
+    // findMonThiByKiThiId(@RequestParam("kithi") Integer kiThiId) {
+    // return ResponseEntity.ok(chiTietKyThiDAO.getMonThiInKiThi(kiThiId));
     // }
 
     // @GetMapping("lopthi")
-    // public ResponseEntity<List<LopThi>> getLopThiByKyThiAndMonThi(@RequestParam("kithi") Integer kithiId,
-    //         @RequestParam("monthi") Integer monThiId) {
-    //     return ResponseEntity.ok(chiTietKyThiDAO.getLopThiByKiThiAndMonThi(kithiId, monThiId));
+    // public ResponseEntity<List<LopThi>>
+    // getLopThiByKyThiAndMonThi(@RequestParam("kithi") Integer kithiId,
+    // @RequestParam("monthi") Integer monThiId) {
+    // return ResponseEntity.ok(chiTietKyThiDAO.getLopThiByKiThiAndMonThi(kithiId,
+    // monThiId));
     // }
+
+    @GetMapping("chitietkythi/kythi/{id}/monthi/{idMon}")
+    public ResponseEntity<List<ChiTietKyThi>> getLopThiByKiThiAndMonThi(@PathVariable("id") int maKyThi,
+            @PathVariable("idMon") int maMonThi) {
+        List<ChiTietKyThi> resultList = chiTietKyThiDAO.getLopThiByKyThiAndMonThi(maKyThi, maMonThi);
+
+        return ResponseEntity.ok(resultList);
+    }
 }

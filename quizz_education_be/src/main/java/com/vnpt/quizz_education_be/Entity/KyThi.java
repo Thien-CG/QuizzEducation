@@ -44,7 +44,7 @@ public class KyThi implements Serializable {
 
     // Relationship N - 1
 
-    @JsonIgnore
+    // @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ten_dang_nhap")
     TaiKhoan taiKhoan;

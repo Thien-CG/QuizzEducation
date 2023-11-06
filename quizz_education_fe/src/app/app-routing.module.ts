@@ -78,7 +78,7 @@ const routes: Routes = [
           import('./Admin/views/pages/pages.module').then((m) => m.PagesModule),
       },
     ],
-    canActivate: [InterceptorUrlGuard],
+    // canActivate: [InterceptorUrlGuard],
   },
   {
     path: 'teacher',
