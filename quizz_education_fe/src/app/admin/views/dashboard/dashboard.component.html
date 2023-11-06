@@ -1,20 +1,15 @@
 <div id="wrapper">
 
-  <!-- Content Wrapper -->
   <div id="content-wrapper" class="d-flex flex-column">
 
-    <!-- Main Content -->
     <div id="content">
 
-      <!-- Topbar -->
       <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-        <!-- Sidebar Toggle (Topbar) -->
         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
           <i class="fa fa-bars"></i>
         </button>
 
-        <!-- Topbar Search -->
         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
           <div class="input-group">
             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
@@ -27,16 +22,13 @@
           </div>
         </form>
 
-        <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
 
-          <!-- Nav Item - Search Dropdown (Visible Only XS) -->
           <li class="nav-item dropdown no-arrow d-sm-none">
             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-search fa-fw"></i>
             </a>
-            <!-- Dropdown - Messages -->
             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
               aria-labelledby="searchDropdown">
               <form class="form-inline mr-auto w-100 navbar-search">
@@ -53,9 +45,7 @@
             </div>
           </li>
 
-          <!-- Nav Item - Alerts -->
           <li class="nav-item dropdown no-arrow mx-1">
-            <!-- Dropdown - Alerts -->
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
               aria-labelledby="alertsDropdown">
               <h6 class="dropdown-header">
@@ -97,24 +87,17 @@
               <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
             </div>
           </li>
-
         </ul>
-
       </nav>
-      <!-- End of Topbar -->
 
-      <!-- Begin Page Content -->
       <div class="container-fluid">
 
-        <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
         </div>
 
-        <!-- Content Row -->
         <div class="row">
 
-          <!-- Earnings (Monthly) Card Example -->
           <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
               <div class="card-body">
@@ -154,11 +137,11 @@
               <div class="card-body">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Điểm trung bình trường
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tổng số kì thi
                     </div>
                     <div class="row no-gutters align-items-center">
                       <div class="col-auto">
-                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{avgMark | number}}</div>
+                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{eventList.length| number}}</div>
                       </div>
                     </div>
                   </div>
@@ -189,13 +172,10 @@
         </div>
 
         <div class="row">
-
-          <!-- Area Chart -->
-          <div class="col-xl-7 col-lg-8">
+          <div class="col-8">
             <div class="card shadow mb-4">
-              <!-- Card Header - Dropdown -->
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Tổng kết cả năm</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Tổng Kết</h6>
                 <p-calendar [(ngModel)]="currentDate" (ngModelChange)="changeYear(currentDate)" view="year"
                   dateFormat="yy" inputId="yearpicker"></p-calendar>
                 <select pInputText name="" id="filterEvent" (change)="changeEvent()">
@@ -203,7 +183,6 @@
                   <option *ngFor="let event of eventFilterList" [value]="event.maKyThi">{{event.tenKyThi}}</option>
                 </select>
               </div>
-              <!-- Card Body -->
               <div class="card-body">
                 <c-chart [data]="data" type="line" (chartRef)="handleChartRef($event)">
                 </c-chart>
@@ -211,14 +190,11 @@
             </div>
           </div>
 
-          <!-- Pie Chart -->
-          <div class="col-xl-5 col-lg-4">
+          <div class="col-4">
             <div class="card shadow mb-4">
-              <!-- Card Header - Dropdown -->
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Tổng kết phân loại bài thi</h6>
               </div>
-              <!-- Card Body -->
               <div class="card-body">
                 <c-chart [data]="data2" type="doughnut">
                 </c-chart>
@@ -227,10 +203,65 @@
           </div>
         </div>
 
-        <!-- Content Row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card shadow mb-4">
+              <c-chart [height]="300" [data]="data3" type="bar"></c-chart>
+            </div>
+          </div>
+        </div>
+
         <div class="row">
           <div class="card shadow mb-4">
-            <c-chart [data]="data3" type="bar"></c-chart>
+            <div class="card-header">
+              <h6 class="m-0 font-weight-bold text-primary">Bảng xếp hạng học sinh</h6>
+            </div>
+            <div class="card-body">
+              <p-table [columns]="selectedColumns" [value]="studentResultList" [paginator]="true" [rows]="5"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Hiển {first} đến {last} trong tổng {totalRecords} dữ liệu"
+                [rowsPerPageOptions]="[10, 25, 50]" sortField="diemTB" [sortOrder]="-1">
+                <ng-template pTemplate="caption">
+                  <p-multiSelect [options]="subjectList" [(ngModel)]="selectedColumns" optionLabel="tenMon"
+                    selectedItemsLabel="{0} môn được chọn" [style]="{'min-width': '200px'}"
+                    placeholder="Choose Columns"></p-multiSelect>
+                </ng-template>
+                <ng-template pTemplate="header" class="theader" let-columns>
+                  <tr>
+                    <th pSortableColumn="hoVaTen">Tên <p-sortIcon field="hoVaTen"></p-sortIcon></th>
+                    <th class="text-center" *ngFor="let subject of columns">{{subject.tenMon}}</th>
+                    <th class="text-center" pSortableColumn="diemTB">Điểm TB <p-sortIcon field="diemTB"></p-sortIcon>
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" class="tbody" let-studentList let-columns="columns">
+                  <tr>
+                    <td>{{ studentList.hoVaTen }}</td>
+                    <td class="text-center" *ngFor="let subject of columns">
+                      <div class="text-success" *ngIf="getStudentAvgMarkOfEachSubject(studentList.tenDangNhap,
+                      subject.maMon) >= 7">{{getStudentAvgMarkOfEachSubject(studentList.tenDangNhap,
+                        subject.maMon)}}</div>
+                      <div class="text-warning" *ngIf="getStudentAvgMarkOfEachSubject(studentList.tenDangNhap,
+                      subject.maMon) >= 5 &&  getStudentAvgMarkOfEachSubject(studentList.tenDangNhap,
+                      subject.maMon) < 7">{{getStudentAvgMarkOfEachSubject(studentList.tenDangNhap,
+                        subject.maMon)}}</div>
+                      <div class="text-danger" *ngIf="getStudentAvgMarkOfEachSubject(studentList.tenDangNhap,
+                      subject.maMon) < 5">{{getStudentAvgMarkOfEachSubject(studentList.tenDangNhap,
+                        subject.maMon)}}</div>
+                      <div *ngIf="getStudentAvgMarkOfEachSubject(studentList.tenDangNhap,
+                      subject.maMon) == null">-</div>
+                    </td>
+                    <td class="text-center">
+                      <div class="text-success" *ngIf="studentList.diemTB >= 7">{{studentList.diemTB}}</div>
+                      <div class="text-warning" *ngIf="studentList.diemTB >= 5 &&  studentList.diemTB < 7">
+                        {{studentList.diemTB}}</div>
+                      <div class="text-danger" *ngIf="studentList.diemTB < 5">{{studentList.diemTB}}</div>
+                      <div *ngIf="studentList.diemTB == null">-</div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
           </div>
         </div>
       </div>

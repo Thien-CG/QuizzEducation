@@ -34,7 +34,7 @@
         <td>{{ event.moTa }}</td>
         <td>{{ event.thoiGianBatDau | date: 'HH:mm | yyyy-MM-dd'}}</td>
         <td>{{ event.thoiGianKetThuc| date: 'HH:mm | yyyy-MM-dd'}}</td>
-        <td>{{ event.daDienRa }}</td>
+        <td>{{ checkStatus(event.thoiGianBatDau, event.thoiGianKetThuc) }}</td>
         <td><button class="btn btn-primary"
             [routerLink]="['/teacher/manage-student/event/' + event.maKyThi + '/subject']">Chi tiết</button></td>
       </tr>
