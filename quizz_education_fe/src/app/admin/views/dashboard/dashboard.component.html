@@ -217,21 +217,27 @@
               <h6 class="m-0 font-weight-bold text-primary">Bảng xếp hạng học sinh</h6>
             </div>
             <div class="card-body">
-              <p-table [value]="studentResultList" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              <p-table [columns]="selectedColumns" [value]="studentResultList" [paginator]="true" [rows]="5"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Hiển {first} đến {last} trong tổng {totalRecords} dữ liệu"
                 [rowsPerPageOptions]="[10, 25, 50]" sortField="diemTB" [sortOrder]="-1">
-                <ng-template pTemplate="header" class="theader">
+                <ng-template pTemplate="caption">
+                  <p-multiSelect [options]="subjectList" [(ngModel)]="selectedColumns" optionLabel="tenMon"
+                    selectedItemsLabel="{0} môn được chọn" [style]="{'min-width': '200px'}"
+                    placeholder="Choose Columns"></p-multiSelect>
+                </ng-template>
+                <ng-template pTemplate="header" class="theader" let-columns>
                   <tr>
                     <th pSortableColumn="hoVaTen">Tên <p-sortIcon field="hoVaTen"></p-sortIcon></th>
-                    <th class="text-center" *ngFor="let subject of subjectList">{{subject.tenMon}}</th>
+                    <th class="text-center" *ngFor="let subject of columns">{{subject.tenMon}}</th>
                     <th class="text-center" pSortableColumn="diemTB">Điểm TB <p-sortIcon field="diemTB"></p-sortIcon>
                     </th>
                   </tr>
                 </ng-template>
-                <ng-template pTemplate="body" class="tbody" let-studentList>
+                <ng-template pTemplate="body" class="tbody" let-studentList let-columns="columns">
                   <tr>
                     <td>{{ studentList.hoVaTen }}</td>
-                    <td class="text-center" *ngFor="let subject of subjectList">
+                    <td class="text-center" *ngFor="let subject of columns">
                       <div class="text-success" *ngIf="getStudentAvgMarkOfEachSubject(studentList.tenDangNhap,
                       subject.maMon) >= 7">{{getStudentAvgMarkOfEachSubject(studentList.tenDangNhap,
                         subject.maMon)}}</div>

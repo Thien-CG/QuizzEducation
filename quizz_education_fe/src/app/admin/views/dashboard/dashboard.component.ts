@@ -2,15 +2,16 @@ import { KetQuaTrungBinh } from './../../../models/KetQuaTrungBinh.entity';
 import { TaiKhoan } from './../../../models/TaiKhoan.entity';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChartjsModule } from '@coreui/angular-chartjs';
 import { data } from 'jquery';
-import { forEach } from 'lodash-es';
+import { forEach, multiply } from 'lodash-es';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
-
+import { MultiSelectModule } from 'primeng/multiselect';
+import { log } from 'console';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +24,8 @@ import { TableModule } from 'primeng/table';
     CalendarModule,
     FormsModule,
     InputTextModule,
-    TableModule
+    TableModule,
+    MultiSelectModule
   ]
 })
 export class DashboardComponent implements OnInit {
@@ -43,11 +45,22 @@ export class DashboardComponent implements OnInit {
   data3: any
   currentDate: Date = new Date();
   changeDate: Date = this.currentDate
+  _selectedColumns: any[];
+
 
 
   constructor(
     private httpClient: HttpClient
   ) { }
+
+  @Input() get selectedColumns(): any[] {
+    return this._selectedColumns;
+  }
+
+  set selectedColumns(val: any[]) {
+    this._selectedColumns = this.subjectList.filter(col => val.includes(col));
+  }
+
   ngOnInit() {
     this.getData();
     this.getStudentResult()
@@ -61,6 +74,7 @@ export class DashboardComponent implements OnInit {
         this.httpClient.get<[]>(`http://localhost:8080/quizzeducation/api/monthi`).subscribe(
           (response) => {
             this.subjectList = response
+            this._selectedColumns = this.subjectList
             this.setData()
           },
           (error) => {
@@ -72,9 +86,6 @@ export class DashboardComponent implements OnInit {
         console.error(error.message)
       }
     )
-
-
-
     this.httpClient.get<[]>(`http://localhost:8080/quizzeducation/api/kythi`).subscribe(
       (response) => {
         this.eventList = response
