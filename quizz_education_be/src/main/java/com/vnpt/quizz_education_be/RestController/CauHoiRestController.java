@@ -41,6 +41,16 @@ public class CauHoiRestController {
         return ResponseEntity.ok(optional.get());
     }
 
+    // get 1 đối tượng qua id de thi
+    @GetMapping("cauhoi/dethi/{id}")
+    public ResponseEntity<List<CauHoi>> findByMaDeThi(@PathVariable("id") int maDeThi) {
+        List<CauHoi> resultList = cauHoiDAO.findByMaDeThi(maDeThi);
+        if (resultList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(resultList);
+    }
+
     @PostMapping("cauhoi")
     public ResponseEntity<CauHoi> post(@RequestBody CauHoi cauhoi) {
         if (cauHoiDAO.existsById(cauhoi.getMaCauHoi())) {

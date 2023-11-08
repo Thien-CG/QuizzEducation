@@ -55,13 +55,15 @@ public class DeThi implements Serializable {
     @JoinColumn(name = "ma_mon")
     MonThi monThi;
 
+    
+    @JsonIgnore
     @OneToMany(mappedBy = "deThi")
     List<CauHoi> cauHois;
 
     @Column(name = "thoi_gian_lam_bai")
     private Integer thoiGianLamBai;
 
-    public long getTim() {
+    public long getTime() {
         long minutes = this.getThoiGianLamBai() / 60;
         return minutes;
     }

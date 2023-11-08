@@ -39,7 +39,7 @@ public class CauHoi implements Serializable {
     private Boolean nhieuDapAn;
 
     // Relationship N - 1
-
+   
     @ManyToOne
     @JoinColumn(name = "ma_de_thi")
     DeThi deThi;

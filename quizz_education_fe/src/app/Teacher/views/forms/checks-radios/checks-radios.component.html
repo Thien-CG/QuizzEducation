@@ -88,7 +88,13 @@
 
                 <div class="modal-body">
                   <div class="row">
-
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label for="tenDeThi" class="form-label">Mã đề thi</label>
+                        <input type="text" class="form-control" id="maDeThi" name="maDeThi"
+                          placeholder="Nhập mã đề thi" required formControlName="maDeThi" [(ngModel)]="maDeThi">
+                      </div>
+                    </div>
                     <div class="col-md-6">
                       <div class="mb-3">
                         <label for="tenDeThi" class="form-label">Tên đề thi</label>
