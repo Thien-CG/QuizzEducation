@@ -21,4 +21,6 @@ public class ThiResponeDTO implements Serializable {
     BoCauHoiDaLam boCauHoiDaLam;
 
     CauHoi cauHoi;
+
+    boolean daNop = false;
 }

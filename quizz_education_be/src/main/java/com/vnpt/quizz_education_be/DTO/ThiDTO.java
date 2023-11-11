@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.vnpt.quizz_education_be.Entity.BoCauHoiDaLam;
-import com.vnpt.quizz_education_be.Entity.DapAn;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,8 +18,20 @@ public class ThiDTO implements Serializable {
 
     BoCauHoiDaLam boCauHoiDaLam;
 
+    boolean coTheThi = false;
+
     public ThiDTO(BoCauHoiDaLam boCauHoiDaLam) {
         this.boCauHoiDaLam = boCauHoiDaLam;
+
+        try {
+            Date date = new Date();
+            Date dateExamEnd = boCauHoiDaLam.getDeThi().getChiTietKyThi().getThoiGianKetThuc();
+            if (date.before(dateExamEnd)) {
+                this.coTheThi = true;
+            }
+        } catch (Exception e) {
+        }
+
         try {
             if (boCauHoiDaLam.getThoiGianBatDau() == null) {
                 this.thoiGianLamBai = boCauHoiDaLam.getDeThi().getThoiGianLamBai();

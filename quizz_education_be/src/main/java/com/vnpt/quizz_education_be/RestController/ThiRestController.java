@@ -53,7 +53,6 @@ public class ThiRestController {
         BoCauHoiDaLam boCauHoiDaLam = boCauHoiDaLamDAO.getBoCauHoiDaLam(tenDangNhap, maDeThi);
         DeThi deThi = deThiDAO.findById(maDeThi).get();
         TaiKhoan taiKhoan = taiKhoanDAO.findById(tenDangNhap).get();
-
         if (boCauHoiDaLam == null) {
             if (deThi == null) { // ! Đề thi không tồn tại
                 return ResponseEntity.badRequest().body("Đề thi không tồn tại!");
@@ -66,7 +65,7 @@ public class ThiRestController {
                 return ResponseEntity.ok(new ThiDTO(boCauHoiDaLamDAO.save(boCauHoiDaLamNew)));
             }
         } else {
-            if (boCauHoiDaLam.getVaoThi()) {
+            if (boCauHoiDaLam.getVaoThi() && boCauHoiDaLam.isDaNop() == false) {
                 boCauHoiDaLam = getDeThiDaLam(boCauHoiDaLam);
                 if (deThi == null) { // ! Đề thi không tồn tại
                     return ResponseEntity.badRequest().body("Đề thi không tồn tại!");
@@ -74,7 +73,7 @@ public class ThiRestController {
                     return ResponseEntity.ok(new ThiDTO(boCauHoiDaLam));
                 }
             } else {
-                return ResponseEntity.badRequest().body("Bạn đã hết thời gian làm bài!");
+                return ResponseEntity.badRequest().body("Bạn đã hết thời gian làm bài hoặc đã nộp bài!");
             }
         }
 
@@ -85,6 +84,10 @@ public class ThiRestController {
         BoCauHoiDaLam boCauHoiDaLam = boCauHoiDaLamDAO.findById(thiResponeDTO.getBoCauHoiDaLam().getMaBoCauHoiDaLam())
                 .get();
         Date now = new Date();
+        boolean daNop = thiResponeDTO.isDaNop();
+        if (daNop) {
+            boCauHoiDaLam.setDaNop(daNop);
+        }
         boCauHoiDaLam.setThoiGianKetThuc(now);
         boCauHoiDaLamDAO.save(boCauHoiDaLam);
         return ResponseEntity.ok(null);
@@ -92,7 +95,7 @@ public class ThiRestController {
 
     // ! API chọn đáp án của học sinh
     @PostMapping("/boCauHoiDaLam")
-    public ResponseEntity<?> LoginMethod(@RequestBody ThiResponeDTO thiResponeDTO) throws JsonProcessingException {
+    public ResponseEntity<?> getDeThi(@RequestBody ThiResponeDTO thiResponeDTO) throws JsonProcessingException {
         BoCauHoiDaLam boCauHoiDaLam = boCauHoiDaLamDAO.findById(thiResponeDTO.getBoCauHoiDaLam().getMaBoCauHoiDaLam())
                 .get();
         DapAn dapAn = thiResponeDTO.getDapAn();
@@ -130,7 +133,7 @@ public class ThiRestController {
                                     dapAnNew = dapAnCauHoi;
                                     dapAnNew.setDaChon(true);
                                 }
-                                System.out.println();
+                                System.out.print("");
                             }
                             LichSuThi lichSuThi = new LichSuThi();
                             lichSuThi.setBoCauHoiDaLam(boCauHoiDaLam);
@@ -206,7 +209,7 @@ public class ThiRestController {
             if (cauHoi.isDaChon()) {
                 Float diemCauHoi = getDiemCauHoi(cauHoi);
                 tongDiem += diemCauHoi;
-                System.out.println();
+                System.out.print("");
             }
         }
         Date date = new Date();
@@ -267,7 +270,7 @@ public class ThiRestController {
                     dapAn.setCauHoi(cauHoi);
                     dapAn.setDaChon(true);
                     lichSuThi.setDapAn(dapAn);
-                    System.out.println();
+                    System.out.print("");
                 }
                 boCauHoiDaLam.setList_LichSuThi(lichSuThis);
                 return boCauHoiDaLam;

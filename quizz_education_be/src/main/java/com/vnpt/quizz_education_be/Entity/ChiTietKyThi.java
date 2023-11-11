@@ -59,6 +59,7 @@ public class ChiTietKyThi implements Serializable {
         try {
             m = this.getDeThis().get(0).getThoiGianLamBai() / 60;
         } catch (Exception e) {
+            return -1;
         }
         return m;
     }
@@ -79,12 +80,15 @@ public class ChiTietKyThi implements Serializable {
 
     public int getIdTrangThai() {
         Date now = new Date();
-        if (this.getThoiGianBatDau() == null || this.getThoiGianBatDau() == null) {
+        Date start = this.getThoiGianBatDau();
+        Date end = this.getThoiGianKetThuc();
+
+        if (start == null || end == null) {
             return 3;// Chưa có thông tin cụ thể
         }
-        if (now.before(this.getThoiGianBatDau())) {
+        if (now.before(start)) {
             return 1;// Chưa diễn ra
-        } else if (now.after(this.getThoiGianBatDau()) && now.before(this.getThoiGianKetThuc())) {
+        } else if (now.after(start) && now.before(end)) {
             return 0;// Đang diễn ra
         } else {
             return 2;// Đã kết thúc

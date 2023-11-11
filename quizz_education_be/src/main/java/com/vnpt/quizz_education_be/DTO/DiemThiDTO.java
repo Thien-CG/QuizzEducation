@@ -14,6 +14,7 @@ public class DiemThiDTO {
     private Integer maKyThi;
     private String lopThi;
     private String tenDangNhap;
+    private Integer maDeThi;
 
     public DiemThiDTO(BoCauHoiDaLam boCauHoiDaLam) {
         try {
@@ -35,6 +36,11 @@ public class DiemThiDTO {
         }
         try {
             this.lopThi = boCauHoiDaLam.getDeThi().getChiTietKyThi().getLopThi().getTenLop();
+        } catch (Exception e) {
+        }
+
+        try {
+            this.maDeThi = boCauHoiDaLam.getDeThi().getMaDeThi();
         } catch (Exception e) {
         }
     }

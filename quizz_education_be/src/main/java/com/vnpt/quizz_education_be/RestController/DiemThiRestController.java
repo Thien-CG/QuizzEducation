@@ -1,5 +1,6 @@
 package com.vnpt.quizz_education_be.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,8 @@ public class DiemThiRestController {
 
     @GetMapping("bangdiem/{tenDangNhap}")
     public ResponseEntity<?> getBangDiem(@PathVariable("tenDangNhap") String tenDangNhap) {
-        List<DiemThiDTO> list = boCauHoiDaLamDAO.getBangDiem(tenDangNhap);
+        Date date = new Date();
+        List<DiemThiDTO> list = boCauHoiDaLamDAO.getBangDiem(tenDangNhap, date);
         return ResponseEntity.ok(list);
     }
 }

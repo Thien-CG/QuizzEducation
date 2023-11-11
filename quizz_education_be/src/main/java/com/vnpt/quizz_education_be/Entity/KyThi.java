@@ -15,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
 
-
 @SuppressWarnings("serial")
 @Entity
 @Data
@@ -44,7 +43,7 @@ public class KyThi implements Serializable {
 
     // Relationship N - 1
 
-    // @JsonIgnore
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ten_dang_nhap")
     TaiKhoan taiKhoan;

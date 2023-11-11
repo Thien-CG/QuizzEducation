@@ -31,7 +31,7 @@ const routes: Routes = [
       { path: 'exam/:id', component: ExamComponent },
       { path: 'home', component: HomeComponent },
       { path: 'score', component: ScoreComponent },
-      { path: 'history', component: HistoryComponent }
+      { path: 'history/:id', component: HistoryComponent }
     ],
     canActivate: [InterceptorUrlGuard],
   }

@@ -1,150 +1,76 @@
-:<div class="container-fluid">
-  <div class="router" style="font-family: 'Handlee', cursive;">
+<div class="container">
+  <div class="router">
     <h6>
-      <a href="">Điểm thi</a> >>
-      <a href="">HK1 11 -2023</a> >>
-      <a href="">Toán</a> >>
-      <a href="">Lịch sử thi</a>
+      <a href="">Lịch thi</a> >>
+      <a href="">Thi ngay</a> >>
+      <a href="">Toán HK1</a>
     </h6>
   </div>
-  <div class="row ">
-    <div  class="content-left col-md-3 bg-blue1 align-items-center justify-content-center text-center text-white">
- 
-        <h2>Thông tin bài thi</h2>
-         <h6>HK1 lớp 11 - 2023</h6>
-         <h6>Môn: Toán - Mã đề: 101</h6>
-         <h6>Câu hỏi: 25 / 25</h6>
-         <h6>Ngày thi: 25/09/2023</h6>
-         <h6>Thời gian nộp bài: 09:45:00</h6>
-         <h6>Thời gian làm bài: 45 phút</h6>
-         <h6>Điểm đạt được: 9.0 điểm</h6>
-         <h5 class="question-header">Câu hỏi trắc nghiệm</h5>
-         <div class="question-container">
-           <a href="#" class="question"style="background-color: rgb(255, 65, 65); color:white;">1</a>
-           <a href="#" class="question" style="background-color: rgb(1, 240, 1); color:white;">2</a>
-           <a href="#" class="question" style="background-color: rgb(255, 65, 65); color:white;">3</a>
-           <a href="#" class="question" style="background-color: rgb(1, 240, 1); color:white;">4</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">5</a>
- 
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">6</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">7</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">8</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">9</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">10</a>
+  <p-toast></p-toast>
+  <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+  <div class="row">
+    <div class="col-md-9 bg-light">
 
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">11</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">12</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">13</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">14</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">15</a>
- 
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">16</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">17</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">18</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">19</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">20</a>
- 
- 
-           <a href="#" class="question" style="background-color: rgb(1, 240, 1); color:white;">21</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">22</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">23</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">24</a>
-           <a href="#" class="question"style="background-color: rgb(1, 240, 1); color:white;">25</a>
-         </div>
-    </div>
-    <div id="test" class="content-right col-md-9 bg-light">
+      <!-- Chi tiết câu hỏi -->
       <form action="" method="post">
-
         <div class="row">
+          <!-- Nội dung câu hỏi -->
           <div class="question1 d-flex">
             <div class="question-content md-9">
-              Câu hỏi 1: Ai là người tạo nền móng công trình nghiên cứu quản trị, đặc biệt là nghiên cứu về mối quan
-              hệ giữa
-              điều kiện lao động và kết quả của doanh nghiệp.
-            </div>
-            <div class="question-content-footer md-3">
-              Đạt điểm 0/0,50
-              <button class="btn-dat-co btn-danger">Sai</button>
+              <span *ngIf="cauHoi">Câu {{index + 1}}: {{ cauHoi.noiDungCauHoi }}</span>
             </div>
           </div>
-          <div class="options">
-            <label style="background-color: rgb(114, 255, 114);" ><input type="radio" name="q1" value="a" disabled > A. Lựa chọn A</label> 
-            <label><input type="radio" name="q1" value="b" disabled> B. Lựa chọn B</label>
-            <div class="ban-tra-loi">Bạn trả lời</div>
-            <label><input type="radio" name="q1" value="c"checked > C. Lựa chọn C</label>
-            <label><input type="radio" name="q1" value="d" disabled> D. Lựa chọn D</label>
+
+          <!-- Đáp án câu hỏi -->
+          <div class="options" style="margin: auto;" *ngIf="cauHoi && cauHoi.dapAns">
+            <label *ngFor="let dapAn of cauHoi.dapAns; let j = index">
+              <ng-container *ngIf="cauHoi.nhieuDapAn === true">
+                <input type="checkbox" name="q1" value="a" [checked]="dapAn.daChon"
+                  (change)="onChangCheckBox($event, j)">
+                {{chuCai[j]}}. {{dapAn.noiDungDapAn}}
+              </ng-container>
+              <ng-container *ngIf="cauHoi.nhieuDapAn === false">
+                <input type="radio" name="q1" value="a" [checked]="dapAn.daChon" (change)="onChangRadio($event, j)">
+                {{chuCai[j]}}.
+                {{dapAn.noiDungDapAn}}
+              </ng-container>
+            </label>
           </div>
         </div>
 
-        <div class="row">
-          <div class="question1 d-flex">
-            <div class="question-content md-9">
-              Câu hỏi 2: Ai là người tạo nền móng công trình nghiên cứu quản trị, đặc biệt là nghiên cứu về mối quan
-              hệ giữa
-              điều kiện lao động và kết quả của doanh nghiệp.
-            </div>
-            <div class="question-content-footer md-3">
-              Đạt điểm 0,50/0,50
-              <button class="btn-dat-co btn-green">Đúng</button>
-            </div>
-          </div>
-          <div class="options">
-            <label><input type="radio" name="q2" value="a" disabled > A. Lựa chọn A</label> 
-            <label><input type="radio" name="q2" value="b" disabled> B. Lựa chọn B</label>
-            <div class="ban-tra-loi">Bạn trả lời</div>
-            <label style="background-color: rgb(114, 255, 114);" ><input type="radio" name="q2" value="c"checked > C. Lựa chọn C</label>
-            <label><input type="radio" name="q2" value="d" disabled> D. Lựa chọn D</label>
-          </div>
+        <!-- Chuyển câu hỏi -->
+        <div class="question-footer">
+          <button class="btn-pre btn-info" [disabled]="index == 0" (click)="chuyenCauHoi(index - 1)">Câu trước</button>
+          <button class="btn-next btn-info" [disabled]="deThi && index === deThi.length - 1"
+            (click)="chuyenCauHoi(index + 1)">Câu tiếp theo</button>
         </div>
-
-        <div class="row">
-          <div class="question1 d-flex">
-            <div class="question-content md-9">
-              Câu hỏi 3: Ai là người tạo nền móng công trình nghiên cứu quản trị, đặc biệt là nghiên cứu về mối quan
-              hệ giữa
-              điều kiện lao động và kết quả của doanh nghiệp.
-            </div>
-            <div class="question-content-footer md-3">
-              Đạt điểm 0,75/1,0
-              <button class="btn-dat-co btn-danger">Sai</button>
-            </div>
-          </div>
-          <div class="options">
-            <div class="ban-tra-loi">Bạn trả lời</div>
-            <label><input type="checkbox" name="q3" value="a" checked disabled> A. Lựa chọn A</label>
-            <label style="background-color: rgb(114, 255, 114);"><input type="checkbox" name="q3" value="b" disabled> B. Lựa chọn B</label>
-            <label style="background-color: rgb(114, 255, 114);"><input type="checkbox" name="q3" value="c" disabled> C. Lựa chọn C</label>
-            <div class="ban-tra-loi">Bạn trả lời</div>
-            <label style="background-color: rgb(114, 255, 114);"><input type="checkbox" name="q3" value="d" checked disabled> D. Lựa chọn D</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="question1 d-flex">
-            <div class="question-content md-9">
-              Câu hỏi 4: Ai là người tạo nền móng công trình nghiên cứu quản trị, đặc biệt là nghiên cứu về mối quan
-              hệ giữa
-              điều kiện lao động và kết quả của doanh nghiệp.
-            </div>
-            <div class="question-content-footer md-3">
-              Đạt điểm 1,0/1,0
-              <button class="btn-dat-co btn-green">Đúng</button>
-            </div>
-          </div>
-          <div class="options">
-            
-            <label><input type="checkbox" name="q3" value="a"  disabled> A. Lựa chọn A</label>
-            <div class="ban-tra-loi">Bạn trả lời</div>
-            <label style="background-color: rgb(114, 255, 114);"><input type="checkbox" name="q3" value="b" checked disabled> B. Lựa chọn B</label>
-            <div class="ban-tra-loi">Bạn trả lời</div>
-            <label style="background-color: rgb(114, 255, 114);"><input type="checkbox" name="q3" value="c"checked disabled> C. Lựa chọn C</label>
-            
-            <label><input type="checkbox" name="q3" value="d" disabled> D. Lựa chọn D</label>
-          </div>
-        </div>
-
-     
-
       </form>
     </div>
-    
+    <div class="col-md-3">
+
+      <!-- Danh sách câu hỏi -->
+      <h5 class="question-header">Câu hỏi trắc nghiệm</h5>
+      <div class="question-container">
+        <button *ngFor="let de of deThi; let i = index" [ngClass]="{
+          'question': true,
+          'bg-warning': de.daChon,
+          'hehe': index === i
+        }" (click)="chuyenCauHoi(i)">{{i+1}}</button>
+      </div>
+
+
+      <!-- Thời gian làm bài -->
+      <div class="question-footer1 text-center d-flex justify-content-center align-items-center">
+        <div class="timer md-9 ">Thời gian còn lại: <br> <i class="far fa-clock"> {{displayTime}}</i>
+        </div>
+        <button type="submit" class="btn-nop-bai bg-primary md-3" (click)="confirm()">
+          Nộp bài thi
+          <br>
+          <ng-container *ngIf="deThi">
+            {{soCauDaLam}}/{{deThi.length}}
+          </ng-container>
+        </button>
+      </div>
+    </div>
   </div>
+</div>

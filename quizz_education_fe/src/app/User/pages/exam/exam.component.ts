@@ -101,11 +101,39 @@ export class ExamComponent implements OnDestroy {
   }
 
   confirm() {
-    this.alert('test', 'question').then((result) => {
-      if (result) {
-        this.router.navigate(['/user/home']);
-      }
-    });
+    if (this.check() !== -1) {
+      //! Hiển thị thông  báo xác nhận khi chưa hoàn thành bài thi
+      Swal.fire({
+        title: "Nộp bài?",
+        text: "Bạn vẫn chưa hoàn thành bài thi!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Vẫn nộp bài!",
+        cancelButtonText: "Hủy"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.response.daNop = true;
+          this.setTime().then((result) => {
+            this.alert("Nộp bài thành công", "success").then((result) => {
+              if (result === true) {
+                this.router.navigate(['/user/home']);
+              }
+            });
+          });
+        }
+      });
+    } else {
+      //! Đã hoàn thành và tiến hành gửi API lưu thời gian
+      this.response.daNop = true;
+      this.setTime().then((result) => {
+        this.alert("Nộp bài thành công", "success").then((result) => {
+          this.router.navigate(['/user/home']);
+        });
+
+      });
+    }
   }
 
 
@@ -122,7 +150,6 @@ export class ExamComponent implements OnDestroy {
       if (result.isConfirmed) {
         //! Xử lý nộp bài thành công
         check = true;
-        // alert('1');
       }
     });
     return check;
@@ -130,52 +157,73 @@ export class ExamComponent implements OnDestroy {
 
 
   //! Gửi API để set thời gian làm bài của học sinh
-  private setTime(): void {
+  private async setTime() {
+    let check: boolean = false;
     const API_LOGIN = 'http://localhost:8080/quizzeducation/api/boCauHoiDaLam/nopBai';
     const request = this.httpClient.post(API_LOGIN, this.response);
     request.subscribe(
       (response) => {
+        check = true;
       },
       error => {
         this.alert('Lỗi kết nối server!', error);
       }
     );
+    return check;
   }
 
   //!Lấy data về từ API
   public getData() {
     this.httpSvService.getList(`boCauHoiDaLam/${this.user.tenDangNhap}/` + this.id).subscribe(
       (response) => {
-        this.response = _.cloneDeep(response);
-        this.deThi = _.cloneDeep(response.boCauHoiDaLam.deThi.cauHois);
-        this.index = this.check();
-        if (this.index === -1) {
-          this.index = 0;
-        }
-        this.getCauHoi(this.index);
-        this.setSoCauDaLam();
-        let timeFromDB = response.thoiGianLamBai;
-        const intervalId = setInterval(() => {
-          timeFromDB--;
-          this.displayTime = this.formatTime(timeFromDB);
-          if (timeFromDB <= 0) {
-            clearInterval(intervalId);
-            this.setTime();
-            this.alert('Hết thời gian làm bài', 'error').then((result) => {
-              if (result) {
-                this.router.navigate(['/user/home']);
-              }
-            });
+        if (response.coTheThi) {
+          this.response = _.cloneDeep(response);
+          this.deThi = _.cloneDeep(response.boCauHoiDaLam.deThi.cauHois);
+          this.index = this.check();
+          if (this.index === -1) {
+            this.index = 0;
           }
-        }, 1000);
+          this.getCauHoi(this.index);
+          this.setSoCauDaLam();
+          let timeFromDB = response.thoiGianLamBai;
+          const intervalId = setInterval(() => {
+            timeFromDB--;
+            this.displayTime = this.formatTime(timeFromDB);
+            if (timeFromDB <= 0) {
+              clearInterval(intervalId);
+              this.setTime();
+              this.alert('Hết thời gian làm bài', 'error').then((result) => {
+                if (result) {
+                  this.router.navigate(['/user/home']);
+                }
+              });
+            }
+          }, 1000);
+        } else {
+          this.alert('Kỳ thi đã đóng', 'error').then((result) => {
+            if (result) {
+              this.router.navigate(['/user/home']);
+            }
+          });
+        }
+
       },
       error => {
         let e = error.error;
-        this.alert(e, 'error').then((result) => {
-          if (result) {
-            this.router.navigate(['/user/home']);
-          }
-        });
+        console.log("🚀 ~ file: exam.component.ts:183 ~ ExamComponent ~ getData ~ e:", e)
+        if (e.status) {
+          this.alert('Lỗi không xác định', 'error').then((result) => {
+            if (result) {
+              this.router.navigate(['/user/home']);
+            }
+          });
+        } else {
+          this.alert(e, 'error').then((result) => {
+            if (result) {
+              this.router.navigate(['/user/home']);
+            }
+          });
+        }
       }
 
     )
@@ -192,7 +240,6 @@ export class ExamComponent implements OnDestroy {
   public chuyenCauHoi(i: number) {
     this.index = i;
     this.getCauHoi(this.index);
-    console.log("🚀 this.cauHoi 1:", this.cauHoi)
   }
 
 

@@ -70,14 +70,14 @@ export class HomeContentComponent {
     }
     return ''; // Hoặc lớp mặc định nếu không khớp
   }
-   
- // Chuyển đổi thời gian từ chuỗi sang đối tượng Date
-convertToTime(thoiGian: string): string {
-  const date = new Date(thoiGian);
-  const hours = this.addLeadingZero(date.getHours());
-  const minutes = this.addLeadingZero(date.getMinutes());
-  return `${hours}:${minutes}`;
-}
+
+  // Chuyển đổi thời gian từ chuỗi sang đối tượng Date
+  convertToTime(thoiGian: string): string {
+    const date = new Date(thoiGian);
+    const hours = this.addLeadingZero(date.getHours());
+    const minutes = this.addLeadingZero(date.getMinutes());
+    return `${hours}:${minutes}`;
+  }
 
   // Hàm hỗ trợ thêm số 0 nếu cần
   addLeadingZero(value: number): string {

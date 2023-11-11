@@ -2,98 +2,52 @@
   <div class="d-flex">
     <h5 class="mb-4 text-left mt-5" style=" font-family: 'Handlee', cursive;">Danh sách điểm các môn đã thi</h5>
     <div class="btn-export ml-auto">
-     
-      <button  class="btn btn-primary mr-2 text-light" (click)="exportExcel()">Xuất file Excel</button>
-      
-  </div>
 
+      <button class="btn btn-primary mr-2 text-light" (click)="exportExcel()">Xuất file Excel</button>
 
-
-  <!-- <div class="d-flex flex-column align-items-center justify-content-center">
-
-    <table class="table table-bordered">
-      <thead>
-        <tr class="title-table text-white">
-          <th class="d-none d-md-table-cell" scope="col">STT</th>
-          <th scope="col">Tên kì thi</th>
-          <th scope="col">Môn thi</th>
-          <th class="d-none d-md-table-cell" scope="col">Lớp thi</th>
-          <th scope="col">Điểm thi</th>
-          <th scope="col">Trạng thái</th>
-          <th scope="col">Thao Tác</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr  *ngFor="let diemThi of ListDiemThi">
-          <th class="d-none d-md-table-cell" scope="row">1</th>
-          <td>{{diemThi.tenKyThi}}</td>
-          <td>{{diemThi.tenMon}}</td>
-          <td class="d-none d-md-table-cell">{{diemThi.lopThi}}</td>
-          <td>{{diemThi.diemSo}}</td>
-          <td [ngClass]="getBadgeClass(diemThi.trangThai)">{{ diemThi.trangThai }}</td>
-          <td>
-            <a href="#/user/history">Chi tiết</a>
-          </td>
-        </tr>
-
-      </tbody>
-    </table>
-
-  </div> -->
-</div>
-<p-table [value]="ListDiemThi" [paginator]="true" [rows]="5" #dt1 dataKey="tenKyThi" [showCurrentPageReport]="true"
-  [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
-  currentPageReportTemplate="Đang xem {first} đến {last} trong tổng số {totalRecords} mục"
-  [globalFilterFields]="['tenKyThi', 'tenMon', 'lopThi','diemSo','trangThai']">
-
-  <!-- <ng-template pTemplate="caption">
-    <div class="group-header-table ">
-        <div class="inport">
-          <button type="button" pButton pRipple (click)="exportExcel()" class="btn btn-primary mr-2 text-light"
-          pTooltip="XLS" tooltipPosition="bottom">Xuất file Excel</button>
-
-        </div>
-        
     </div>
-</ng-template> -->
+  </div>
+  <p-table [value]="ListDiemThi" [paginator]="true" [rows]="5" #dt1 dataKey="tenKyThi" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+    currentPageReportTemplate="Đang xem {first} đến {last} trong tổng số {totalRecords} mục"
+    [globalFilterFields]="['tenKyThi', 'tenMon', 'lopThi','diemSo','trangThai']">
+    <ng-template pTemplate="header" class="theader">
 
-  <ng-template pTemplate="header" class="theader">
-
-    <tr>
-      <th class="text-center">#</th>
-      <th pSortableColumn="tenKyThi">Tên kỳ thi<p-sortIcon field="tenKyThi"></p-sortIcon>
-      </th>
-      <th pSortableColumn="tenMon">Môn thi<p-sortIcon field="tenMon"></p-sortIcon>
-      </th>
-      <th class="text-center" pSortableColumn="lopThi">Lớp thi
-        <p-sortIcon field="lopThi"></p-sortIcon>
-      </th>
-      <th class="text-center" pSortableColumn="diemSo">Điểm thi
-        <p-sortIcon field="diemSo"></p-sortIcon>
-      </th>
-      <th class="text-center" pSortableColumn="trangThai">Trạng thái
-        <p-sortIcon field="trangThai"></p-sortIcon>
-      </th>
-      <th class="text-center">Thao tác</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" class="tbody" let-diemThi let-rowIndex="rowIndex">
-    <tr class="hoverable-row">
-      <td class="text-center">{{ rowIndex + 1 }}</td>
-      <td>{{ diemThi.tenKyThi }}</td>
-      <td>{{ diemThi.tenMon }}</td>
-      <td class="d-none d-md-table-cell text-center">{{ diemThi.lopThi }}</td>
-      <td class="text-center">{{ diemThi.diemSo }}</td>
-      <td class="text-center" [ngClass]="getBadgeClass(diemThi.trangThai)">{{ diemThi.trangThai }}</td>
-      <td class="text-center">
-        <button type="button" class="btn btn-info">Chi tiết </button>
-      </td>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="paginatorleft">
-    <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-  </ng-template>
-  <ng-template pTemplate="paginatorright">
-    <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-  </ng-template>
-</p-table>
+      <tr>
+        <th class="text-center">#</th>
+        <th pSortableColumn="tenKyThi">Tên kỳ thi<p-sortIcon field="tenKyThi"></p-sortIcon>
+        </th>
+        <th pSortableColumn="tenMon">Môn thi<p-sortIcon field="tenMon"></p-sortIcon>
+        </th>
+        <th class="text-center" pSortableColumn="lopThi">Lớp thi
+          <p-sortIcon field="lopThi"></p-sortIcon>
+        </th>
+        <th class="text-center" pSortableColumn="diemSo">Điểm thi
+          <p-sortIcon field="diemSo"></p-sortIcon>
+        </th>
+        <th class="text-center" pSortableColumn="trangThai">Trạng thái
+          <p-sortIcon field="trangThai"></p-sortIcon>
+        </th>
+        <th class="text-center">Thao tác</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" class="tbody" let-diemThi let-rowIndex="rowIndex">
+      <tr class="hoverable-row">
+        <td class="text-center">{{ rowIndex + 1 }}</td>
+        <td>{{ diemThi.tenKyThi }}</td>
+        <td>{{ diemThi.tenMon }}</td>
+        <td class="d-none d-md-table-cell text-center">{{ diemThi.lopThi }}</td>
+        <td class="text-center">{{ diemThi.diemSo }}</td>
+        <td class="text-center" [ngClass]="getBadgeClass(diemThi.trangThai)">{{ diemThi.trangThai }}</td>
+        <td class="text-center">
+          <button type="button" class="btn btn-info" (click)="a(diemThi.maDeThi)">Chi tiết </button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+    </ng-template>
+    <ng-template pTemplate="paginatorright">
+      <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-table>

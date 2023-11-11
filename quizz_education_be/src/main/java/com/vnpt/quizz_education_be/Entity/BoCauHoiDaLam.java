@@ -38,6 +38,9 @@ public class BoCauHoiDaLam implements Serializable {
     @Column(name = "diem_so")
     private Float diemSo = 0.0f;
 
+    @Column(name = "da_nop")
+    private boolean daNop = false;
+
     // Relationship N - 1
 
     @ManyToOne

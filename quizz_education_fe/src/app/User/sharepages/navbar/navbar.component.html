@@ -1,22 +1,24 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid pe-5">
-    <a class="d-none d-sm-block navbar-brand text-primary p-lg-2" href="#/user/home"><img src="assets/img/brand/QEdu.png" alt=""
-        width="300px" height="100px">
+    <a class="d-none d-sm-block navbar-brand text-primary p-lg-2" href="#/user/home"><img
+        src="assets/img/brand/QEdu.png" alt="" width="300px" height="100px">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
       aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
-      <img id="avata_profile_img_collapse" [src]="user.anhDaiDien ? user.anhDaiDien : defaultImage" alt="" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" data-bs-toggle="modal" data-bs-target="#profile">
-    
+
+    <img id="avata_profile_img_collapse" [src]="user.anhDaiDien ? user.anhDaiDien : defaultImage" alt=""
+      class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" data-bs-toggle="modal"
+      data-bs-target="#profile">
+
     <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
       <div class="navbar-nav mr-auto m-lg-auto">
         <a routerLink="home" routerLinkActive="active-link" class="nav-item nav-link">Lịch Thi</a>
-        <a routerLink="exam" routerLinkActive="active-link" class="nav-item nav-link">Thi Ngay</a>
+        <!-- <a routerLink="exam" routerLinkActive="active-link" class="nav-item nav-link">Thi Ngay</a> -->
         <a routerLink="score" routerLinkActive="active-link" class="nav-item nav-link">Điểm Thi</a>
-        <a routerLink="history" routerLinkActive="active-link" class="nav-item nav-link">Lịch Sử Thi</a>
+        <!-- <a routerLink="history" routerLinkActive="active-link" class="nav-item nav-link">Lịch Sử Thi</a> -->
         <a class="nav-item nav-link d-block d-md-none" href="#/changepassword">Đổi mật khẩu</a>
         <a class="nav-item nav-link d-block d-md-none" (click)="logout()">Đăng xuất</a>
       </div>
@@ -139,7 +141,7 @@
             <div class="profile-body-content">
               <div class="title-content d-flex center">
                 <h2 class="text-center">Thông tin cá nhân</h2>
-                
+
               </div>
               <div class="profile-body-content-header">
 
@@ -192,7 +194,9 @@
                       [value]="user.trangThai? 'DHOC (Đang Học)':'NHOC (Nghĩ Học)'">
                   </div>
                   <input type="file" accept="images/*" id="fileInput" style="display: none;">
-                  <button class="center btn-primary" style="border-radius: 10px; width:150px; margin: 10px auto; padding:10px; border: none; " (click)="openChangeImage()">
+                  <button class="center btn-primary"
+                    style="border-radius: 10px; width:150px; margin: 10px auto; padding:10px; border: none; "
+                    (click)="openChangeImage()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                       class=" bi bi-pencil-square" viewBox="0 0 16 16">
                       <path

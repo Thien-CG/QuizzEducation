@@ -44,7 +44,8 @@
                             <div class="col-6 py-1 text-right border-right">
                                 <strong>Thời gian làm bài</strong>
                             </div>
-                            <div class="col-6 py-1">{{chiTietKyThi.time}} phút</div>
+                            <div class="col-6 py-1" *ngIf="chiTietKyThi.time !== -1">{{chiTietKyThi.time}} phút</div>
+                            <div class="col-6 py-1" *ngIf="chiTietKyThi.time === -1">Chưa có thông tin</div>
                         </div>
                         <div class="row">
                             <div class="col-6 py-1 text-right border-right">
@@ -55,7 +56,8 @@
                         </div>
                     </div>
                     <button class="btn btn-primary px-4 mx-auto mb-4"
-                        [disabled]="chiTietKyThi.trangThai !== 'Đang diễn ra'" (click)="a(chiTietKyThi.maDeThi)">Vào
+                        [disabled]="chiTietKyThi.trangThai !== 'Đang diễn ra' || chiTietKyThi.time === -1"
+                        (click)="a(chiTietKyThi.maDeThi)">Vào
                         Thi</button>
 
 
